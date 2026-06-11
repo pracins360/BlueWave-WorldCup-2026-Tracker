@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blue Wave 2026 World Cup Tracker</title>
+  <style>
+    :root{
+      --blue:#0057b8;--deep:#003a7a;--sky:#00a7e1;--gold:#ffd23f;--white:#ffffff;--soft:#eef8ff;--dark:#08233f;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#e9f8ff,#ffffff);color:var(--dark)}
+    .page{min-height:100vh;max-width:520px;margin:auto;background:#fff;box-shadow:0 0 30px rgba(0,57,120,.15)}
+    .hero{position:relative;text-align:center;background:var(--deep)}
+    .hero img{width:100%;display:block}
+    .lang{position:absolute;top:10px;right:10px;display:flex;gap:6px}
+    .lang button,.smallBtn{border:0;border-radius:999px;padding:8px 10px;background:rgba(255,255,255,.92);font-weight:bold;color:var(--deep)}
+    .content{padding:18px}
+    h1,h2,h3{margin:8px 0}.tag{font-weight:bold;color:var(--blue)}
+    .btn{width:100%;border:0;border-radius:16px;padding:15px 18px;background:linear-gradient(135deg,var(--blue),var(--sky));color:white;font-size:18px;font-weight:bold;box-shadow:0 8px 18px rgba(0,87,184,.25)}
+    .card{background:var(--soft);border:1px solid #d9efff;border-radius:20px;padding:16px;margin:14px 0}.center{text-align:center}
+    .sponsorBox{border:1px dashed #a9d9ff;border-radius:14px;padding:10px;background:white;text-align:center;font-weight:bold;color:var(--deep)}
+    #appView{display:none}.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:linear-gradient(135deg,var(--deep),var(--blue));color:white;position:sticky;top:0;z-index:4}.topbar button{border:0;background:white;color:var(--deep);border-radius:999px;padding:8px 10px;font-weight:bold}
+    .searchRow{display:flex;gap:8px}.searchRow input{flex:1;border:1px solid #b8ddff;border-radius:14px;padding:13px;font-size:16px}.searchRow button{border:0;border-radius:14px;padding:0 14px;background:var(--gold);font-weight:bold;color:#263300}
+    .quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.quick button{border:0;border-radius:999px;padding:9px 12px;background:#e5f4ff;color:var(--deep);font-weight:bold}
+    .countryHead{display:flex;gap:12px;align-items:center}.flag{font-size:42px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:white;border-radius:14px;padding:12px;text-align:center}.stat b{font-size:24px;color:var(--blue)}
+    .meter{height:20px;background:#d7ecff;border-radius:999px;overflow:hidden}.meter span{height:100%;display:block;background:linear-gradient(90deg,var(--sky),var(--blue),var(--gold));border-radius:999px;transition:.6s}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.actions a,.actions button{border:0;border-radius:14px;padding:12px;background:var(--deep);color:white;text-decoration:none;text-align:center;font-weight:bold;font-size:14px}
+    .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.tabs button{border:0;border-radius:14px;padding:10px 6px;background:#e5f4ff;color:var(--deep);font-weight:bold;font-size:12px}.tabs button.active{background:var(--gold);color:#263300}
+    .match{display:flex;justify-content:space-between;gap:10px;background:white;border-radius:14px;padding:10px;margin:8px 0}.match b{color:var(--deep)}.dateBadge{font-size:12px;color:#5c7184}.score{font-weight:bold;color:var(--blue)}
+    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{border:0;border-radius:12px;padding:10px 0;background:white;color:var(--deep);font-weight:bold}.day.has{background:#d7ecff;border:2px solid var(--sky)}.day.today{background:var(--gold)}
+    .bracketStage{background:white;border-radius:14px;padding:10px;margin:10px 0}.bracketStage h4{margin:0 0 8px;color:var(--blue)}
+    .clockRow{display:grid;grid-template-columns:1fr 1fr;gap:10px}.clock{background:white;border-radius:14px;padding:10px;text-align:center}.clock b{display:block;color:var(--blue);font-size:18px}
+    .footerSponsor{position:sticky;bottom:0;background:rgba(255,255,255,.96);padding:10px 14px;border-top:1px solid #d9efff}.sponsorBox a{text-decoration:none;color:var(--deep)}
+    .muted{color:#5c7184;font-size:13px}.hide{display:none!important}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section id="landing">
+      <div class="hero">
+        <img src="https://i.ibb.co/sdtNGnb1/world-cup-for-the-app.png" alt="Blue Wave 2026 World Cup Tracker">
+        <div class="lang"><button onclick="setLang('en')">EN</button><button onclick="setLang('es')">ES</button></div>
+      </div>
+      <div class="content center">
+        <h1 data-i="title">Blue Wave WorldCup 2026 Daily Update</h1>
+        <p class="tag" data-i="subtitle">Follow Curaçao and your favorite country through the World Cup.</p>
+        <button class="btn" onclick="openApp()" data-i="enter">ENTER APP</button>
+      </div>
+    </section>
+
+    <section id="appView">
+      <div class="topbar"><button onclick="goHome()">←</button><b>🌊 Blue Wave 2026</b><div><button onclick="setLang('en')">EN</button> <button onclick="setLang('es')">ES</button></div></div>
+      <div class="content">
+        <div class="card">
+          <h2 data-i="choose">Choose Country</h2>
+          <div class="searchRow"><input id="countryInput" placeholder="Curaçao"><button onclick="loadCountry()">🔍</button></div>
+          <div class="quick" id="quickCountries"></div>
+        </div>
+
+        <div id="teamCard" class="card hide"></div>
+        <div id="notFound" class="card center hide"><b data-i="notfound">Country not found.</b></div>
+
+        <div class="card">
+          <h3>🌎 <span data-i="timeTitle">World Clocks</span></h3>
+          <div class="clockRow"><div class="clock">Curaçao<b id="cwClock">--:--</b></div><div class="clock">Amsterdam<b id="amsClock">--:--</b></div></div>
+        </div>
+        <div class="tabs">
+          <button id="tabCountries" class="active" onclick="showPanel('countries')">🌎 Countries</button>
+          <button id="tabResults" onclick="showPanel('results')">⚽ Results</button>
+          <button id="tabCalendar" onclick="showPanel('calendar')">📅 Calendar</button>
+          <button id="tabBracket" onclick="showPanel('bracket')">🏆 Chart</button>
+        </div>
+
+        <div id="resultsPanel" class="card hide"></div>
+        <div id="calendarPanel" class="card hide"></div>
+        <div id="bracketPanel" class="card hide"></div>
+      </div>
+      <div class="footerSponsor"><div class="muted center" data-i="sponsored">Sponsored by</div><div id="sponsorBox" class="sponsorBox">Loading sponsors...</div></div>
+    </section>
+  </div>
+
+<script>
+// 1) Replace with your deployed Apps Script Web App URL when ready.
+const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
+
+// 2) Demo data works immediately without Apps Script.
+let DATA = {
+  countries:[
+    {country:'Curaçao', slug:'curacao', flag:'🇨🇼', group:'A', position:'-', points:0, w:0,d:0,l:0,gf:0,ga:0, status_en:'Historic first World Cup appearance', status_es:'Primera participación histórica en la Copa Mundial', analysis_en:'Curaçao enters the World Cup as the Blue Wave: a small island with a big football story. Update this text from your master sheet.', analysis_es:'Curazao entra al Mundial como la Ola Azul: una isla pequeña con una gran historia futbolística. Actualiza este texto desde tu hoja maestra.', last_match:'-', next_match:'-', wave:75, news_url:'https://www.youtube.com/results?search_query=curacao+world+cup+news'},
+    {country:'Brazil', slug:'brazil', flag:'🇧🇷', group:'-', position:'-', points:0, w:0,d:0,l:0,gf:0,ga:0, status_en:'Waiting for latest update', status_es:'Esperando la última actualización', analysis_en:'Paste the latest Brazil data in your master sheet.', analysis_es:'Pega los últimos datos de Brasil en tu hoja maestra.', last_match:'-', next_match:'-', wave:60, news_url:''},
+    {country:'Argentina', slug:'argentina', flag:'🇦🇷', group:'-', position:'-', points:0, w:0,d:0,l:0,gf:0,ga:0, status_en:'Waiting for latest update', status_es:'Esperando la última actualización', analysis_en:'Paste the latest Argentina data in your master sheet.', analysis_es:'Pega los últimos datos de Argentina en tu hoja maestra.', last_match:'-', next_match:'-', wave:60, news_url:''},
+    {country:'Germany', slug:'germany', flag:'🇩🇪', group:'-', position:'-', points:0, w:0,d:0,l:0,gf:0,ga:0, status_en:'Waiting for latest update', status_es:'Esperando la última actualización', analysis_en:'Paste the latest Germany data in your master sheet.', analysis_es:'Pega los últimos datos de Alemania en tu hoja maestra.', last_match:'-', next_match:'-', wave:60, news_url:''}
+  ],
+  sponsors:[
+    {name:'App Sponsor 1', text:'Your business here', link:'https://wa.me/59995120536'},
+    {name:'App Sponsor 2', text:'Support the Blue Wave', link:'https://wa.me/59995120536'}
+  ],
+  matches:[
+    {Date:'2026-06-15', Team1:'Curaçao', Team2:'Germany', Score1:'', Score2:'', Status:'Upcoming'},
+    {Date:'2026-06-12', Team1:'Curaçao', Team2:'Japan', Score1:2, Score2:1, Status:'Finished'}
+  ],
+  bracket:[
+    {Stage:'R32', Team1:'Curaçao', Team2:'Mexico', Score1:'', Score2:'', Winner:''},
+    {Stage:'QF', Team1:'Winner R32', Team2:'Winner R32', Score1:'', Score2:'', Winner:''}
+  ]
+};
+let lang='en', sponsorIndex=0;
+const T={
+ en:{title:'Blue Wave 2026',subtitle:'Follow Curaçao and your favorite country through the World Cup.',enter:'ENTER APP',major:'Major Sponsors',majorNote:'Fixed sponsor space on the front page.',choose:'Choose Country',notfound:'Country not found.',timeTitle:'World Clocks',sponsored:'Sponsored by',group:'Group',pos:'Position',pts:'Points',record:'Record',goals:'Goals',status:'Status',analysis:'Analysis',last:'Last Match',next:'Next Match',high:'Highlights',news:'News',share:'Share',copy:'Copy Link',latest:'Latest Results',upcoming:'Upcoming Matches',calendar:'Match Calendar',chart:'Tournament Chart',noMatches:'No matches found for this date.'},
+ es:{title:'Ola Azul 2026',subtitle:'Sigue a Curazao y a tu país favorito durante el Mundial.',enter:'ENTRAR',major:'Patrocinadores Principales',majorNote:'Espacio fijo para patrocinadores en la portada.',choose:'Elige País',notfound:'País no encontrado.',timeTitle:'Relojes del Mundo',sponsored:'Patrocinado por',group:'Grupo',pos:'Posición',pts:'Puntos',record:'Récord',goals:'Goles',status:'Estado',analysis:'Análisis',last:'Último Partido',next:'Próximo Partido',high:'Resumen',news:'Noticias',share:'Compartir',copy:'Copiar Link',latest:'Últimos Resultados',upcoming:'Próximos Partidos',calendar:'Calendario de Partidos',chart:'Cuadro del Torneo',noMatches:'No hay partidos para esta fecha.'}
+};
+function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-i]').forEach(el=>{el.textContent=T[l][el.dataset.i]||el.textContent}); const c=currentCountry(); if(c) renderCountry(c)}
+function openApp(){document.getElementById('landing').style.display='none';document.getElementById('appView').style.display='block'; loadCountryFromURL()}
+function goHome(){document.getElementById('appView').style.display='none';document.getElementById('landing').style.display='block'}
+function norm(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim()}
+function currentCountry(){const name=document.getElementById('teamCard').dataset.country;return DATA.countries.find(c=>c.country===name)}
+function quickButtons(){document.getElementById('quickCountries').innerHTML=DATA.countries.slice(0,8).map(c=>`<button onclick="selectCountry('${c.country}')">${c.flag||''} ${c.country}</button>`).join('')}
+function selectCountry(name){document.getElementById('countryInput').value=name; loadCountry()}
+function loadCountryFromURL(){const p=new URLSearchParams(location.search); const q=p.get('country')||'Curaçao'; document.getElementById('countryInput').value=q; loadCountry()}
+function loadCountry(){const q=norm(document.getElementById('countryInput').value); const c=DATA.countries.find(x=>norm(x.country)===q||norm(x.slug)===q); if(!c){document.getElementById('teamCard').classList.add('hide');document.getElementById('notFound').classList.remove('hide');return} renderCountry(c); history.replaceState(null,'',`?country=${encodeURIComponent(c.slug||c.country)}`)}
+function renderCountry(c){document.getElementById('notFound').classList.add('hide'); const analysis=c['analysis_'+lang]||c.analysis_en||''; const status=c['status_'+lang]||c.status_en||''; const yt='https://www.youtube.com/results?search_query='+encodeURIComponent(`${c.country} world cup highlights`); const shareUrl=location.href; document.getElementById('teamCard').dataset.country=c.country; document.getElementById('teamCard').classList.remove('hide'); document.getElementById('teamCard').innerHTML=`
+  <div class="countryHead"><div class="flag">${c.flag||'🏳️'}</div><div><h2>${c.country}</h2><div class="muted">${T[lang].group}: ${c.group||'-'}</div></div></div>
+  <div class="grid"><div class="stat"><span>${T[lang].pos}</span><br><b>${c.position||'-'}</b></div><div class="stat"><span>${T[lang].pts}</span><br><b>${c.points??'-'}</b></div><div class="stat"><span>${T[lang].record}</span><br><b>${c.w||0}-${c.d||0}-${c.l||0}</b></div><div class="stat"><span>${T[lang].goals}</span><br><b>${c.gf||0}-${c.ga||0}</b></div></div>
+  <h3>🌊 Blue Wave Meter</h3><div class="meter"><span style="width:${c.wave||0}%"></span></div><p class="center"><b>${c.wave||0}%</b></p>
+  <h3>${T[lang].status}</h3><p>${status}</p><h3>${T[lang].analysis}</h3><p>${analysis}</p>
+  <div class="card"><b>${T[lang].last}</b><p>${c.last_match||'-'}</p><b>${T[lang].next}</b><p>${c.next_match||'-'}</p></div>
+  <div class="actions"><a href="${yt}" target="_blank">🎥 ${T[lang].high}</a><a href="${c.news_url||yt}" target="_blank">📰 ${T[lang].news}</a><button onclick="shareCountry('${c.country}')">📤 ${T[lang].share}</button><button onclick="copyLink()">🔗 ${T[lang].copy}</button></div>`}
+async function shareCountry(country){const data={title:'Blue Wave 2026',text:`Follow ${country} on Blue Wave 2026`,url:location.href}; if(navigator.share){await navigator.share(data)} else copyLink()}
+function copyLink(){navigator.clipboard.writeText(location.href); alert(lang==='en'?'Link copied':'Link copiado')}
+function rotateSponsor(){if(!DATA.sponsors.length)return; const s=DATA.sponsors[sponsorIndex%DATA.sponsors.length]; document.getElementById('sponsorBox').innerHTML=`<a href="${s.link}" target="_blank"><b>${s.name}</b><br><span>${s.text||''}</span></a>`; sponsorIndex++}
+
+function showPanel(name){
+  ['countries','results','calendar','bracket'].forEach(x=>{
+    const p=document.getElementById(x+'Panel'); if(p) p.classList.toggle('hide', x!==name);
+    const t=document.getElementById('tab'+x.charAt(0).toUpperCase()+x.slice(1)); if(t) t.classList.toggle('active', x===name);
+  });
+  if(name==='results') renderResults();
+  if(name==='calendar') renderCalendar();
+  if(name==='bracket') renderBracket();
+}
+function matchScore(m){return (m.Score1!=='' && m.Score1!=null && m.Score2!=='' && m.Score2!=null) ? `<span class="score">${m.Score1} - ${m.Score2}</span>` : '<span class="muted">vs</span>'}
+function matchLine(m){const q=encodeURIComponent(`${m.Team1} vs ${m.Team2} world cup highlights`); return `<div class="match" onclick="window.open('https://www.youtube.com/results?search_query=${q}','_blank')"><div><b>${m.Team1}</b> ${matchScore(m)} <b>${m.Team2}</b><div class="dateBadge">${m.Date||''} • ${m.Status||''}</div></div><div>🎥</div></div>`}
+function renderResults(){
+  const finished=(DATA.matches||[]).filter(m=>String(m.Status||'').toLowerCase()==='finished').slice().sort((a,b)=>String(b.Date).localeCompare(String(a.Date)));
+  const upcoming=(DATA.matches||[]).filter(m=>String(m.Status||'').toLowerCase()!=='finished').slice().sort((a,b)=>String(a.Date).localeCompare(String(b.Date)));
+  document.getElementById('resultsPanel').innerHTML=`<h3>⚽ ${T[lang].latest}</h3>${finished.map(matchLine).join('')||'<p class="muted">-</p>'}<h3>📅 ${T[lang].upcoming}</h3>${upcoming.map(matchLine).join('')||'<p class="muted">-</p>'}`;
+}
+function renderCalendar(){
+  const panel=document.getElementById('calendarPanel');
+  const matches=DATA.matches||[];
+  const dates=[...new Set(matches.map(m=>m.Date).filter(Boolean))].sort();
+  const first=dates[0]||'2026-06-01';
+  const [y,m]=first.split('-').map(Number);
+  const days=new Date(y,m,0).getDate();
+  const monthName=new Intl.DateTimeFormat(lang==='es'?'es':'en',{month:'long',year:'numeric'}).format(new Date(y,m-1,1));
+  let html=`<h3>📅 ${T[lang].calendar}</h3><p class="center"><b>${monthName}</b></p><div class="calendar">`;
+  for(let d=1; d<=days; d++){
+    const iso=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const has=matches.some(x=>x.Date===iso);
+    html+=`<button class="day ${has?'has':''}" onclick="showDateMatches('${iso}')">${d}</button>`;
+  }
+  html+='</div><div id="dateMatches" style="margin-top:12px"></div>';
+  panel.innerHTML=html;
+  if(dates[0]) showDateMatches(dates[0]);
+}
+function showDateMatches(iso){
+  const box=document.getElementById('dateMatches'); if(!box)return;
+  const day=(DATA.matches||[]).filter(m=>m.Date===iso);
+  box.innerHTML=`<h3>${iso}</h3>${day.length?day.map(matchLine).join(''):`<p class="muted">${T[lang].noMatches}</p>`}`;
+}
+function renderBracket(){
+  const groups={};
+  (DATA.bracket||[]).forEach(b=>{const st=b.Stage||'Stage'; if(!groups[st])groups[st]=[]; groups[st].push(b);});
+  document.getElementById('bracketPanel').innerHTML=`<h3>🏆 ${T[lang].chart}</h3>`+Object.keys(groups).map(st=>`<div class="bracketStage"><h4>${st}</h4>${groups[st].map(b=>`<div class="match"><div><b>${b.Team1||'-'}</b> ${matchScore(b)} <b>${b.Team2||'-'}</b><div class="dateBadge">Winner: ${b.Winner||'-'}</div></div></div>`).join('')}</div>`).join('');
+}
+
+function updateClocks(){document.getElementById('cwClock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'America/Curacao',hour:'2-digit',minute:'2-digit'}).format(new Date());document.getElementById('amsClock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',hour:'2-digit',minute:'2-digit'}).format(new Date())}
+async function init(){setLang('en'); if(API_URL){try{const r=await fetch(API_URL+'?action=all'); const j=await r.json(); if(j.countries) DATA={...DATA,...j};}catch(e){console.log('Using demo data',e)}} quickButtons(); renderResults(); renderCalendar(); renderBracket(); rotateSponsor(); setInterval(rotateSponsor,4000); updateClocks(); setInterval(updateClocks,30000); if(new URLSearchParams(location.search).has('country')) openApp()}
+init();
+</script>
+</body>
+</html>
