@@ -135,7 +135,7 @@ function slugify(s){return norm(s).replace(/\s+/g,'-')}
 function asNum(v, fallback=0){const n=Number(v);return isNaN(n)?fallback:n}
 function pick(r, keys, fallback=''){for(const k of keys){if(r[k]!==undefined && r[k]!==null && r[k] !== '') return r[k]}return fallback}
 function asDateText(v){if(!v)return'';const s=String(v);if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;const d=new Date(s);return isNaN(d)?s:d.toISOString().slice(0,10)}
-function flagFor(country){const m={'curacao':'🇨🇼','curaçao':'🇨🇼','brazil':'🇧🇷','argentina':'🇦🇷','germany':'🇩🇪','spain':'🇪🇸','mexico':'🇲🇽','usa':'🇺🇸','united states':'🇺🇸','france':'🇫🇷','england':'🏴','japan':'🇯🇵','australia':'🇦🇺','netherlands':'🇳🇱'};return m[norm(country)]||'⚽'}
+function flagFor(country){const m={'curacao':'🇨🇼','curaçao':'🇨🇼','brazil':'🇧🇷','argentina':'🇦🇷','germany':'🇩🇪','spain':'🇪🇸','mexico':'🇲🇽','usa':'🇺🇸','u.s.a':'🇺🇸','france':'🇫🇷','england':'🇬🇧','italy':'🇮🇹','japan':'🇯🇵','south korea':'🇰🇷','australia':'🇦🇺','canada':'🇨🇦','netherlands':'🇳🇱','belgium':'🇧🇪','portugal':'🇵🇹','switzerland':'🇨🇭','denmark':'🇩🇰','sweden':'🇸🇪','norway':'🇳🇴','greece':'🇬🇷','turkey':'🇹🇷','turkiye':'🇹🇷','iran':'🇮🇷','saudi arabia':'🇸🇦','uae':'🇦🇪','qatar':'🇶🇦','morocco':'🇲🇦','egypt':'🇪🇬','tunisia':'🇹🇳','cameroon':'🇨🇲','senegal':'🇸🇳','ghana':'🇬🇭','ivorycoast':'🇨🇮','cote d\'ivoire':'🇨🇮','côte d\'ivoire':'🇨🇮','uruguay':'🇺🇾','chile':'🇨🇱','colombia':'🇨🇴','peru':'🇵🇪','paraguay':'🇵🇾','ecuador':'🇪🇨','venezuela':'🇻🇪','bolivia':'🇧🇴','guatemala':'🇬🇹','honduras':'🇭🇳','el salvador':'🇸🇻','costa rica':'🇨🇷','panama':'🇵🇦','jamaica':'🇯🇲','haiti':'🇭🇹','trinidad and tobago':'🇹🇹','new zealand':'🇳🇿','samoa':'🇼🇸','tahiti':'🇵🇫','cabo verde':'🇨🇻','cape verde':'🇨🇻','iceland':'🇮🇸','luxembourg':'🇱🇺','malta':'🇲🇹','cyprus':'🇨🇾','serbia':'🇷🇸','croatia':'🇭🇷','slovenia':'🇸🇮','bosnia':'🇧🇦','albania':'🇦🇱','north macedonia':'🇲🇰','georgia':'🇬🇪','armenia':'🇦🇲','azerbaijan':'🇦🇿','kazakhstan':'🇰🇿','uzbekistan':'🇺🇿','turkmenistan':'🇹🇲','kyrgyzstan':'🇰🇬','tajikistan':'🇹🇯','thailand':'🇹🇭','vietnam':'🇻🇳','cambodia':'🇰🇭','laos':'🇱🇦','myanmar':'🇲🇲','malaysia':'🇲🇾','singapore':'🇸🇬','indonesia':'🇮🇩','philippines':'🇵🇭','bangladesh':'🇧🇩','india':'🇮🇳','pakistan':'🇵🇰','afghanistan':'🇦🇫','lebanon':'🇱🇧','jordan':'🇯🇴','israel':'🇮🇱','palestine':'🇵🇸','syria':'🇸🇾','iraq':'🇮🇶','oman':'🇴🇲','yemen':'🇾🇪','bahrain':'🇧🇭','kuwait':'🇰🇼'};return m[norm(country)]||'🏳️'}
 
 function normalizeData(j){
  const countries=(j.countries||[]).map(r=>{
@@ -165,13 +165,13 @@ function normalizeData(j){
    tab:norm(pick(r,['Tab','tab','Panel','panel'],'all'))
  })).filter(x=>x.name);
 
- const matches=(j.matches||[]).map(r=>({Date:asDateText(pick(r,['Date','date'])),Team1:pick(r,['Team1','team1']),Team2:pick(r,['Team2','team2']),Score1:pick(r,['Score1','score1']),Score2:pick(r,['Score2','score2']),Status:pick(r,['Status','status'])}));
- const bracket=(j.bracket||[]).map(r=>({Stage:pick(r,['Stage','stage']),Team1:pick(r,['Team1','team1']),Team2:pick(r,['Team2','team2']),Score1:pick(r,['Score1','score1']),Score2:pick(r,['Score2','score2']),Winner:pick(r,['Winner','winner'])}));
+ const matches=(j.matches||[]).map(r=>({Date:asDateText(pick(r,['Date','date'])),Team1:pick(r,['Team1','team1']),Team2:pick(r,['Team2','team2']),Score1:pick(r,['Score1','score1']),Score2:pick(r,['Score2','score2']),Status:pick(r,['Status','status'])})).filter(x=>x.Date && x.Team1 && x.Team2);
+ const bracket=(j.bracket||[]).map(r=>({Stage:pick(r,['Stage','stage']),Team1:pick(r,['Team1','team1']),Team2:pick(r,['Team2','team2']),Score1:pick(r,['Score1','score1']),Score2:pick(r,['Score2','score2'])})).filter(x=>x.Team1 || x.Team2);
  const facts=(j.facts||[]).map(r=>({fact:pick(r,['Fact','fact'])})).filter(x=>x.fact);
  return {countries,sponsors,matches,bracket,facts};
 }
 
-function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-i]').forEach(el=>{el.textContent=T[l][el.dataset.i]||el.textContent});const c=currentCountry();if(c)renderCountry(c);renderResults();renderCalendar();renderBracket();renderFacts()}
+function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-i]').forEach(el=>{el.textContent=T[l][el.dataset.i]||el.textContent});const c=currentCountry();if(c)renderCountry(c)}
 function openApp(){document.getElementById('landing').style.display='none';document.getElementById('appView').style.display='block';loadCountryFromURL();renderSponsorZones()}
 function goHome(){document.getElementById('appView').style.display='none';document.getElementById('landing').style.display='block'}
 function currentCountry(){const name=document.getElementById('teamCard').dataset.country;return DATA.countries.find(c=>c.country===name)}
@@ -199,7 +199,8 @@ function renderCountry(c){
  </div>
  <h3>🌊 Blue Wave Meter ${wave}%</h3><div class="meter"><span style="width:${Math.max(0,Math.min(wave,100))}%"></span></div>
  <div class="analysisBox"><h3>📌 Analysis</h3><p>${analysis || 'Analysis will be updated soon.'}</p><p><b>Last:</b> ${c.last_match || '-'}</p><p><b>Next:</b> ${c.next_match || '-'}</p></div>
- <div class="actions"><a href="${yt}" target="_blank">🎬 Highlights</a><a href="${news}" target="_blank">📰 News</a><button onclick="shareCountry('${c.country.replace(/'/g,"\\'")}')" >📤 Share</button><button onclick="copyLink()">🔗 Copy</button></div>`;
+ <div class="actions"><a href="${yt}" target="_blank">🎬 Highlights</a><a href="${news}" target="_blank">📰 News</a><button onclick="shareCountry('${c.country.replace(/'/g,"\\'")}')" >📤 Share</button></div>
+ `;
  document.getElementById('teamCard').classList.remove('hide');
  document.getElementById('teamCard').dataset.country=c.country;
  window.history.replaceState(null,null,'?country='+encodeURIComponent(c.country));
@@ -213,14 +214,14 @@ function renderSponsorZones(){
  const premium=sponsorByTier('premium');
  document.getElementById('premiumSponsors').innerHTML=premium.length?`<div class="muted">Premium Sponsors</div>${premium.map(s=>`<a href="${s.link}" target="_blank">${s.name}</a>`).join('')}`:'';
  const silver=sponsorByTier('silver');
- if(silver.length){document.getElementById('silverMarquee').classList.remove('hide');document.getElementById('silverTrack').innerHTML=[...silver,...silver].map(s=>`<a href="${s.link}" target="_blank">${s.name}</a>`).join(' • ')}
+ if(silver.length){document.getElementById('silverMarquee').classList.remove('hide');document.getElementById('silverTrack').innerHTML=[...silver,...silver].map(s=>`<a href="${s.link}" target="_blank">${s.name}</a>`).join('')}
  else document.getElementById('silverMarquee').classList.add('hide');
  renderGold(activePanel);
 }
 function renderGold(panel){
  let gold=DATA.sponsors.filter(s=>s.tier==='gold' && (s.tab==='all' || s.tab===panel)).slice(0,2);
  if(gold.length===0) gold=DATA.sponsors.filter(s=>s.tier==='gold').slice(0,2);
- document.getElementById('goldSponsorBox').innerHTML=gold.length?gold.map(s=>`<a class="goldAd" href="${s.link}" target="_blank">${s.image?`<img src="${s.image}" alt="${s.name}">`:`<b>${s.name}</b>`}</a>`).join(''):'<div class="muted center" style="grid-column:1/3">Gold sponsor space available</div>';
+ document.getElementById('goldSponsorBox').innerHTML=gold.length?gold.map(s=>`<a class="goldAd" href="${s.link}" target="_blank">${s.image?`<img src="${s.image}" alt="${s.name}">`:`<b>${s.name}</b>`}</a>`).join(''):'';
 }
 
 function showPanel(name){
@@ -234,13 +235,13 @@ function showPanel(name){
 }
 
 function matchScore(m){return(m.Score1!==''&&m.Score1!=null&&m.Score2!==''&&m.Score2!=null)?`<span class="score">${m.Score1} - ${m.Score2}</span>`:'<span class="muted">vs</span>'}
-function matchLine(m){const q=encodeURIComponent(`${m.Team1} vs ${m.Team2} world cup highlights`);return`<div class="match" onclick="window.open('https://www.youtube.com/results?search_query=${q}','_blank')"><div><b>${m.Team1}</b> ${matchScore(m)} <b>${m.Team2}</b></div><span class="dateBadge">${m.Date}</span></div>`}
-function renderResults(){const finished=(DATA.matches||[]).filter(m=>String(m.Status||'').toLowerCase()==='finished').sort((a,b)=>String(b.Date).localeCompare(String(a.Date)));const upcoming=(DATA.matches||[]).filter(m=>String(m.Status||'').toLowerCase()!=='finished').sort((a,b)=>String(a.Date).localeCompare(String(b.Date)));document.getElementById('resultsPanel').innerHTML=`<h3>⚽ Finished</h3>${finished.length?finished.map(m=>matchLine(m)).join(''):'<p class="muted">No finished matches yet.</p>'}<h3>Upcoming</h3>${upcoming.length?upcoming.map(m=>matchLine(m)).join(''):'<p class="muted">No upcoming matches.</p>'}`}
+function matchLine(m){const q=encodeURIComponent(`${m.Team1} vs ${m.Team2} world cup highlights`);return`<div class="match" onclick="window.open('https://www.youtube.com/results?search_query=${q}','_blank')"><div><b>${m.Team1}</b><br><b>${m.Team2}</b></div><div style="text-align:right">${matchScore(m)}<br><span class="dateBadge">${m.Date}</span></div></div>`}
+function renderResults(){const finished=(DATA.matches||[]).filter(m=>String(m.Status||'').toLowerCase()==='finished').sort((a,b)=>String(b.Date).localeCompare(String(a.Date)));const upcoming=(DATA.matches||[]).filter(m=>String(m.Status||'').toLowerCase()!=='finished').sort((a,b)=>String(a.Date).localeCompare(String(b.Date)));const html=`<h3>⚽ Results</h3>${finished.length?`<h4>Finished</h4>${finished.map(matchLine).join('')}`:'<p class="muted">No finished matches yet.</p>'}${upcoming.length?`<h4>Upcoming</h4>${upcoming.map(matchLine).join('')}`:''}`;document.getElementById('resultsPanel').innerHTML=html}
 
-function renderCalendar(){const panel=document.getElementById('calendarPanel');const matches=DATA.matches||[];const dates=[...new Set(matches.map(m=>m.Date).filter(Boolean))].sort();const first=dates[0]||new Date().toISOString().slice(0,10);const start=new Date(first);const grid=[];for(let i=0;i<35;i++){const d=new Date(start);d.setDate(d.getDate()+i-start.getDay());const iso=d.toISOString().slice(0,10);const hasMatch=dates.includes(iso);grid.push(`<button class="day${hasMatch?' has':''}" onclick="showDateMatches('${iso}')">${d.getDate()}</button>`)}panel.innerHTML=`<h3>📅 Match Calendar</h3><div class="calendar">${grid.join('')}</div><div id="dateMatches"></div>`}
-function showDateMatches(iso){const box=document.getElementById('dateMatches');if(!box)return;const day=(DATA.matches||[]).filter(m=>m.Date===iso);box.innerHTML=`<h3>${iso}</h3>${day.length?day.map(m=>matchLine(m)).join(''):'<p class="muted">No matches on this date.</p>'}`}
+function renderCalendar(){const panel=document.getElementById('calendarPanel');const matches=DATA.matches||[];const dates=[...new Set(matches.map(m=>m.Date).filter(Boolean))].sort();if(!dates.length){panel.innerHTML='<h3>📅 Calendar</h3><p class="muted">No matches scheduled yet.</p>';return}const firstDate=new Date(dates[0]);const lastDate=new Date(dates[dates.length-1]);const days=[];for(let d=new Date(firstDate);d<=lastDate;d.setDate(d.getDate()+1)){const dateStr=d.toISOString().slice(0,10);const hasMatch=dates.includes(dateStr);days.push({date:dateStr,day:d.getDate(),hasMatch})}const html=`<h3>📅 Calendar</h3><div class="calendar">${days.map(d=>`<button class="day${d.hasMatch?' has':''}" onclick="showDateMatches('${d.date}')">${d.day}</button>`).join('')}</div><div id="dateMatches" style="margin-top:10px"></div>`;panel.innerHTML=html}
+function showDateMatches(iso){const box=document.getElementById('dateMatches');if(!box)return;const day=(DATA.matches||[]).filter(m=>m.Date===iso);box.innerHTML=`<h3>${iso}</h3>${day.length?day.map(m=>`<div class="match"><div><b>${m.Team1}</b><br><b>${m.Team2}</b></div><div style="text-align:right">${matchScore(m)}</div></div>`).join(''):'<p class="muted">No matches on this day.</p>'}`;}
 
-function renderBracket(){const groups={};(DATA.bracket||[]).forEach(b=>{const st=b.Stage||'Stage';if(!groups[st])groups[st]=[];groups[st].push(b)});document.getElementById('bracketPanel').innerHTML=`<h3>🏆 Tournament Chart</h3>${Object.entries(groups).map(([stage,matches])=>`<div class="bracketStage"><h4>${stage}</h4>${matches.map(m=>`<div class="match"><div><b>${m.Team1}</b> ${matchScore({Score1:m.Score1,Score2:m.Score2})} <b>${m.Team2}</b></div><span class="muted">${m.Winner?'Won: '+m.Winner:''}</span></div>`).join('')}</div>`).join('')}`}
+function renderBracket(){const groups={};(DATA.bracket||[]).forEach(b=>{const st=b.Stage||'Stage';if(!groups[st])groups[st]=[];groups[st].push(b)});document.getElementById('bracketPanel').innerHTML=`<h3>🏆 Bracket</h3>${Object.keys(groups).sort().map(st=>`<div class="bracketStage"><h4>${st}</h4>${groups[st].map(b=>`<div class="match"><div><b>${b.Team1||'-'}</b><br><b>${b.Team2||'-'}</b></div><div style="text-align:right">${(b.Score1!==''&&b.Score1!=null&&b.Score2!==''&&b.Score2!=null)?`<span class="score">${b.Score1} - ${b.Score2}</span>`:'<span class="muted">TBD</span>'}</div></div>`).join('')}</div>`).join('')}`}
 function renderFacts(){const panel=document.getElementById('factsPanel');if(!DATA.facts||DATA.facts.length===0){panel.innerHTML='<h3>💡 Facts</h3><p class="muted">No facts yet. Check back soon!</p>';return}panel.innerHTML=`<h3>💡 Facts</h3>${DATA.facts.map(f=>`<div class="factBox">${f.fact}</div>`).join('')}`}
 
 function updateClocks(){document.getElementById('cwClock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'America/Curacao',hour:'2-digit',minute:'2-digit'}).format(new Date());document.getElementById('amsClock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',hour:'2-digit',minute:'2-digit'}).format(new Date())}
