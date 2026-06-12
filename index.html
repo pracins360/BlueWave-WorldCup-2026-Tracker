@@ -68,8 +68,394 @@
 
     .brand-subtitle {
       font-size: 0.85rem;
-      color
-      <body>
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .flag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .flag-pill span.flag {
+      font-size: 1.1rem;
+    }
+
+    .main-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.4fr);
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .main-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.35));
+      border-radius: 14px;
+      padding: 12px 12px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .card-body {
+      margin-top: 4px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .input-row input,
+    .input-row select {
+      flex: 1;
+      min-width: 140px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(0, 0, 0, 0.35);
+      color: var(--white);
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .input-row input::placeholder {
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    button {
+      border-radius: 999px;
+      border: none;
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold);
+      color: var(--dark);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.08s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.4);
+      background: #ffdf5f;
+    }
+
+    button.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: none;
+    }
+
+    button.secondary:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .badge.success {
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .badge.danger {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .badge.neutral {
+      border-color: rgba(255, 255, 255, 0.35);
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .country-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .country-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .country-name span.flag {
+      font-size: 1.4rem;
+    }
+
+    .country-meta {
+      display: flex;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 4px 0;
+      font-size: 0.85rem;
+    }
+
+    .stat-label {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .stat-value {
+      font-weight: 600;
+    }
+
+    .wave-bar {
+      position: relative;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .wave-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--sky), var(--gold));
+      transition: width 0.25s ease;
+    }
+
+    .wave-label {
+      font-size: 0.8rem;
+      margin-top: 2px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .analysis-text {
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(0, 0, 0, 0.35);
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .tab.active {
+      background: var(--gold);
+      color: var(--dark);
+      border-color: var(--gold);
+    }
+
+    .section-block {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .section-content {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .sponsor-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .sponsor-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 8px;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.8rem;
+    }
+
+    .sponsor-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sponsor-name {
+      font-weight: 600;
+    }
+
+    .sponsor-tier {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .sponsor-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-end;
+    }
+
+    .link-pill {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(0, 0, 0, 0.35);
+      cursor: pointer;
+    }
+
+    .challenge-card {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 0.85rem;
+    }
+
+    .challenge-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .challenge-teaser {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 6px;
+    }
+
+    .challenge-link {
+      font-size: 0.8rem;
+      color: var(--gold);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .loyalty-card {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 0.85rem;
+    }
+
+    .loyalty-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .loyalty-title {
+      font-weight: 600;
+    }
+
+    .loyalty-match {
+      font-size: 0.8rem;
+      margin-bottom: 4px;
+    }
+
+    .loyalty-voucher {
+      font-size: 0.8rem;
+      color: var(--gold);
+    }
+
+    .footer-note {
+      margin-top: 10px;
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
   <div class="app-shell">
 
     <!-- HEADER -->
@@ -117,6 +503,109 @@
 
           <div class="stat-row">
             <div class="stat-label">Goals Against</div>
-     
-</body>
-</html>
+            <div class="stat-value" id="countryGA"></div>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat-label">Last Match</div>
+            <div class="stat-value" id="countryLast"></div>
+          </div>
+
+          <!-- WAVE % -->
+          <div class="wave-bar">
+            <div id="waveFill" class="wave-fill"></div>
+          </div>
+          <div class="wave-label">
+            WAVE: <span id="waveValue">0%</span>
+          </div>
+
+          <!-- QUALIFICATION ANALYSIS -->
+          <div class="analysis-text" id="countryAnalysis"></div>
+        </div>
+
+        <!-- ⭐ LOYALTY CARD (PLACED UNDER COUNTRY CARD) -->
+        <div id="loyaltyCard" class="loyalty-card hidden">
+          <div class="loyalty-header">
+            <div class="loyalty-title">Loyalty Match</div>
+            <button class="secondary" onclick="hideLoyalty()">Close</button>
+          </div>
+
+          <div class="loyalty-match">
+            <span id="loyaltyTeamA">Team A</span>
+            <strong>vs</strong>
+            <span id="loyaltyTeamB">Team B</span>
+          </div>
+
+          <div class="loyalty-match">
+            Result: <span id="loyaltyResult">-</span>
+          </div>
+
+          <div class="loyalty-voucher">
+            Voucher: <span id="loyaltyVoucher">---</span>
+          </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+          <div class="tab active" onclick="showSection('results')">Results</div>
+          <div class="tab" onclick="showSection('calendar')">Calendar</div>
+          <div class="tab" onclick="showSection('bracket')">Bracket</div>
+          <div class="tab" onclick="showSection('facts')">Facts</div>
+        </div>
+
+        <!-- SECTION: RESULTS -->
+        <div id="section-results" class="section-block">
+          <div class="section-title">Match Results</div>
+          <div id="resultsContent" class="section-content">Loading…</div>
+        </div>
+
+        <!-- SECTION: CALENDAR -->
+        <div id="section-calendar" class="section-block hidden">
+          <div class="section-title">Match Calendar</div>
+          <div id="calendarContent" class="section-content">Loading…</div>
+        </div>
+
+        <!-- SECTION: BRACKET -->
+        <div id="section-bracket" class="section-block hidden">
+          <div class="section-title">Knockout Bracket</div>
+          <div id="bracketContent" class="section-content">Loading…</div>
+        </div>
+
+        <!-- SECTION: FACTS -->
+        <div id="section-facts" class="section-block hidden">
+          <div class="section-title">Country Facts</div>
+          <div id="factsContent" class="section-content">Loading…</div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT SIDE: SPONSORS + CHALLENGE -->
+      <div id="sponsorView">
+
+        <!-- SPONSOR LIST -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Sponsors</div>
+          </div>
+
+          <div id="sponsorList" class="sponsor-list">
+            <!-- Sponsors injected here -->
+          </div>
+        </div>
+
+        <!-- ACTIVE CHALLENGE -->
+        <div id="challengeCard" class="challenge-card hidden">
+          <div class="challenge-title" id="challengeTitle"></div>
+          <div class="challenge-teaser" id="challengeTeaser"></div>
+          <div class="challenge-link" id="challengeLink" onclick="openChallenge()">Open Challenge</div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="footer-note">
+      Powered by PracDi Solutions • Blue Wave Engine
+    </div>
+
+  </div>
