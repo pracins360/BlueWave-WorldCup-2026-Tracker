@@ -214,5 +214,3 @@ function openLink(url) {
 ============================================ */
 loadSponsors();
 
-</body>
-</html>
