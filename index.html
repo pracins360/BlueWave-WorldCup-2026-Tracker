@@ -1,279 +1,344 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Blue Wave 2026 World Cup Tracker</title>
-<style>
-:root{--blue:#0057b8;--deep:#003a7a;--sky:#00a7e1;--gold:#ffd23f;--white:#fff;--soft:#eef8ff;--dark:#08233f}
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#e9f8ff,#fff);color:var(--dark)}
-.page{min-height:100vh;max-width:540px;margin:auto;background:#fff;box-shadow:0 0 30px rgba(0,57,120,.15)}
-.hero{position:relative;text-align:center;background:var(--deep)}
-.hero img{width:100%;display:block}
-.lang{position:absolute;top:10px;right:10px;display:flex;gap:6px}
-.lang button,.smallBtn,.topbar button{border:0;border-radius:999px;padding:8px 10px;background:rgba(255,255,255,.92);font-weight:bold;color:var(--deep)}
-.content{padding:18px}
-h1,h2,h3{margin:8px 0}
-.tag{font-weight:bold;color:var(--blue)}
-.btn{width:100%;border:0;border-radius:16px;padding:15px 18px;background:linear-gradient(135deg,var(--blue),var(--sky));color:white;font-size:18px;font-weight:bold;box-shadow:0 8px 18px rgba(0,87,184,.3);cursor:pointer}
-.card{background:var(--soft);border:1px solid #d9efff;border-radius:20px;padding:16px;margin:14px 0}
-.center{text-align:center}.hide{display:none!important}.hidden{display:none!important}.muted{color:#5c7184;font-size:13px}
-#appView{display:none}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:linear-gradient(135deg,var(--deep),var(--blue));color:white;position:sticky;top:0;z-index:10}
-.silverMarquee{background:#002b5c;color:#fff;overflow:hidden;white-space:nowrap;border-bottom:2px solid var(--gold)}
-.silverTrack{display:inline-block;padding:8px 0;animation:marquee 28s linear infinite}
-.silverTrack a{color:#fff;text-decoration:none;font-weight:bold;margin:0 20px}
-@keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
-.searchRow{display:flex;gap:8px}
-.searchRow input{flex:1;border:1px solid #b8ddff;border-radius:14px;padding:13px;font-size:16px}
-.searchRow button{border:0;border-radius:14px;padding:0 14px;background:var(--gold);color:var(--deep);font-weight:bold;cursor:pointer}
-.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.quick button{border:0;border-radius:999px;padding:9px 12px;background:#e5f4ff;color:var(--deep);font-weight:bold;cursor:pointer}
-.countryHead{display:flex;gap:12px;align-items:center}
-.flag{font-size:42px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{background:white;border-radius:14px;padding:12px;text-align:center}
-.stat b{font-size:22px;color:var(--blue)}
-.meter{height:20px;background:#d7ecff;border-radius:999px;overflow:hidden}
-.meter span{height:100%;display:block;background:linear-gradient(90deg,var(--sky),var(--blue),var(--gold));border-radius:999px}
-.analysisBox{background:#fff;border-left:5px solid var(--gold);border-radius:12px;padding:12px;margin:12px 0;line-height:1.45}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.actions a,.actions button{border:0;border-radius:14px;padding:12px;background:var(--deep);color:white;text-decoration:none;text-align:center;cursor:pointer;font-weight:bold}
-.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}
-.tabs button{border:0;border-radius:14px;padding:10px 4px;background:#e5f4ff;color:var(--deep);font-weight:bold;font-size:11px;cursor:pointer}
-.tabs button.active{background:var(--gold);color:var(--deep)}
-.match{display:flex;justify-content:space-between;gap:10px;background:white;border-radius:14px;padding:10px;margin:8px 0}
-.match b{color:var(--deep)}.dateBadge{font-size:12px;color:#5c7184}.score{font-weight:bold;color:var(--blue)}
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
-.day{border:0;border-radius:12px;padding:10px 0;background:white;color:var(--deep);font-weight:bold;cursor:pointer}
-.day.has{background:#d7ecff;border:2px solid var(--sky)}.day:hover.has{background:var(--sky);color:white}
-.bracketStage{background:white;border-radius:14px;padding:10px;margin:10px 0}.bracketStage h4{margin:0 0 8px;color:var(--blue)}
-.clockRow{display:grid;grid-template-columns:1fr 1fr;gap:10px}.clock{background:white;border-radius:14px;padding:10px;text-align:center}.clock b{display:block;color:var(--blue);font-size:18px}
-.factBox{background:white;border-left:4px solid var(--sky);border-radius:8px;padding:12px;margin:10px 0;font-size:15px}
-.premiumSponsors{margin-top:14px;text-align:center}
-.premiumSponsors a{display:inline-block;margin:4px;padding:8px 12px;border-radius:999px;background:#fff8d7;color:var(--deep);font-weight:bold;text-decoration:none;border:1px solid var(--gold)}
-.footerSponsor{position:sticky;bottom:0;background:rgba(255,255,255,.96);padding:10px 14px;border-top:1px solid #d9efff;z-index:8}
-.goldGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.goldAd{display:block;border:1px solid #ffd85a;border-radius:10px;overflow:hidden;background:#fff8d7;min-height:52px;text-decoration:none;color:var(--deep);text-align:center}
-.goldAd img{width:100%;height:58px;object-fit:cover;display:block}
-.goldAd b{display:block;padding:8px;font-size:12px}
-#loyaltyCard{background:linear-gradient(135deg,var(--gold),#ffeb99);border:2px solid var(--gold);box-shadow:0 4px 15px rgba(255,210,63,.3)}
-#loyaltyCard h3{color:var(--deep);text-align:center}
-#loyaltyCard p{text-align:center;margin:8px 0;font-weight:bold;color:var(--deep)}
-#loyaltyCard button{width:100%;border:0;border-radius:14px;padding:12px;margin:6px 0;background:var(--deep);color:white;font-weight:bold;cursor:pointer}
-#loyaltyCard button:hover{background:var(--blue)}
-#loyaltyMessage{text-align:center;margin-top:12px;padding:10px;background:white;border-radius:12px;font-weight:bold;color:var(--deep)}
-</style>
-</head>
-<body>
-<div class="page">
+  <meta charset="UTF-8">
+  <title>Blue Wave Challenge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<section id="landing">
-  <div class="hero">
-    <img src="https://i.ibb.co/sdtNGnb1/world-cup-for-the-app.png" alt="Blue Wave 2026 World Cup Tracker">
-    <div class="lang"><button onclick="setLang('en')">EN</button><button onclick="setLang('es')">ES</button></div>
-  </div>
-  <div class="content">
-    <h1 data-i="title">Blue Wave 2026</h1>
-    <p data-i="subtitle">Follow Curaçao and your favorite country through the World Cup.</p>
-    <button class="btn" onclick="openApp()" data-i="enter">ENTER APP</button>
-    <div id="premiumSponsors" class="premiumSponsors"></div>
-  </div>
-</section>
+  <style>
+    :root {
+      --blue: #0057b8;
+      --deep: #003a7a;
+      --sky: #00a7e1;
+      --gold: #ffd23f;
+      --white: #ffffff;
+      --soft: #eef8ff;
+      --dark: #08233f;
+      --gray: #888888;
+      --danger: #c0392b;
+      --success: #27ae60;
+    }
 
-<section id="appView">
-  <div class="topbar">
-    <button onclick="goHome()">←</button>
-    <b>🌊 Blue Wave 2026</b>
-    <div><button onclick="setLang('en')">EN</button><button onclick="setLang('es')">ES</button></div>
-  </div>
-  <div id="silverMarquee" class="silverMarquee hide"><div id="silverTrack" class="silverTrack"></div></div>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-  <div class="card">
-    <h2 data-i="choose">Choose Country or Pool</h2>
-    <div class="searchRow"><input id="countryInput" placeholder="Curaçao"><button onclick="loadCountry()">🔍</button></div>
-    <div class="quick" id="quickCountries"></div>
-  </div>
+    body {
+      background: radial-gradient(circle at top, var(--sky), var(--deep));
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 16px;
+    }
 
-  <div id="teamCard" class="card hide"></div>
-  <div id="notFound" class="card center hide"><b data-i="notfound">Country not found.</b></div>
+    .app-shell {
+      width: 100%;
+      max-width: 1100px;
+      background: rgba(8, 35, 63, 0.96);
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      padding: 18px 18px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
 
-  <div id="loyaltyCard" class="card hidden">
-    <h3 id="loyaltyTitle">🎯 Predict the Result!</h3>
-    <p>Guess the match outcome:</p>
-    <button onclick="makeGuess('A')">Team A Wins 🔵</button>
-    <button onclick="makeGuess('D')">Draw ⚪</button>
-    <button onclick="makeGuess('B')">Team B Wins 🔴</button>
-    <p id="loyaltyMessage"></p>
-  </div>
+    header.app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
 
-  <div class="card">
-    <div class="clockRow"><div class="clock">Curaçao<b id="cwClock">--:--</b></div><div class="clock">Amsterdam<b id="amsClock">--:--</b></div></div>
-  </div>
+    .brand-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
 
-  <div class="tabs">
-    <button id="tabCountries" class="active" onclick="showPanel('countries')">🌎 Countries</button>
-    <button id="tabResults" onclick="showPanel('results')">⚽ Results</button>
-    <button id="tabCalendar" onclick="showPanel('calendar')">📅 Calendar</button>
-    <button id="tabBracket" onclick="showPanel('bracket')">🏆 Chart</button>
-    <button id="tabFacts" onclick="showPanel('facts')">💡 Facts</button>
-  </div>
+    .brand-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
 
-  <div id="countriesPanel" class="card"></div>
-  <div id="resultsPanel" class="card hide"></div>
-  <div id="calendarPanel" class="card hide"></div>
-  <div id="bracketPanel" class="card hide"></div>
-  <div id="factsPanel" class="card hide"></div>
+    .brand-subtitle {
+      font-size: 0.85rem;
+      color
+      <body>
+  <div class="app-shell">
 
-  <div class="footerSponsor">
-    <div class="muted center">Gold Sponsors</div>
-    <div id="goldSponsorBox" class="goldGrid"></div>
-  </div>
-</section>
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand-block">
+        <div class="brand-title">Blue Wave Challenge</div>
+        <div class="brand-subtitle">Live Stats • Sponsors • Loyalty • Predictions</div>
+      </div>
 
-</div>
+      <div class="header-right">
+        <div class="pill flag-pill">
+          <span class="flag">🇨🇼</span>
+          <span>Curaçao</span>
+        </div>
+        <div class="pill">v1.0</div>
+      </div>
+    </header>
 
-<script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec';
+    <!-- MAIN LAYOUT -->
+    <div class="main-layout">
 
-let DATA={countries:[],sponsors:[],matches:[],bracket:[],facts:[]};
-let lang='en', activePanel='countries';
+      <!-- LEFT SIDE: COUNTRY VIEW -->
+      <div id="countryView">
 
-const T={
-en:{title:'Blue Wave 2026',subtitle:'Follow Curaçao and your favorite country through the World Cup.',enter:'ENTER APP',choose:'Choose Country or Pool',notfound:'Country not found.'},
-es:{title:'Ola Azul 2026',subtitle:'Sigue a Curazao y a tu país favorito durante el Mundial.',enter:'ENTRAR',choose:'Elige País o Grupo',notfound:'País no encontrado.'}
-};
+        <!-- COUNTRY CARD -->
+        <div id="countryCard" class="card hidden">
+          <div class="country-header">
+            <div class="country-name">
+              <span id="countryFlag" class="flag">🏳️</span>
+              <span id="countryName">Country</span>
+            </div>
+            <button class="secondary" onclick="goHome()">Home</button>
+          </div>
 
-function norm(s){return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim()}
-function slugify(s){return norm(s).replace(/\s+/g,'-')}
-function asNum(v, fallback=0){const n=Number(v);return isNaN(n)?fallback:n}
-function pick(r, keys, fallback=''){for(const k of keys){if(r[k]!==undefined && r[k]!==null && r[k] !== '') return r[k]}return fallback}
-function asDateText(v){if(!v)return'';const s=String(v);if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;const d=new Date(s);return isNaN(d)?s:d.toISOString().slice(0,10)}
-function flagFor(country){const m={'curacao':'🇨🇼','curaçao':'🇨🇼','brazil':'🇧🇷','argentina':'🇦🇷','germany':'🇩🇪','spain':'🇪🇸','mexico':'🇲🇽','usa':'🇺🇸','u.s.a':'🇺🇸','france':'🇫🇷','england':'🇬🇧','italy':'🇮🇹','japan':'🇯🇵','south korea':'🇰🇷','australia':'🇦🇺','canada':'🇨🇦','netherlands':'🇳🇱','belgium':'🇧🇪','portugal':'🇵🇹','switzerland':'🇨🇭','denmark':'🇩🇰','sweden':'🇸🇪','norway':'🇳🇴','greece':'🇬🇷','turkey':'🇹🇷','turkiye':'🇹🇷','iran':'🇮🇷','saudi arabia':'🇸🇦','uae':'🇦🇪','qatar':'🇶🇦','morocco':'🇲🇦','egypt':'🇪🇬','tunisia':'🇹🇳','cameroon':'🇨🇲','senegal':'🇸🇳','ghana':'🇬🇭','ivorycoast':'🇨🇮','cote d\'ivoire':'🇨🇮','côte d\'ivoire':'🇨🇮','uruguay':'🇺🇾','chile':'🇨🇱','colombia':'🇨🇴','peru':'🇵🇪','paraguay':'🇵🇾','ecuador':'🇪🇨','venezuela':'🇻🇪','bolivia':'🇧🇴','guatemala':'🇬🇹','honduras':'🇭🇳','el salvador':'🇸🇻','costa rica':'🇨🇷','panama':'🇵🇦','jamaica':'🇯🇲','haiti':'🇭🇹','trinidad and tobago':'🇹🇹','new zealand':'🇳🇿','samoa':'🇼🇸','tahiti':'🇵🇫','cabo verde':'🇨🇻','cape verde':'🇨🇻','iceland':'🇮🇸','luxembourg':'🇱🇺','malta':'🇲🇹','cyprus':'🇨🇾','serbia':'🇷🇸','croatia':'🇭🇷','slovenia':'🇸🇮','bosnia':'🇧🇦','albania':'🇦🇱','north macedonia':'🇲🇰','georgia':'🇬🇪','armenia':'🇦🇲','azerbaijan':'🇦🇿','kazakhstan':'🇰🇿','uzbekistan':'🇺🇿','turkmenistan':'🇹🇲','kyrgyzstan':'🇰🇬','tajikistan':'🇹🇯','thailand':'🇹🇭','vietnam':'🇻🇳','cambodia':'🇰🇭','laos':'🇱🇦','myanmar':'🇲🇲','malaysia':'🇲🇾','singapore':'🇸🇬','indonesia':'🇮🇩','philippines':'🇵🇭','bangladesh':'🇧🇩','india':'🇮🇳','pakistan':'🇵🇰','afghanistan':'🇦🇫','lebanon':'🇱🇧','jordan':'🇯🇴','israel':'🇮🇱','palestine':'🇵🇸','syria':'🇸🇾','iraq':'🇮🇶','oman':'🇴🇲','yemen':'🇾🇪','bahrain':'🇧🇭','kuwait':'🇰🇼'};return m[norm(country)]||'🏳️'}
+          <div class="country-meta">
+            <div>Group: <span id="countryGroup"></span></div>
+            <div>Pos: <span id="countryPos"></span></div>
+            <div>Pts: <span id="countryPts"></span></div>
+          </div>
 
-function normalizeData(j){
- const countries=(j.countries||[]).map(r=>{
-  const country=pick(r,['Country','country']);
-  const analysis=pick(r,['Analysis','Analysis_EN','analysis','analysis_en']);
-  const status=pick(r,['Status','Status_EN','status','status_en']);
-  return {
-    country, slug:slugify(country), flag:pick(r,['Flag','flag'],flagFor(country)),
-    group:pick(r,['Group','group']), position:pick(r,['Pos','Position','position','pos']),
-    points:asNum(pick(r,['Pts','Points','points','pts'])), wins:asNum(pick(r,['W','Wins','wins'])),
-    draws:asNum(pick(r,['D','Draws','draws'])), losses:asNum(pick(r,['L','Losses','losses'])),
-    gf:asNum(pick(r,['GF','For','GoalsFor','for'])), ga:asNum(pick(r,['GA','Against','GoalsAgainst','against'])),
-    wave:asNum(pick(r,['Wave','wave']),0), status_en:status, status_es:pick(r,['Status_ES','status_es'],status),
-    analysis_en:analysis, analysis_es:pick(r,['Analysis_ES','analysis_es'],analysis),
-    last_match:pick(r,['LastMatch','Last Match','last_match']),
-    next_match:pick(r,['NextMatch','Next Match','next_match']),
-    news_url:pick(r,['NewsUrl','NewsURL','News','news_url','news'])
-  }
- }).filter(x=>x.country);
+          <div class="stat-row">
+            <div class="stat-label">Goals For</div>
+            <div class="stat-value" id="countryGF"></div>
+          </div>
 
- const sponsors=(j.sponsors||[]).map(r=>({
-   name:pick(r,['Name','name']),
-   image:pick(r,['Image','image','ImageUrl','ImageURL']),
-   link:pick(r,['Link','link','Url','URL'],'#'),
-   text:pick(r,['Text','text','Description','description']),
-   tier:norm(pick(r,['Tier','tier','Level','level'],'gold')),
-   tab:norm(pick(r,['Tab','tab','Panel','panel'],'all'))
- })).filter(x=>x.name);
+          <div class="stat-row">
+            <div class="stat-label">Goals Against</div>
+      <script>
+/* ============================================
+   CONFIG
+============================================ */
+const API_URL = "YOUR_WEBAPP_URL_HERE"; 
+// Replace after deploying Apps Script
 
- const matches=(j.matches||[]).map(r=>({Date:asDateText(pick(r,['Date','date'])),Team1:pick(r,['Team1','team1']),Team2:pick(r,['Team2','team2']),Score1:pick(r,['Score1','score1']),Score2:pick(r,['Score2','score2']),Status:pick(r,['Status','status'])})).filter(x=>x.Date && x.Team1 && x.Team2);
- const bracket=(j.bracket||[]).map(r=>({Stage:pick(r,['Stage','stage']),Team1:pick(r,['Team1','team1']),Team2:pick(r,['Team2','team2']),Score1:pick(r,['Score1','score1']),Score2:pick(r,['Score2','score2'])})).filter(x=>x.Team1 || x.Team2);
- const facts=(j.facts||[]).map(r=>({fact:pick(r,['Fact','fact'])})).filter(x=>x.fact);
- return {countries,sponsors,matches,bracket,facts};
+
+/* ============================================
+   FLAG MAPPER (Emoji)
+============================================ */
+function flagFor(country) {
+  if (!country) return "🏳️";
+  const map = {
+    "curacao": "🇨🇼",
+    "brazil": "🇧🇷",
+    "germany": "🇩🇪",
+    "argentina": "🇦🇷",
+    "france": "🇫🇷",
+    "spain": "🇪🇸",
+    "usa": "🇺🇸",
+    "netherlands": "🇳🇱",
+    "italy": "🇮🇹",
+    "england": "🏴",
+    "portugal": "🇵🇹",
+    "colombia": "🇨🇴",
+    "mexico": "🇲🇽",
+    "japan": "🇯🇵",
+    "south korea": "🇰🇷"
+  };
+  const key = country.toLowerCase().trim();
+  return map[key] || "🏳️";
 }
 
-function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-i]').forEach(el=>{el.textContent=T[l][el.dataset.i]||el.textContent});const c=currentCountry();if(c)renderCountry(c)}
-function openApp(){document.getElementById('landing').style.display='none';document.getElementById('appView').style.display='block';loadCountryFromURL();renderSponsorZones()}
-function goHome(){document.getElementById('appView').style.display='none';document.getElementById('landing').style.display='block'}
-function currentCountry(){const name=document.getElementById('teamCard').dataset.country;return DATA.countries.find(c=>c.country===name)}
 
-function quickButtons(){document.getElementById('quickCountries').innerHTML=(DATA.countries||[]).slice(0,10).map(c=>`<button onclick="selectCountry('${c.country.replace(/'/g,"\\'")}')">${c.flag||''} ${c.country}</button>`).join('')}
-function selectCountry(name){document.getElementById('countryInput').value=name;loadCountry()}
-function loadCountryFromURL(){const p=new URLSearchParams(location.search);const q=p.get('country')||'Curaçao';document.getElementById('countryInput').value=q;loadCountry()}
-function loadCountry(){const q=norm(document.getElementById('countryInput').value);const c=DATA.countries.find(x=>norm(x.country)===q||norm(x.slug)===q);if(!c){document.getElementById('teamCard').classList.add('hide');document.getElementById('notFound').classList.remove('hide');document.getElementById('loyaltyCard').classList.add('hidden');return}renderCountry(c)}
-
-function renderCountry(c){
- document.getElementById('notFound').classList.add('hide');
- const analysis=c['analysis_'+lang]||c.analysis_en||'';
- const status=c['status_'+lang]||c.status_en||'';
- const yt='https://www.youtube.com/results?search_query='+encodeURIComponent(c.country+' world cup 2026 highlights');
- const news=c.news_url||('https://www.google.com/search?q='+encodeURIComponent(c.country+' world cup 2026 news'));
- const wave=c.wave || Math.min((c.points||0)*10,100);
- document.getElementById('teamCard').innerHTML=`
- <div class="countryHead"><span class="flag">${c.flag||''}</span><div><h2>${c.country}</h2><span class="tag">Group ${c.group || '-'}</span></div></div>
- <p><b>${status || ''}</b></p>
- <div class="grid">
-  <div class="stat"><b>${c.points}</b><p>Pts</p></div>
-  <div class="stat"><b>${c.position || '-'}</b><p>Pos</p></div>
-  <div class="stat"><b>${c.wins}-${c.draws}-${c.losses}</b><p>W-D-L</p></div>
-  <div class="stat"><b>${c.gf}:${c.ga}</b><p>GF:GA</p></div>
- </div>
- <h3>🌊 Blue Wave Meter ${wave}%</h3><div class="meter"><span style="width:${Math.max(0,Math.min(wave,100))}%"></span></div>
- <div class="analysisBox"><h3>📌 Analysis</h3><p>${analysis || 'Analysis will be updated soon.'}</p><p><b>Last:</b> ${c.last_match || '-'}</p><p><b>Next:</b> ${c.next_match || '-'}</p></div>
- <div class="actions"><a href="${yt}" target="_blank">🎬 Highlights</a><a href="${news}" target="_blank">📰 News</a><button onclick="shareCountry('${c.country.replace(/'/g,"\\'")}')" >📤 Share</button></div>
- `;
- document.getElementById('teamCard').classList.remove('hide');
- document.getElementById('teamCard').dataset.country=c.country;
- window.history.replaceState(null,null,'?country='+encodeURIComponent(c.country));
+/* ============================================
+   NAVIGATION
+============================================ */
+function goHome() {
+  document.getElementById("countryCard").classList.add("hidden");
+  document.getElementById("loyaltyCard").classList.add("hidden");
+  hideAllSections();
 }
 
-function makeGuess(option){
- const opts={A:`${lang==='en'?'Team A Wins':'Equipo A Gana'}! 🎉`,D:`${lang==='en'?'Draw':'Empate'}! ⚪`,B:`${lang==='en'?'Team B Wins':'Equipo B Gana'}! 🎉`};
- document.getElementById('loyaltyMessage').textContent=opts[option];
- setTimeout(()=>{document.getElementById('loyaltyMessage').textContent=''},3000);
+function hideLoyalty() {
+  document.getElementById("loyaltyCard").classList.add("hidden");
 }
 
-async function shareCountry(country){const data={title:'Blue Wave 2026',text:`Follow ${country} on Blue Wave 2026`,url:location.href};if(navigator.share){await navigator.share(data)}else copyLink()}
-function copyLink(){navigator.clipboard.writeText(location.href);alert(lang==='en'?'Link copied':'Link copiado')}
 
-function sponsorByTier(tier){return DATA.sponsors.filter(s=>s.tier===tier)}
-function renderSponsorZones(){
- const premium=sponsorByTier('premium');
- document.getElementById('premiumSponsors').innerHTML=premium.length?`<div class="muted">Premium Sponsors</div>${premium.map(s=>`<a href="${s.link}" target="_blank">${s.name}</a>`).join('')}`:'';
- const silver=sponsorByTier('silver');
- if(silver.length){document.getElementById('silverMarquee').classList.remove('hide');document.getElementById('silverTrack').innerHTML=[...silver,...silver].map(s=>`<a href="${s.link}" target="_blank">${s.name}</a>`).join('')}
- else document.getElementById('silverMarquee').classList.add('hide');
- renderGold(activePanel);
-}
-function renderGold(panel){
- let gold=DATA.sponsors.filter(s=>s.tier==='gold' && (s.tab==='all' || s.tab===panel)).slice(0,2);
- if(gold.length===0) gold=DATA.sponsors.filter(s=>s.tier==='gold').slice(0,2);
- document.getElementById('goldSponsorBox').innerHTML=gold.length?gold.map(s=>`<a class="goldAd" href="${s.link}" target="_blank">${s.image?`<img src="${s.image}" alt="${s.name}">`:`<b>${s.name}</b>`}</a>`).join(''):'';
+/* ============================================
+   SECTION TABS
+============================================ */
+function hideAllSections() {
+  document.getElementById("section-results").classList.add("hidden");
+  document.getElementById("section-calendar").classList.add("hidden");
+  document.getElementById("section-bracket").classList.add("hidden");
+  document.getElementById("section-facts").classList.add("hidden");
+
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
 }
 
-function showPanel(name){
- activePanel=name;
- ['countries','results','calendar','bracket','facts'].forEach(x=>{
-  const p=document.getElementById(x+'Panel'); if(p)p.classList.toggle('hide',x!==name);
-  const t=document.getElementById('tab'+x.charAt(0).toUpperCase()+x.slice(1)); if(t)t.classList.toggle('active',x===name);
- });
- if(name==='countries')quickButtons(); if(name==='results')renderResults(); if(name==='calendar')renderCalendar(); if(name==='bracket')renderBracket(); if(name==='facts')renderFacts();
- renderGold(name);
+function showSection(section) {
+  hideAllSections();
+  document.getElementById(`section-${section}`).classList.remove("hidden");
+
+  document.querySelectorAll(".tab").forEach(t => {
+    if (t.textContent.toLowerCase().includes(section)) {
+      t.classList.add("active");
+    }
+  });
 }
 
-function matchScore(m){return(m.Score1!==''&&m.Score1!=null&&m.Score2!==''&&m.Score2!=null)?`<span class="score">${m.Score1} - ${m.Score2}</span>`:'<span class="muted">vs</span>'}
-function matchLine(m){const q=encodeURIComponent(`${m.Team1} vs ${m.Team2} world cup highlights`);return`<div class="match" onclick="window.open('https://www.youtube.com/results?search_query=${q}','_blank')"><div><b>${m.Team1}</b><br><b>${m.Team2}</b></div><div style="text-align:right">${matchScore(m)}<br><span class="dateBadge">${m.Date}</span></div></div>`}
-function renderResults(){const finished=(DATA.matches||[]).filter(m=>String(m.Status||'').toLowerCase()==='finished').sort((a,b)=>String(b.Date).localeCompare(String(a.Date)));const upcoming=(DATA.matches||[]).filter(m=>String(m.Status||'').toLowerCase()!=='finished').sort((a,b)=>String(a.Date).localeCompare(String(b.Date)));const html=`<h3>⚽ Results</h3>${finished.length?`<h4>Finished</h4>${finished.map(matchLine).join('')}`:'<p class="muted">No finished matches yet.</p>'}${upcoming.length?`<h4>Upcoming</h4>${upcoming.map(matchLine).join('')}`:''}`;document.getElementById('resultsPanel').innerHTML=html}
 
-function renderCalendar(){const panel=document.getElementById('calendarPanel');const matches=DATA.matches||[];const dates=[...new Set(matches.map(m=>m.Date).filter(Boolean))].sort();if(!dates.length){panel.innerHTML='<h3>📅 Calendar</h3><p class="muted">No matches scheduled yet.</p>';return}const parts0=dates[0].split('-');const firstDate=new Date(parseInt(parts0[0]),parseInt(parts0[1])-1,parseInt(parts0[2]));const partsL=dates[dates.length-1].split('-');const lastDate=new Date(parseInt(partsL[0]),parseInt(partsL[1])-1,parseInt(partsL[2]));const days=[];for(let d=new Date(firstDate);d<=lastDate;d.setDate(d.getDate()+1)){const year=d.getFullYear();const month=String(d.getMonth()+1).padStart(2,'0');const day=String(d.getDate()).padStart(2,'0');const dateStr=`${year}-${month}-${day}`;const hasMatch=dates.includes(dateStr);days.push({date:dateStr,day:d.getDate(),hasMatch})}const html=`<h3>📅 Calendar</h3><div class="calendar">${days.map(d=>`<button class="day${d.hasMatch?' has':''}" onclick="showDateMatches('${d.date}')">${d.day}</button>`).join('')}</div><div id="dateMatches" style="margin-top:10px"></div>`;panel.innerHTML=html}
-function showDateMatches(iso){const box=document.getElementById('dateMatches');if(!box)return;const day=(DATA.matches||[]).filter(m=>m.Date===iso);box.innerHTML=`<h3>${iso}</h3>${day.length?day.map(m=>`<div class="match"><div><b>${m.Team1}</b><br><b>${m.Team2}</b></div><div style="text-align:right">${matchScore(m)}</div></div>`).join(''):'<p class="muted">No matches on this day.</p>'}`;}
+/* ============================================
+   LOAD COUNTRY
+============================================ */
+async function loadCountry(name) {
+  const res = await fetch(`${API_URL}?action=country&country=${encodeURIComponent(name)}`);
+  const data = await res.json();
+  if (!data) return;
 
-function renderBracket(){const groups={};(DATA.bracket||[]).forEach(b=>{const st=b.Stage||'Stage';if(!groups[st])groups[st]=[];groups[st].push(b)});document.getElementById('bracketPanel').innerHTML=`<h3>🏆 Bracket</h3>${Object.keys(groups).sort().map(st=>`<div class="bracketStage"><h4>${st}</h4>${groups[st].map(b=>`<div class="match"><div><b>${b.Team1||'-'}</b><br><b>${b.Team2||'-'}</b></div><div style="text-align:right">${(b.Score1!==''&&b.Score1!=null&&b.Score2!==''&&b.Score2!=null)?`<span class="score">${b.Score1} - ${b.Score2}</span>`:'<span class="muted">TBD</span>'}</div></div>`).join('')}</div>`).join('')}`}
-function renderFacts(){const panel=document.getElementById('factsPanel');if(!DATA.facts||DATA.facts.length===0){panel.innerHTML='<h3>💡 Facts</h3><p class="muted">No facts yet. Check back soon!</p>';return}panel.innerHTML=`<h3>💡 Facts</h3>${DATA.facts.map(f=>`<div class="factBox">${f.fact}</div>`).join('')}`}
+  document.getElementById("countryCard").classList.remove("hidden");
 
-function updateClocks(){document.getElementById('cwClock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'America/Curacao',hour:'2-digit',minute:'2-digit'}).format(new Date());document.getElementById('amsClock').textContent=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',hour:'2-digit',minute:'2-digit'}).format(new Date())}
+  document.getElementById("countryName").textContent = data.Country;
+  document.getElementById("countryFlag").textContent = flagFor(data.Country);
+  document.getElementById("countryGroup").textContent = data.Group;
+  document.getElementById("countryPos").textContent = data.Pos;
+  document.getElementById("countryPts").textContent = data.Pts;
+  document.getElementById("countryGF").textContent = data.GF;
+  document.getElementById("countryGA").textContent = data.GA;
+  document.getElementById("countryLast").textContent = data.LastMatch;
 
-async function init(){
- setLang('en');
- try{const r=await fetch(API_URL+'?action=all');const j=await r.json();if(j&&j.countries)DATA=normalizeData(j)}
- catch(e){console.log('API failed',e)}
- quickButtons();renderResults();renderCalendar();renderBracket();renderFacts();renderSponsorZones();updateClocks();setInterval(updateClocks,10000);
+  // Wave %
+  const wave = parseInt(data["WAVE %"]) || 0;
+  document.getElementById("waveValue").textContent = wave + "%";
+  document.getElementById("waveFill").style.width = wave + "%";
+
+  // Qualification analysis
+  document.getElementById("countryAnalysis").textContent = data.Analysis;
+
+  // Load loyalty
+  loadLoyalty();
+
+  // Load sections
+  loadResults();
+  loadCalendar();
+  loadBracket();
+  loadFacts();
 }
-init();
+
+
+/* ============================================
+   LOAD LOYALTY MATCH
+============================================ */
+async function loadLoyalty() {
+  const res = await fetch(`${API_URL}?action=all`);
+  const data = await res.json();
+  if (!data || !data.loyalty) return;
+
+  const match = data.loyalty.find(m => m.Active === true || m.Active === "TRUE");
+  if (!match) return;
+
+  document.getElementById("loyaltyCard").classList.remove("hidden");
+
+  document.getElementById("loyaltyTeamA").textContent = match.TeamA;
+  document.getElementById("loyaltyTeamB").textContent = match.TeamB;
+  document.getElementById("loyaltyResult").textContent = match.Result;
+  document.getElementById("loyaltyVoucher").textContent = match.VoucherCode;
+}
+
+
+/* ============================================
+   LOAD SPONSORS
+============================================ */
+async function loadSponsors() {
+  const res = await fetch(`${API_URL}?action=sponsors`);
+  const sponsors = await res.json();
+
+  const list = document.getElementById("sponsorList");
+  list.innerHTML = "";
+
+  sponsors.forEach(s => {
+    const div = document.createElement("div");
+    div.className = "sponsor-item";
+
+    div.innerHTML = `
+      <div class="sponsor-main">
+        <div class="sponsor-name">${s.SponsorName}</div>
+        <div class="sponsor-tier">Tier: ${s.Tier}</div>
+      </div>
+      <div class="sponsor-actions">
+        <div class="link-pill" onclick="openLink('${s.AdURL}')">Ad</div>
+        <div class="link-pill" onclick="openLink('${s.WhatsAppLink}')">WhatsApp</div>
+      </div>
+    `;
+
+    list.appendChild(div);
+  });
+
+  loadChallenge(sponsors);
+}
+
+
+/* ============================================
+   LOAD ACTIVE CHALLENGE
+============================================ */
+function loadChallenge(sponsors) {
+  const active = sponsors.find(s => s.ActiveChallenge === true || s.ActiveChallenge === "TRUE");
+  if (!active) return;
+
+  document.getElementById("challengeCard").classList.remove("hidden");
+  document.getElementById("challengeTitle").textContent = active.ChallengeTitle;
+  document.getElementById("challengeTeaser").textContent = active.ChallengeTeaser;
+  document.getElementById("challengeLink").setAttribute("data-url", active.ChallengeLink);
+}
+
+function openChallenge() {
+  const url = document.getElementById("challengeLink").getAttribute("data-url");
+  if (url) window.open(url, "_blank");
+}
+
+
+/* ============================================
+   LOAD RESULTS / CALENDAR / BRACKET / FACTS
+============================================ */
+async function loadResults() {
+  const res = await fetch(`${API_URL}?action=matches`);
+  const data = await res.json();
+  document.getElementById("resultsContent").textContent = JSON.stringify(data, null, 2);
+}
+
+async function loadCalendar() {
+  const res = await fetch(`${API_URL}?action=matches`);
+  const data = await res.json();
+  document.getElementById("calendarContent").textContent = JSON.stringify(data, null, 2);
+}
+
+async function loadBracket() {
+  const res = await fetch(`${API_URL}?action=bracket`);
+  const data = await res.json();
+  document.getElementById("bracketContent").textContent = JSON.stringify(data, null, 2);
+}
+
+async function loadFacts() {
+  const res = await fetch(`${API_URL}?action=facts`);
+  const data = await res.json();
+  document.getElementById("factsContent").textContent = JSON.stringify(data, null, 2);
+}
+
+
+/* ============================================
+   UTIL
+============================================ */
+function openLink(url) {
+  if (url && url !== "") window.open(url, "_blank");
+}
+
+
+/* ============================================
+   INIT
+============================================ */
+loadSponsors();
 </script>
 </body>
 </html>
