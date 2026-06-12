@@ -18,7 +18,7 @@ h1,h2,h3{margin:8px 0}
 .tag{font-weight:bold;color:var(--blue)}
 .btn{width:100%;border:0;border-radius:16px;padding:15px 18px;background:linear-gradient(135deg,var(--blue),var(--sky));color:white;font-size:18px;font-weight:bold;box-shadow:0 8px 18px rgba(0,87,184,.3);cursor:pointer}
 .card{background:var(--soft);border:1px solid #d9efff;border-radius:20px;padding:16px;margin:14px 0}
-.center{text-align:center}.hide{display:none!important}.muted{color:#5c7184;font-size:13px}
+.center{text-align:center}.hide{display:none!important}.hidden{display:none!important}.muted{color:#5c7184;font-size:13px}
 #appView{display:none}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:linear-gradient(135deg,var(--deep),var(--blue));color:white;position:sticky;top:0;z-index:10}
 .silverMarquee{background:#002b5c;color:#fff;overflow:hidden;white-space:nowrap;border-bottom:2px solid var(--gold)}
@@ -58,6 +58,12 @@ h1,h2,h3{margin:8px 0}
 .goldAd{display:block;border:1px solid #ffd85a;border-radius:10px;overflow:hidden;background:#fff8d7;min-height:52px;text-decoration:none;color:var(--deep);text-align:center}
 .goldAd img{width:100%;height:58px;object-fit:cover;display:block}
 .goldAd b{display:block;padding:8px;font-size:12px}
+#loyaltyCard{background:linear-gradient(135deg,var(--gold),#ffeb99);border:2px solid var(--gold);box-shadow:0 4px 15px rgba(255,210,63,.3)}
+#loyaltyCard h3{color:var(--deep);text-align:center}
+#loyaltyCard p{text-align:center;margin:8px 0;font-weight:bold;color:var(--deep)}
+#loyaltyCard button{width:100%;border:0;border-radius:14px;padding:12px;margin:6px 0;background:var(--deep);color:white;font-weight:bold;cursor:pointer}
+#loyaltyCard button:hover{background:var(--blue)}
+#loyaltyMessage{text-align:center;margin-top:12px;padding:10px;background:white;border-radius:12px;font-weight:bold;color:var(--deep)}
 </style>
 </head>
 <body>
@@ -92,6 +98,15 @@ h1,h2,h3{margin:8px 0}
 
   <div id="teamCard" class="card hide"></div>
   <div id="notFound" class="card center hide"><b data-i="notfound">Country not found.</b></div>
+
+  <div id="loyaltyCard" class="card hidden">
+    <h3 id="loyaltyTitle">🎯 Predict the Result!</h3>
+    <p>Guess the match outcome:</p>
+    <button onclick="makeGuess('A')">Team A Wins 🔵</button>
+    <button onclick="makeGuess('D')">Draw ⚪</button>
+    <button onclick="makeGuess('B')">Team B Wins 🔴</button>
+    <p id="loyaltyMessage"></p>
+  </div>
 
   <div class="card">
     <div class="clockRow"><div class="clock">Curaçao<b id="cwClock">--:--</b></div><div class="clock">Amsterdam<b id="amsClock">--:--</b></div></div>
@@ -179,7 +194,7 @@ function currentCountry(){const name=document.getElementById('teamCard').dataset
 function quickButtons(){document.getElementById('quickCountries').innerHTML=(DATA.countries||[]).slice(0,10).map(c=>`<button onclick="selectCountry('${c.country.replace(/'/g,"\\'")}')">${c.flag||''} ${c.country}</button>`).join('')}
 function selectCountry(name){document.getElementById('countryInput').value=name;loadCountry()}
 function loadCountryFromURL(){const p=new URLSearchParams(location.search);const q=p.get('country')||'Curaçao';document.getElementById('countryInput').value=q;loadCountry()}
-function loadCountry(){const q=norm(document.getElementById('countryInput').value);const c=DATA.countries.find(x=>norm(x.country)===q||norm(x.slug)===q);if(!c){document.getElementById('teamCard').classList.add('hide');document.getElementById('notFound').classList.remove('hide');return}renderCountry(c)}
+function loadCountry(){const q=norm(document.getElementById('countryInput').value);const c=DATA.countries.find(x=>norm(x.country)===q||norm(x.slug)===q);if(!c){document.getElementById('teamCard').classList.add('hide');document.getElementById('notFound').classList.remove('hide');document.getElementById('loyaltyCard').classList.add('hidden');return}renderCountry(c)}
 
 function renderCountry(c){
  document.getElementById('notFound').classList.add('hide');
@@ -204,6 +219,12 @@ function renderCountry(c){
  document.getElementById('teamCard').classList.remove('hide');
  document.getElementById('teamCard').dataset.country=c.country;
  window.history.replaceState(null,null,'?country='+encodeURIComponent(c.country));
+}
+
+function makeGuess(option){
+ const opts={A:`${lang==='en'?'Team A Wins':'Equipo A Gana'}! 🎉`,D:`${lang==='en'?'Draw':'Empate'}! ⚪`,B:`${lang==='en'?'Team B Wins':'Equipo B Gana'}! 🎉`};
+ document.getElementById('loyaltyMessage').textContent=opts[option];
+ setTimeout(()=>{document.getElementById('loyaltyMessage').textContent=''},3000);
 }
 
 async function shareCountry(country){const data={title:'Blue Wave 2026',text:`Follow ${country} on Blue Wave 2026`,url:location.href};if(navigator.share){await navigator.share(data)}else copyLink()}
