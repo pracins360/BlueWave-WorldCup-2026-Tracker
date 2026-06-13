@@ -68,6 +68,141 @@ function showSection(section) {
   });
 }
 
+// ===============================
+// SPONSOR DATA (EXAMPLE STRUCTURE)
+// ===============================
+// You will fill these arrays from your backend.
+// Each item: { name, logo, link, message }
+
+const premiumSponsors = [
+  // 16 total, shown 8 at a time (banners)
+  // { name: "Aqualectra", logo: "img/aqualectra-banner.png", link: "https://...", ... },
+];
+
+const goldSponsors = [
+  // 20 total, shown 10 at a time (logos)
+  // { name: "BDO", logo: "img/bdo-logo.png", link: "https://...", ... },
+];
+
+const silverSponsors = [
+  // 30 total, shown 10 at a time (messages)
+  // { name: "Aqualectra", message: "We celebrate the Curaçao Wave" },
+];
+
+const PREMIUM_GROUP_SIZE = 8;   // 2 groups → 16 total
+const GOLD_GROUP_SIZE    = 10;  // 2 groups → 20 total
+const SILVER_GROUP_SIZE  = 10;  // 3 groups → 30 total
+
+// ===============================
+// ROTATION COUNTER (PER APP OPEN)
+// ===============================
+function getRotationIndex() {
+  let rotation = parseInt(localStorage.getItem("bwRotation") || "0", 10);
+  rotation = (rotation + 1); // increment on each open
+  localStorage.setItem("bwRotation", rotation);
+  return rotation;
+}
+
+// ===============================
+// GROUP SELECTION HELPERS
+// ===============================
+function getGroup(items, groupSize, groupCount, rotationIndex) {
+  // rotationIndex starts at 1, so we normalize:
+  const groupIndex = (rotationIndex - 1) % groupCount; // 0,1,2,...
+  const start = groupIndex * groupSize;
+  return items.slice(start, start + groupSize);
+}
+
+// ===============================
+// RENDER FUNCTIONS
+// ===============================
+function renderPremium(group) {
+  const container = document.getElementById("premiumContainer");
+  if (!container) return;
+  container.innerHTML = "";
+
+  group.forEach(s => {
+    container.innerHTML += `
+      <div class="premium-banner" onclick="openLink('${s.link}')">
+        <img src="${s.logo}" alt="${s.name}">
+      </div>
+    `;
+  });
+}
+
+function renderGold(group) {
+  const container = document.getElementById("goldContainer");
+  if (!container) return;
+  container.innerHTML = "";
+
+  group.forEach(s => {
+    container.innerHTML += `
+      <div class="gold-item" onclick="openLink('${s.link}')">
+        <img src="${s.logo}" alt="${s.name}">
+      </div>
+    `;
+  });
+}
+
+function renderSilver(group) {
+  const container = document.getElementById("silverScroller");
+  if (!container) return;
+  container.innerHTML = "";
+
+  group.forEach(s => {
+    container.innerHTML += `
+      <div class="silver-item">
+        <span class="silver-name">${s.name}</span>
+        <span class="silver-message"> – ${s.message}</span>
+      </div>
+    `;
+  });
+}
+
+// ===============================
+// LINK HELPER
+// ===============================
+function openLink(url) {
+  if (!url) return;
+  window.open(url, "_blank");
+}
+
+// ===============================
+// INITIALIZE LANDING PAGE ROTATION
+// ===============================
+function initLandingPageSponsors() {
+  const rotationIndex = getRotationIndex();
+
+  // Premium: 2 groups (16 total, 8 per group)
+  const premiumGroupCount = Math.ceil(premiumSponsors.length / PREMIUM_GROUP_SIZE) || 1;
+  const premiumGroup = getGroup(premiumSponsors, PREMIUM_GROUP_SIZE, premiumGroupCount, rotationIndex);
+  renderPremium(premiumGroup);
+
+  // Gold: 2 groups (20 total, 10 per group)
+  const goldGroupCount = Math.ceil(goldSponsors.length / GOLD_GROUP_SIZE) || 1;
+  const goldGroup = getGroup(goldSponsors, GOLD_GROUP_SIZE, goldGroupCount, rotationIndex);
+  renderGold(goldGroup);
+
+  // Silver: 3 groups (30 total, 10 per group)
+  const silverGroupCount = Math.ceil(silverSponsors.length / SILVER_GROUP_SIZE) || 1;
+  const silverGroup = getGroup(silverSponsors, SILVER_GROUP_SIZE, silverGroupCount, rotationIndex);
+  renderSilver(silverGroup);
+}
+
+// Call this once when the page loads
+document.addEventListener("DOMContentLoaded", initLandingPageSponsors);
+
+// ===============================
+// ENTER APP (HIDE LANDING, SHOW UI)
+// ===============================
+function enterApp() {
+  const landing = document.getElementById("landingPage");
+  if (landing) landing.style.display = "none";
+
+  // If you want, you can explicitly show your app wrapper here:
+  // const app = document.getElementById("appWrapper");
+  // if (app) app.style.display = "block";
+}
 
 /* ============================================
    LOAD COUNTRY
