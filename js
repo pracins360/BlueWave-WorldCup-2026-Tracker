@@ -1,7 +1,7 @@
 /* ============================================
    CONFIG
 ============================================ */
-const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbvWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
 
 
 /* ============================================
@@ -94,23 +94,21 @@ async function loadCountry(name) {
 
   document.getElementById("countryAnalysis").textContent = data.Analysis;
 
-  loadLoyalty();
-  loadResults();
-  loadCalendar();
-  loadBracket();
-  loadFacts();
+  
 }
 
 
 /* ============================================
    LOAD LOYALTY MATCH
 ============================================ */
-async function loadLoyalty() {
-  const res = await fetch(`${API_URL}?action=all`);
-  const data = await res.json();
-  if (!data || !data.loyalty) return;
+function loadLoyalty(loyalty) {
+  if (!loyalty || loyalty.length === 0) return;
 
-  const match = data.loyalty.find(m => m.Active === true || m.Active === "TRUE");
+  const match = loyalty.find(m =>
+    m.Active === true ||
+    String(m.Active).toUpperCase() === "TRUE"
+  );
+
   if (!match) return;
 
   document.getElementById("loyaltyCard").classList.remove("hidden");
@@ -122,13 +120,11 @@ async function loadLoyalty() {
 }
 
 
+
 /* ============================================
    LOAD SPONSORS
 ============================================ */
-async function loadSponsors() {
-  const res = await fetch(`${API_URL}?action=sponsors`);
-  const sponsors = await res.json();
-
+function loadSponsors(sponsors) {
   const list = document.getElementById("sponsorList");
   list.innerHTML = "";
 
@@ -154,6 +150,13 @@ async function loadSponsors() {
 }
 
 
+    loadChallenge(sponsors);
+
+  } catch (err) {
+    console.error("Sponsor error:", err);
+  }
+}
+
 /* ============================================
    LOAD ACTIVE CHALLENGE
 ============================================ */
@@ -176,29 +179,29 @@ function openChallenge() {
 /* ============================================
    LOAD RESULTS / CALENDAR / BRACKET / FACTS
 ============================================ */
-async function loadResults() {
-  const res = await fetch(`${API_URL}?action=matches`);
-  const data = await res.json();
-  document.getElementById("resultsContent").textContent = JSON.stringify(data, null, 2);
+function loadResults(matches) {
+  document.getElementById("resultsContent").textContent =
+    JSON.stringify(matches, null, 2);
 }
 
-async function loadCalendar() {
-  const res = await fetch(`${API_URL}?action=matches`);
-  const data = await res.json();
-  document.getElementById("calendarContent").textContent = JSON.stringify(data, null, 2);
+
+function loadCalendar(matches) {
+  document.getElementById("calendarContent").textContent =
+    JSON.stringify(matches, null, 2);
 }
 
-async function loadBracket() {
-  const res = await fetch(`${API_URL}?action=bracket`);
-  const data = await res.json();
-  document.getElementById("bracketContent").textContent = JSON.stringify(data, null, 2);
+function loadBracket(bracket) {
+  document.getElementById("bracketContent").textContent =
+    JSON.stringify(bracket, null, 2);
 }
 
-async function loadFacts() {
-  const res = await fetch(`${API_URL}?action=facts`);
-  const data = await res.json();
-  document.getElementById("factsContent").textContent = JSON.stringify(data, null, 2);
+
+function loadFacts(facts) {
+  document.getElementById("factsContent").textContent =
+    JSON.stringify(facts, null, 2);
 }
+
+
 
 
 /* ============================================
@@ -212,6 +215,23 @@ function openLink(url) {
 /* ============================================
    INIT
 ============================================ */
-loadSponsors();
-showSection('results');
+async function loadAll() {
+  const res = await fetch(`${API_URL}?action=all`);
+  const data = await res.json();
+  if (!data) return;
+
+  loadSponsors(data.sponsors);
+  loadLoyalty(data.loyalty);
+  loadResults(data.matches);
+  loadCalendar(data.matches);
+  loadBracket(data.bracket);
+  loadFacts(data.facts);
+
+  showSection('results');
+}
+
+loadAll();
+
+
+
 
