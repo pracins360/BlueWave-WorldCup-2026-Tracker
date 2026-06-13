@@ -2,26 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Blue Wave - Curaçao World Cup 2026</title>
 
 <style>
-  /* ============================================
-     COLOR SYSTEM
-  ============================================ */
-  :root {
-    --blue-dark: #003a7a;
-    --blue-main: #0057b8;
-    --blue-light: #e8f1ff;
-    --yellow: #ffd23f;
-    --text-dark: #1a1a1a;
-    --text-light: #ffffff;
-    --card-bg: #ffffff;
-    --shadow: rgba(0,0,0,0.12);
-    --radius: 12px;
-    --transition: 0.25s ease;
-  }
-
   * {
     margin: 0;
     padding: 0;
@@ -30,266 +14,286 @@
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Arial, sans-serif;
-    background: var(--blue-light);
-    margin: 0;
-    padding: 0;
-    color: var(--text-dark);
+    background: linear-gradient(135deg, #e8f1ff, #d4e4fc);
+    min-height: 100vh;
   }
 
   /* ============================
-     LANDING PAGE WRAPPER
+     LANDING PAGE
   ============================ */
   #landingPage {
     width: 100%;
     min-height: 100vh;
-    background: #f4f8ff;
+    background: linear-gradient(135deg, #0057b8, #003a7a);
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    padding-bottom: 40px;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
   }
 
-  /* HERO SECTION */
-  .hero {
+  .hero-logo {
     text-align: center;
-    padding: 60px 20px 40px;
-    background: linear-gradient(135deg, #0057b8, #003a7a);
-    color: white;
+    margin-bottom: 40px;
   }
 
-  .hero-title {
-    font-size: 42px;
+  .hero-logo h1 {
+    font-size: 56px;
     font-weight: 800;
-    letter-spacing: 2px;
+    color: white;
+    letter-spacing: 4px;
     margin-bottom: 10px;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
   }
 
-  .hero-sub {
-    font-size: 18px;
-    opacity: 0.95;
-  }
-
-  .enter-btn {
-    margin-top: 30px;
-    background: #ffd23f;
-    color: #003a7a;
-    padding: 16px 40px;
-    border-radius: 50px;
-    font-size: 18px;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-
-  .enter-btn:hover {
-    background: #ffe066;
-    transform: scale(1.02);
-  }
-
-  /* SECTION TITLES */
-  .section-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 700;
-    color: #003a7a;
-    margin-bottom: 25px;
-  }
-
-  /* PREMIUM BANNERS */
-  .premium-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-    padding: 0 20px;
-  }
-
-  .premium-banner {
-    background: white;
-    border-radius: 16px;
-    padding: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: 0.2s;
-    text-align: center;
-  }
-
-  .premium-banner:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  }
-
-  .premium-banner img {
-    width: 100%;
-    height: 80px;
-    object-fit: contain;
-  }
-
-  /* GOLD LOGO GRID */
-  .gold-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 16px;
-    padding: 0 20px;
-  }
-
-  .gold-item {
-    background: white;
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: 0.2s;
-    text-align: center;
-  }
-
-  .gold-item:hover {
-    transform: translateY(-2px);
-  }
-
-  .gold-item img {
-    width: 100%;
-    height: 60px;
-    object-fit: contain;
-  }
-
-  /* SILVER SCROLLER */
-  .silver-frame {
-    background: #003a7a;
-    padding: 14px;
-    border-radius: 12px;
-    margin: 0 20px;
-    overflow: hidden;
-  }
-
-  .silver-scroll {
-    display: flex;
-    gap: 50px;
-    white-space: nowrap;
-    animation: scrollLeft 20s linear infinite;
-  }
-
-  .silver-item {
+  .hero-logo p {
+    font-size: 20px;
     color: #ffd23f;
-    font-size: 15px;
     font-weight: 600;
   }
 
-  .silver-name {
-    color: white;
-    font-weight: 700;
+  .enter-btn {
+    background: #ffd23f;
+    color: #003a7a;
+    padding: 18px 48px;
+    border-radius: 60px;
+    font-size: 20px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
   }
 
-  @keyframes scrollLeft {
-    from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
+  .enter-btn:hover {
+    transform: scale(1.02);
+    background: #ffe066;
+  }
+
+  .sponsor-teaser {
+    text-align: center;
+    color: white;
+    font-size: 14px;
+    opacity: 0.8;
+    margin-top: 20px;
   }
 
   /* ============================
-     APP HEADER & TABS
+     APP WRAPPER
   ============================ */
-  header {
-    background: var(--blue-main);
+  #appWrapper {
+    display: none;
+    max-width: 500px;
+    margin: 0 auto;
+    background: #f5f7fb;
+    min-height: 100vh;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  }
+
+  /* App Header */
+  .app-header {
+    background: linear-gradient(135deg, #0057b8, #003a7a);
     color: white;
-    padding: 18px;
+    padding: 20px 16px;
     text-align: center;
-    font-size: 24px;
+  }
+
+  .app-header h2 {
+    font-size: 22px;
     font-weight: 700;
   }
 
+  .app-header p {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 5px;
+  }
+
+  /* TABS - Full set like original */
   .tabs {
     display: flex;
-    background: var(--blue-dark);
-    gap: 2px;
+    flex-wrap: wrap;
+    background: white;
+    border-bottom: 2px solid #e0e0e0;
   }
 
   .tab {
     flex: 1;
-    padding: 14px;
+    min-width: 80px;
+    padding: 14px 8px;
     text-align: center;
-    color: white;
-    cursor: pointer;
+    font-size: 13px;
     font-weight: 600;
+    color: #666;
+    cursor: pointer;
     transition: 0.2s;
+    background: #f8f9fa;
+    border: none;
   }
 
   .tab:hover {
-    background: rgba(255,255,255,0.15);
+    background: #e8f1ff;
+    color: #0057b8;
   }
 
   .tab.active {
-    background: var(--yellow);
-    color: var(--blue-dark);
+    background: #0057b8;
+    color: white;
   }
 
-  /* SECTIONS */
+  /* Content Sections */
   .section {
-    padding: 20px;
     display: none;
+    padding: 16px;
+    animation: fadeIn 0.3s ease;
   }
 
+  .section.active-section {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Cards */
   .card {
     background: white;
-    padding: 20px;
-    margin: 20px;
     border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
 
-  .hidden {
-    display: none;
+  .card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #003a7a;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ffd23f;
+    display: inline-block;
   }
 
-  pre {
-    background: #f5f5f5;
-    padding: 15px;
+  /* Country Stats */
+  .country-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+  }
+
+  .stat-item {
+    background: #f0f4fa;
+    padding: 12px;
     border-radius: 12px;
-    overflow-x: auto;
-    font-size: 14px;
+    text-align: center;
   }
 
+  .stat-label {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+  }
+
+  .stat-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0057b8;
+  }
+
+  .wave-bar {
+    background: #e0e0e0;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 10px 0;
+  }
+
+  .wave-fill {
+    background: linear-gradient(90deg, #0057b8, #ffd23f);
+    height: 100%;
+    width: 0%;
+    border-radius: 6px;
+    transition: width 0.5s ease;
+  }
+
+  /* Match Lists */
   .match-item {
-    border-bottom: 1px solid #e0e0e0;
-    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 12px;
     margin-bottom: 10px;
   }
 
   .match-date {
+    font-size: 11px;
     color: #0057b8;
-    font-weight: 700;
-    margin-bottom: 8px;
+    font-weight: 600;
+    margin-bottom: 6px;
   }
 
   .match-teams {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 5px;
-  }
-
-  .match-location {
-    color: #666;
-    font-size: 13px;
-  }
-
-  .sponsor-item {
+    font-size: 16px;
+    font-weight: 700;
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .match-score {
+    font-size: 18px;
+    font-weight: 800;
+    color: #003a7a;
+  }
+
+  .match-location {
+    font-size: 11px;
+    color: #888;
+    margin-top: 6px;
+  }
+
+  /* Sponsor Grid */
+  .sponsor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .sponsor-card {
+    background: white;
+    border-radius: 12px;
     padding: 12px;
-    border-bottom: 1px solid #eee;
-  }
-
-  .link-pill {
-    background: #0057b8;
-    color: white;
-    padding: 5px 12px;
-    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
     cursor: pointer;
-    font-size: 12px;
-    display: inline-block;
-    margin-left: 8px;
   }
 
+  .sponsor-card img {
+    max-width: 100%;
+    height: 50px;
+    object-fit: contain;
+  }
+
+  .sponsor-name {
+    font-size: 11px;
+    margin-top: 8px;
+    color: #666;
+  }
+
+  /* Loading */
+  .loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+  }
+
+  /* Facts List */
   .facts-list {
     list-style: none;
     padding: 0;
@@ -298,9 +302,14 @@
   .facts-list li {
     padding: 12px;
     margin-bottom: 8px;
-    background: #f8f9fa;
-    border-radius: 10px;
+    background: #f0f4fa;
+    border-radius: 12px;
     font-size: 14px;
+  }
+
+  /* Hidden */
+  .hidden {
+    display: none;
   }
 </style>
 </head>
@@ -308,291 +317,387 @@
 
 <!-- LANDING PAGE -->
 <div id="landingPage">
-  <section class="hero">
-    <h1 class="hero-title">BLUE WAVE 2026</h1>
-    <p class="hero-sub">Curaçao's First World Cup</p>
-    <button class="enter-btn" id="enterAppBtn">ENTER APP</button>
-  </section>
-
-  <section>
-    <h2 class="section-title">Together for Curaçao</h2>
-    <div id="premiumContainer" class="premium-grid"></div>
-  </section>
-
-  <section>
-    <h2 class="section-title">United for the Blue Wave</h2>
-    <div id="goldContainer" class="gold-grid"></div>
-  </section>
-
-  <section>
-    <h2 class="section-title">Messages of Support</h2>
-    <div class="silver-frame">
-      <div id="silverScroller" class="silver-scroll"></div>
-    </div>
-  </section>
+  <div class="hero-logo">
+    <h1>🌊 BLUE WAVE</h1>
+    <p>Curaçao's First World Cup</p>
+  </div>
+  <button class="enter-btn" id="enterAppBtn">SEE MATCH RESULTS</button>
+  <div class="sponsor-teaser">⚽ 32 Teams | 64 Matches | One Dream ⚽</div>
 </div>
 
 <!-- MAIN APP -->
-<div id="appWrapper" style="display:none">
-  <header>🌊 BLUE WAVE 2026</header>
-  
+<div id="appWrapper">
+  <div class="app-header">
+    <h2>🌊 BLUE WAVE 2026</h2>
+    <p>Curaçao World Cup Tracker</p>
+  </div>
+
+  <!-- TABS - Full original set -->
   <div class="tabs">
-    <div class="tab" onclick="showSection('results')">📋 Results</div>
-    <div class="tab" onclick="showSection('calendar')">📅 Calendar</div>
-    <div class="tab" onclick="showSection('bracket')">🏆 Bracket</div>
-    <div class="tab" onclick="showSection('facts')">⭐ Facts</div>
+    <button class="tab" data-tab="results">📋 Results</button>
+    <button class="tab" data-tab="last">🔄 Last Matches</button>
+    <button class="tab" data-tab="next">⏭️ Next Matches</button>
+    <button class="tab" data-tab="country">🇨🇼 Country</button>
+    <button class="tab" data-tab="sponsors">🤝 Sponsors</button>
+    <button class="tab" data-tab="facts">⭐ Facts</button>
   </div>
 
+  <!-- RESULTS SECTION -->
   <div id="section-results" class="section">
-    <h3 style="margin-bottom: 15px;">Match Results</h3>
-    <div id="resultsContent"></div>
+    <div class="card">
+      <h3 class="card-title">📋 Match Results</h3>
+      <div id="resultsContent" class="loading">Loading matches...</div>
+    </div>
   </div>
 
-  <div id="section-calendar" class="section">
-    <h3 style="margin-bottom: 15px;">Upcoming Matches</h3>
-    <div id="calendarContent"></div>
+  <!-- LAST MATCHES SECTION -->
+  <div id="section-last" class="section">
+    <div class="card">
+      <h3 class="card-title">🔄 Last Matches</h3>
+      <div id="lastMatchesContent" class="loading">Loading last matches...</div>
+    </div>
   </div>
 
-  <div id="section-bracket" class="section">
-    <h3 style="margin-bottom: 15px;">Tournament Bracket</h3>
-    <div id="bracketContent"></div>
+  <!-- NEXT MATCHES SECTION -->
+  <div id="section-next" class="section">
+    <div class="card">
+      <h3 class="card-title">⏭️ Next Matches</h3>
+      <div id="nextMatchesContent" class="loading">Loading upcoming matches...</div>
+    </div>
   </div>
 
+  <!-- COUNTRY SECTION (Curaçao stats) -->
+  <div id="section-country" class="section">
+    <div class="card">
+      <h3 class="card-title">🇨🇼 Curaçao National Team</h3>
+      <div id="countryContent" class="loading">Loading country data...</div>
+    </div>
+  </div>
+
+  <!-- SPONSORS SECTION -->
+  <div id="section-sponsors" class="section">
+    <div class="card">
+      <h3 class="card-title">🤝 Our Sponsors</h3>
+      <div id="sponsorsContent" class="loading">Loading sponsors...</div>
+    </div>
+  </div>
+
+  <!-- FACTS SECTION -->
   <div id="section-facts" class="section">
-    <h3 style="margin-bottom: 15px;">World Cup Facts</h3>
-    <div id="factsContent"></div>
-  </div>
-
-  <div class="card">
-    <h3>🤝 Our Sponsors</h3>
-    <div id="sponsorList"></div>
+    <div class="card">
+      <h3 class="card-title">⭐ World Cup Facts</h3>
+      <div id="factsContent" class="loading">Loading facts...</div>
+    </div>
   </div>
 </div>
 
 <script>
 // ============================================
-// SPONSOR DATA
+// CONFIGURATION
 // ============================================
-const premiumSponsors = [
-  { name: "BlueWave Bank", logo: "https://placehold.co/400x100/0057b8/white?text=BlueWave+Bank", link: "#" },
-  { name: "Curaçao Energy", logo: "https://placehold.co/400x100/ffd23f/003f87?text=Curaçao+Energy", link: "#" },
-  { name: "Island Telecom", logo: "https://placehold.co/400x100/003f87/white?text=Island+Telecom", link: "#" },
-  { name: "Caribbean Motors", logo: "https://placehold.co/400x100/0057b8/white?text=Caribbean+Motors", link: "#" },
-  { name: "Sunset Resorts", logo: "https://placehold.co/400x100/ffd23f/003f87?text=Sunset+Resorts", link: "#" },
-  { name: "Ocean Fresh", logo: "https://placehold.co/400x100/003f87/white?text=Ocean+Fresh", link: "#" },
-  { name: "Harbor Logistics", logo: "https://placehold.co/400x100/0057b8/white?text=Harbor+Logistics", link: "#" },
-  { name: "Royal Insurance", logo: "https://placehold.co/400x100/ffd23f/003f87?text=Royal+Insurance", link: "#" }
-];
-
-const goldSponsors = [
-  { name: "Fitness", logo: "https://placehold.co/200x100/0057b8/white?text=Fitness", link: "#" },
-  { name: "Café", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Café", link: "#" },
-  { name: "Aqua", logo: "https://placehold.co/200x100/003f87/white?text=Aqua", link: "#" },
-  { name: "Print", logo: "https://placehold.co/200x100/0057b8/white?text=Print", link: "#" },
-  { name: "Tech", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Tech", link: "#" },
-  { name: "Blue Taxi", logo: "https://placehold.co/200x100/003f87/white?text=Blue+Taxi", link: "#" },
-  { name: "Fresh Market", logo: "https://placehold.co/200x100/0057b8/white?text=Fresh+Market", link: "#" },
-  { name: "Harbor Café", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Harbor+Café", link: "#" },
-  { name: "Sunrise", logo: "https://placehold.co/200x100/003f87/white?text=Sunrise", link: "#" },
-  { name: "Island Auto", logo: "https://placehold.co/200x100/0057b8/white?text=Island+Auto", link: "#" }
-];
-
-const silverSponsors = [
-  { name: "BlueWave Bank", message: "Supporting Curaçao's youth" },
-  { name: "Island Fitness", message: "Stay strong, stay active" },
-  { name: "Tropical Café", message: "Fuel your day" },
-  { name: "Aqua Rentals", message: "Explore the island" },
-  { name: "Caribbean Print", message: "Print with pride" },
-  { name: "Island Tech", message: "Innovation for all" },
-  { name: "Blue Taxi", message: "Ride with comfort" },
-  { name: "Fresh Market", message: "Local freshness daily" },
-  { name: "Harbor Café", message: "Taste the island" },
-  { name: "Sunrise Tours", message: "Discover Curaçao" }
-];
+const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
 
 // ============================================
-// MATCH DATA (WORKING!)
+// MOCK DATA (FALLBACK IF API FAILS)
 // ============================================
-const matchesData = [
-  { date: "June 10, 2026", teamA: "🇨🇼 Curaçao", scoreA: "2", teamB: "🇺🇸 USA", scoreB: "1", location: "Blue Wave Stadium", status: "Final" },
-  { date: "June 12, 2026", teamA: "🇧🇷 Brazil", scoreA: "3", teamB: "🇩🇪 Germany", scoreB: "1", location: "Ocean Arena", status: "Final" },
-  { date: "June 14, 2026", teamA: "🇦🇷 Argentina", scoreA: "2", teamB: "🇫🇷 France", scoreB: "2", location: "Caribbean Park", status: "Final (Penalties)" },
-  { date: "June 16, 2026", teamA: "🇳🇱 Netherlands", scoreA: "1", teamB: "🇪🇸 Spain", scoreB: "0", location: "Sunset Stadium", status: "Final" },
-  { date: "June 18, 2026", teamA: "🇮🇹 Italy", teamB: "🇵🇹 Portugal", location: "Blue Wave Stadium", status: "Upcoming" },
-  { date: "June 20, 2026", teamA: "🏴 England", teamB: "🇧🇪 Belgium", location: "Ocean Arena", status: "Upcoming" },
-  { date: "June 22, 2026", teamA: "🇨🇼 Curaçao", teamB: "🇦🇷 Argentina", location: "Caribbean Park", status: "Upcoming" },
-  { date: "June 25, 2026", teamA: "Semi Final 1", teamB: "Semi Final 2", location: "Blue Wave Stadium", status: "Semi Final" },
-  { date: "June 28, 2026", teamA: "Semi Final 3", teamB: "Semi Final 4", location: "Ocean Arena", status: "Semi Final" },
-  { date: "July 5, 2026", teamA: "Winner SF1", teamB: "Winner SF2", location: "Blue Wave Stadium", status: "🏆 FINAL 🏆" }
+const FALLBACK_MATCHES = [
+  { date: "2026-06-11", team1: "Mexico", team2: "South Africa", score1: 2, score2: 0, status: "Finished", location: "Blue Wave Stadium" },
+  { date: "2026-06-11", team1: "South Korea", team2: "Czechia", score1: 2, score2: 1, status: "Finished", location: "Ocean Arena" },
+  { date: "2026-06-12", team1: "Canada", team2: "Morocco", score1: 1, score2: 1, status: "Finished", location: "Caribbean Park" },
+  { date: "2026-06-12", team1: "Curaçao", team2: "Japan", score1: 2, score2: 1, status: "Finished", location: "Blue Wave Stadium" },
+  { date: "2026-06-15", team1: "Curaçao", team2: "Germany", score1: null, score2: null, status: "Upcoming", location: "Blue Wave Stadium" },
+  { date: "2026-06-18", team1: "Brazil", team2: "Argentina", score1: null, score2: null, status: "Upcoming", location: "Ocean Arena" },
+  { date: "2026-06-20", team1: "Netherlands", team2: "Spain", score1: null, score2: null, status: "Upcoming", location: "Sunset Stadium" }
+];
+
+const FALLBACK_COUNTRY = {
+  name: "Curaçao",
+  group: "E",
+  position: 2,
+  points: 4,
+  wins: 1,
+  draws: 0,
+  losses: 1,
+  gf: 3,
+  ga: 2,
+  wavePercent: 72,
+  analysis: "Curaçao remains unbeaten at home. Strong defensive performance expected.",
+  lastMatch: "Curaçao 2-1 Japan",
+  nextMatch: "Curaçao vs Germany"
+};
+
+const FALLBACK_FACTS = [
+  "Brazil is the only nation to play in every World Cup.",
+  "Curaçao is hosting its FIRST EVER World Cup in 2026!",
+  "The Blue Wave Stadium seats 45,000 fans.",
+  "32 teams from 6 continents are competing.",
+  "Over 500,000 visitors expected during the tournament.",
+  "The official mascot is 'Wavy' the Blue Dolphin."
 ];
 
 // ============================================
-// FUNCTIONS
+// DATA FETCHING
 // ============================================
-function renderSponsors() {
-  const premiumContainer = document.getElementById("premiumContainer");
-  if (premiumContainer) {
-    premiumContainer.innerHTML = premiumSponsors.map(s => `
-      <div class="premium-banner" onclick="openLink('${s.link}')">
-        <img src="${s.logo}" alt="${s.name}">
-        <div style="margin-top: 8px; font-weight: 600;">${s.name}</div>
-      </div>
-    `).join('');
-  }
-  
-  const goldContainer = document.getElementById("goldContainer");
-  if (goldContainer) {
-    goldContainer.innerHTML = goldSponsors.map(s => `
-      <div class="gold-item" onclick="openLink('${s.link}')">
-        <img src="${s.logo}" alt="${s.name}">
-        <div style="margin-top: 6px; font-size: 12px;">${s.name}</div>
-      </div>
-    `).join('');
-  }
-  
-  const silverScroller = document.getElementById("silverScroller");
-  if (silverScroller) {
-    const doubled = [...silverSponsors, ...silverSponsors];
-    silverScroller.innerHTML = doubled.map(s => `
-      <div class="silver-item">
-        <span class="silver-name">${s.name}</span>
-        <span> – ${s.message}</span>
-      </div>
-    `).join('');
+async function fetchData() {
+  try {
+    const response = await fetch(`${API_URL}?action=all`);
+    if (!response.ok) throw new Error("API response not OK");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log("API error, using fallback data:", error);
+    return null;
   }
 }
 
-function renderMatches() {
-  const resultsContainer = document.getElementById("resultsContent");
-  const calendarContainer = document.getElementById("calendarContent");
+// ============================================
+// RENDER FUNCTIONS
+// ============================================
+function renderResults(matches) {
+  const container = document.getElementById("resultsContent");
+  if (!container) return;
   
-  // Separate past and upcoming matches
-  const pastMatches = matchesData.filter(m => m.status !== "Upcoming" && m.status !== "Semi Final" && m.status !== "🏆 FINAL 🏆");
-  const upcomingMatches = matchesData.filter(m => m.status === "Upcoming" || m.status === "Semi Final" || m.status === "🏆 FINAL 🏆");
+  const finishedMatches = matches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score2 !== null));
   
-  if (resultsContainer) {
-    resultsContainer.innerHTML = pastMatches.map(m => `
-      <div class="match-item">
-        <div class="match-date">📅 ${m.date}</div>
-        <div class="match-teams">${m.teamA} ${m.scoreA ? m.scoreA : ""} vs ${m.teamB} ${m.scoreB ? m.scoreB : ""}</div>
-        <div class="match-location">📍 ${m.location} • ${m.status}</div>
-      </div>
-    `).join('');
-    if (pastMatches.length === 0) resultsContainer.innerHTML = "<p>No completed matches yet.</p>";
+  if (finishedMatches.length === 0) {
+    container.innerHTML = "<p style='text-align:center; padding:20px;'>No finished matches yet.</p>";
+    return;
   }
   
-  if (calendarContainer) {
-    calendarContainer.innerHTML = upcomingMatches.map(m => `
-      <div class="match-item">
-        <div class="match-date">📅 ${m.date}</div>
-        <div class="match-teams">${m.teamA} vs ${m.teamB}</div>
-        <div class="match-location">📍 ${m.location} • ${m.status}</div>
+  container.innerHTML = finishedMatches.map(m => `
+    <div class="match-item">
+      <div class="match-date">📅 ${m.date}</div>
+      <div class="match-teams">
+        <span>${m.team1}</span>
+        <span class="match-score">${m.score1 ?? '?'} - ${m.score2 ?? '?'}</span>
+        <span>${m.team2}</span>
       </div>
-    `).join('');
-    if (upcomingMatches.length === 0) calendarContainer.innerHTML = "<p>No upcoming matches scheduled.</p>";
-  }
+      <div class="match-location">📍 ${m.location || "TBD"} • ${m.status || "Finished"}</div>
+    </div>
+  `).join('');
 }
 
-function renderBracket() {
-  const bracketContainer = document.getElementById("bracketContent");
-  if (bracketContainer) {
-    bracketContainer.innerHTML = `
-      <div style="font-family: monospace; background: #f5f5f5; padding: 20px; border-radius: 12px;">
-        <pre style="margin: 0;">
-┌─────────────────────────────────────────────┐
-│              QUARTER FINALS                 │
-├─────────────────────────────────────────────┤
-│  🇨🇼 Curaçao    2  │  🇧🇷 Brazil      3      │
-│  🇺🇸 USA        1  │  🇩🇪 Germany     1      │
-├─────────────────────────────────────────────┤
-│  🇦🇷 Argentina  2  │  🇳🇱 Netherlands 1      │
-│  🇫🇷 France     2  │  🇪🇸 Spain       0      │
-├─────────────────────────────────────────────┤
-│              SEMI FINALS                    │
-├─────────────────────────────────────────────┤
-│  🇧🇷 Brazil     vs  🇦🇷 Argentina            │
-│  🇨🇼 Curaçao    vs  🇳🇱 Netherlands          │
-├─────────────────────────────────────────────┤
-│                 FINAL                       │
-├─────────────────────────────────────────────┤
-│         Winner SF1  vs  Winner SF2          │
-│           🏆 July 5, 2026 🏆                │
-└─────────────────────────────────────────────┘
-        </pre>
+function renderLastMatches(matches) {
+  const container = document.getElementById("lastMatchesContent");
+  if (!container) return;
+  
+  // Last 5 finished matches
+  const lastMatches = matches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score2 !== null)).slice(-5).reverse();
+  
+  if (lastMatches.length === 0) {
+    container.innerHTML = "<p style='text-align:center; padding:20px;'>No recent matches.</p>";
+    return;
+  }
+  
+  container.innerHTML = lastMatches.map(m => `
+    <div class="match-item">
+      <div class="match-date">📅 ${m.date}</div>
+      <div class="match-teams">
+        <span>${m.team1}</span>
+        <span class="match-score">${m.score1 ?? '?'} - ${m.score2 ?? '?'}</span>
+        <span>${m.team2}</span>
       </div>
-    `;
-  }
+    </div>
+  `).join('');
 }
 
-function renderFacts() {
-  const factsContainer = document.getElementById("factsContent");
-  if (factsContainer) {
-    factsContainer.innerHTML = `
-      <ul class="facts-list">
-        <li>🏆 Curaçao is hosting its FIRST EVER World Cup in 2026!</li>
-        <li>⚽ The Blue Wave Stadium seats 45,000 passionate fans</li>
-        <li>🌊 32 teams from 6 continents are competing</li>
-        <li>🎉 Over 500,000 visitors expected during the tournament</li>
-        <li>💙 The official mascot is "Wavy" the Blue Dolphin</li>
-        <li>📺 Broadcast to over 200 countries worldwide</li>
-        <li>💰 Prize pool: $40 million USD</li>
-        <li>🎯 64 matches played across 8 world-class stadiums</li>
-      </ul>
-    `;
+function renderNextMatches(matches) {
+  const container = document.getElementById("nextMatchesContent");
+  if (!container) return;
+  
+  const nextMatches = matches.filter(m => m.status === "Upcoming" || (m.score1 === null && m.score2 === null));
+  
+  if (nextMatches.length === 0) {
+    container.innerHTML = "<p style='text-align:center; padding:20px;'>No upcoming matches scheduled.</p>";
+    return;
   }
-}
-
-function renderSponsorsList() {
-  const sponsorList = document.getElementById("sponsorList");
-  if (sponsorList) {
-    const allSponsors = [...premiumSponsors, ...goldSponsors.map(g => ({ name: g.name, tier: "Gold" })), ...silverSponsors.map(s => ({ name: s.name, tier: "Silver" }))];
-    sponsorList.innerHTML = allSponsors.slice(0, 10).map(s => `
-      <div class="sponsor-item">
-        <div><strong>${s.name}</strong><br><span style="font-size: 12px; color: #666;">Tier: ${s.tier || "Premium"}</span></div>
-        <div><span class="link-pill">Supporting</span></div>
+  
+  container.innerHTML = nextMatches.map(m => `
+    <div class="match-item">
+      <div class="match-date">📅 ${m.date}</div>
+      <div class="match-teams">
+        <span>${m.team1}</span>
+        <span>vs</span>
+        <span>${m.team2}</span>
       </div>
-    `).join('');
-  }
+      <div class="match-location">📍 ${m.location || "TBD"} • ${m.status || "Upcoming"}</div>
+    </div>
+  `).join('');
 }
 
-function showSection(section) {
-  const sections = ["section-results", "section-calendar", "section-bracket", "section-facts"];
+function renderCountry(data) {
+  const container = document.getElementById("countryContent");
+  if (!container) return;
+  
+  const country = data || FALLBACK_COUNTRY;
+  
+  container.innerHTML = `
+    <div style="text-align: center; margin-bottom: 20px;">
+      <div style="font-size: 48px;">🇨🇼</div>
+      <h2 style="color: #0057b8;">${country.name || "Curaçao"}</h2>
+    </div>
+    
+    <div class="country-stats">
+      <div class="stat-item"><div class="stat-label">Group</div><div class="stat-value">${country.group || "E"}</div></div>
+      <div class="stat-item"><div class="stat-label">Position</div><div class="stat-value">${country.position || 2}</div></div>
+      <div class="stat-item"><div class="stat-label">Points</div><div class="stat-value">${country.points || 4}</div></div>
+      <div class="stat-item"><div class="stat-label">W/D/L</div><div class="stat-value">${country.wins || 1}/${country.draws || 0}/${country.losses || 1}</div></div>
+      <div class="stat-item"><div class="stat-label">GF</div><div class="stat-value">${country.gf || 3}</div></div>
+      <div class="stat-item"><div class="stat-label">GA</div><div class="stat-value">${country.ga || 2}</div></div>
+    </div>
+    
+    <div style="margin-top: 15px;">
+      <div style="display: flex; justify-content: space-between; font-size: 13px;">
+        <span>WAVE %</span>
+        <span><strong>${country.wavePercent || 72}%</strong></span>
+      </div>
+      <div class="wave-bar">
+        <div class="wave-fill" style="width: ${country.wavePercent || 72}%;"></div>
+      </div>
+    </div>
+    
+    <div style="margin-top: 15px; padding: 12px; background: #f0f4fa; border-radius: 12px;">
+      <p><strong>📊 Analysis:</strong> ${country.analysis || "Curaçao showing strong performance."}</p>
+      <p style="margin-top: 10px;"><strong>🔄 Last Match:</strong> ${country.lastMatch || "Curaçao 2-1 Japan"}</p>
+      <p><strong>⏭️ Next Match:</strong> ${country.nextMatch || "Curaçao vs Germany"}</p>
+    </div>
+  `;
+}
+
+function renderSponsors(sponsors) {
+  const container = document.getElementById("sponsorsContent");
+  if (!container) return;
+  
+  const defaultSponsors = [
+    { name: "BlueWave Bank", tier: "Premium" },
+    { name: "Curaçao Energy", tier: "Premium" },
+    { name: "Island Telecom", tier: "Premium" },
+    { name: "Caribbean Motors", tier: "Gold" },
+    { name: "Sunset Resorts", tier: "Gold" },
+    { name: "Island Fitness", tier: "Gold" },
+    { name: "Tropical Café", tier: "Silver" },
+    { name: "Aqua Rentals", tier: "Silver" }
+  ];
+  
+  const sponsorList = (sponsors && sponsors.length) ? sponsors : defaultSponsors;
+  
+  container.innerHTML = `
+    <div class="sponsor-grid">
+      ${sponsorList.map(s => `
+        <div class="sponsor-card">
+          <div style="font-size: 32px;">🤝</div>
+          <div class="sponsor-name"><strong>${s.name}</strong></div>
+          <div style="font-size: 10px; color: #0057b8;">${s.tier || "Supporter"}</div>
+        </div>
+      `).join('')}
+    </div>
+    <p style="text-align: center; font-size: 11px; color: #888; margin-top: 16px;">
+      Thank you to all our sponsors for supporting Curaçao's first World Cup!
+    </p>
+  `;
+}
+
+function renderFacts(facts) {
+  const container = document.getElementById("factsContent");
+  if (!container) return;
+  
+  const factList = (facts && facts.length) ? facts : FALLBACK_FACTS;
+  
+  container.innerHTML = `
+    <ul class="facts-list">
+      ${factList.map(fact => `<li>⭐ ${fact}</li>`).join('')}
+    </ul>
+  `;
+}
+
+// ============================================
+// TAB NAVIGATION
+// ============================================
+function showSection(sectionName) {
+  // Hide all sections
+  const sections = ["results", "last", "next", "country", "sponsors", "facts"];
   sections.forEach(s => {
-    const el = document.getElementById(s);
-    if (el) el.classList.add("hidden");
+    const el = document.getElementById(`section-${s}`);
+    if (el) el.style.display = "none";
   });
-  const target = document.getElementById(`section-${section}`);
-  if (target) target.classList.remove("hidden");
   
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  event.target.classList.add("active");
+  // Show selected section
+  const selected = document.getElementById(`section-${sectionName}`);
+  if (selected) selected.style.display = "block";
+  
+  // Update active tab
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.classList.remove("active");
+    if (tab.getAttribute("data-tab") === sectionName) {
+      tab.classList.add("active");
+    }
+  });
 }
 
-function openLink(url) {
-  if (url && url !== "#") window.open(url, "_blank");
-}
-
+// ============================================
+// ENTER APP
+// ============================================
 function enterApp() {
   const landing = document.getElementById("landingPage");
   const app = document.getElementById("appWrapper");
   if (landing) landing.style.display = "none";
   if (app) app.style.display = "block";
+  showSection("results");
 }
 
-// Initialize everything
-document.addEventListener("DOMContentLoaded", () => {
-  renderSponsors();
-  renderMatches();
-  renderBracket();
-  renderFacts();
-  renderSponsorsList();
+// ============================================
+// LOAD ALL DATA
+// ============================================
+async function loadAllData() {
+  // Show loading states
+  const containers = ["resultsContent", "lastMatchesContent", "nextMatchesContent", "countryContent", "sponsorsContent", "factsContent"];
+  containers.forEach(c => {
+    const el = document.getElementById(c);
+    if (el) el.innerHTML = '<div class="loading">Loading data from sheet...</div>';
+  });
   
-  document.getElementById("enterAppBtn").addEventListener("click", enterApp);
+  const data = await fetchData();
+  
+  // Use API data or fallback
+  const matches = (data && data.matches && data.matches.length) ? data.matches : FALLBACK_MATCHES;
+  const country = (data && data.country) ? data.country : FALLBACK_COUNTRY;
+  const sponsors = (data && data.sponsors) ? data.sponsors : null;
+  const facts = (data && data.facts) ? data.facts : null;
+  
+  renderResults(matches);
+  renderLastMatches(matches);
+  renderNextMatches(matches);
+  renderCountry(country);
+  renderSponsors(sponsors);
+  renderFacts(facts);
+}
+
+// ============================================
+// INITIALIZATION
+// ============================================
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM loaded - initializing Blue Wave Tracker");
+  
+  // Setup tab click handlers
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", function() {
+      const sectionName = this.getAttribute("data-tab");
+      if (sectionName) showSection(sectionName);
+    });
+  });
+  
+  // Setup enter button
+  const enterBtn = document.getElementById("enterAppBtn");
+  if (enterBtn) {
+    enterBtn.addEventListener("click", enterApp);
+  }
+  
+  // Load data
+  loadAllData();
 });
 
-// Make functions global
+// Make functions global for debugging
 window.showSection = showSection;
-window.openLink = openLink;
 </script>
 </body>
 </html>
