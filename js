@@ -213,4 +213,5 @@ function openLink(url) {
    INIT
 ============================================ */
 loadSponsors();
+showSection('results');
 
