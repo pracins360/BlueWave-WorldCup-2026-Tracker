@@ -33,6 +33,38 @@
   gap: 40px;
   padding-bottom: 40px;
 }
+/* SILVER SCROLLER (10 per rotation) */
+.silver-frame {
+  background: #003f87;
+  padding: 12px;
+  border-radius: 12px;
+  margin: 0 20px;
+  overflow: hidden;
+}
+
+.silver-scroll {
+  display: flex;
+  gap: 40px;
+  white-space: nowrap;
+  animation: scrollLeft 18s linear infinite;
+}
+
+.silver-item {
+  color: #ffd200;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.silver-name {
+  color: white;
+  font-weight: 700;
+}
+
+/* Smooth scrolling animation */
+@keyframes scrollLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
 
 /* ============================
    HERO SECTION
