@@ -271,13 +271,15 @@
 <script>
   // ========== FALLBACK MATCH DATA (used if ESPN API fails) ==========
   const FALLBACK_MATCHES = [
-    { date: "2026-06-11", team1: "Mexico", team2: "South Africa", score1: 2, score2: 0, status: "Final", location: "Blue Wave Stadium" },
-    { date: "2026-06-11", team1: "South Korea", team2: "Czechia", score1: 2, score2: 1, status: "Final", location: "Ocean Arena" },
-    { date: "2026-06-12", team1: "Canada", team2: "Bosnia", score1: 1, score2: 1, status: "Final", location: "Caribbean Park" },
-    { date: "2026-06-12", team1: "USA", team2: "Paraguay", score1: 4, score2: 1, status: "Final", location: "Blue Wave Stadium" },
-    { date: "2026-06-15", team1: "Germany", team2: "Curaçao", score1: null, score2: null, status: "Scheduled", location: "Blue Wave Stadium" },
-    { date: "2026-06-16", team1: "Brazil", team2: "Netherlands", score1: null, score2: null, status: "Scheduled", location: "Ocean Arena" }
-  ];
+  { date: "2026-06-11", team1: "Mexico", team2: "South Africa", score1: 2, score2: 0, status: "Final", location: "Blue Wave Stadium" },
+  { date: "2026-06-11", team1: "South Korea", team2: "Czechia", score1: 2, score2: 1, status: "Final", location: "Ocean Arena" },
+  { date: "2026-06-12", team1: "Canada", team2: "Bosnia", score1: 1, score2: 1, status: "Final", location: "Caribbean Park" },
+  { date: "2026-06-12", team1: "USA", team2: "Paraguay", score1: 4, score2: 1, status: "Final", location: "Blue Wave Stadium" },
+  { date: "2026-06-15", team1: "Germany", team2: "Curaçao", score1: null, score2: null, status: "Scheduled", location: "Blue Wave Stadium" },
+  { date: "2026-06-15", team1: "Netherlands", team2: "Japan", score1: null, score2: null, status: "Scheduled", location: "Blue Wave Stadium" },
+  { date: "2026-06-16", team1: "Brazil", team2: "Argentina", score1: null, score2: null, status: "Scheduled", location: "Ocean Arena" },
+  { date: "2026-06-17", team1: "France", team2: "Spain", score1: null, score2: null, status: "Scheduled", location: "Sunset Stadium" }
+];
 
   // Live matches storage (updated from ESPN API)
   let liveMatches = [...FALLBACK_MATCHES];
