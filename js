@@ -3,7 +3,6 @@
 ============================================ */
 const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
 
-
 /* ============================================
    FLAG MAPPER (Emoji)
 ============================================ */
@@ -30,7 +29,6 @@ function flagFor(country) {
   return map[key] || "🏳️";
 }
 
-
 /* ============================================
    NAVIGATION
 ============================================ */
@@ -43,7 +41,6 @@ function goHome() {
 function hideLoyalty() {
   document.getElementById("loyaltyCard").classList.add("hidden");
 }
-
 
 /* ============================================
    SECTION TABS
@@ -67,71 +64,52 @@ function showSection(section) {
     }
   });
 }
-const premiumSponsors = [
-  {
-    name: "Company Name",
-    logo: "img/company-banner.png",   // rectangular banner
-    link: "https://wa.me/5999XXXXXXX" // or website
-  },
-  // repeat until you have 16
-];
-const goldSponsors = [
-  {
-    name: "Company Name",
-    logo: "img/company-logo.png",    // square or horizontal logo
-    link: "https://wa.me/5999XXXXXXX"
-  },
-  // repeat until you have 20
-];
-const silverSponsors = [
-  {
-    name: "Company Name",
-    message: "Short message of support"
-  },
-  // repeat until you have 30
-];
-const premiumSponsors = [
-  { name: "BlueWave Bank", logo: "img/premium-bluewave.png", link: "https://wa.me/59995550001" },
-  { name: "Curaçao Energy", logo: "img/premium-energy.png", link: "https://wa.me/59995550002" },
-  { name: "Island Telecom", logo: "img/premium-telecom.png", link: "https://wa.me/59995550003" },
-  { name: "Caribbean Motors", logo: "img/premium-motors.png", link: "https://wa.me/59995550004" },
-  { name: "Sunset Resorts", logo: "img/premium-resorts.png", link: "https://wa.me/59995550005" },
-  { name: "Ocean Fresh Foods", logo: "img/premium-oceanfresh.png", link: "https://wa.me/59995550006" },
-  { name: "Harbor Logistics", logo: "img/premium-harbor.png", link: "https://wa.me/59995550007" },
-  { name: "Royal Insurance", logo: "img/premium-insurance.png", link: "https://wa.me/59995550008" },
 
-  { name: "BlueWave Bank 2", logo: "img/premium-bluewave2.png", link: "https://wa.me/59995550009" },
-  { name: "Curaçao Energy 2", logo: "img/premium-energy2.png", link: "https://wa.me/59995550010" },
-  { name: "Island Telecom 2", logo: "img/premium-telecom2.png", link: "https://wa.me/59995550011" },
-  { name: "Caribbean Motors 2", logo: "img/premium-motors2.png", link: "https://wa.me/59995550012" },
-  { name: "Sunset Resorts 2", logo: "img/premium-resorts2.png", link: "https://wa.me/59995550013" },
-  { name: "Ocean Fresh Foods 2", logo: "img/premium-oceanfresh2.png", link: "https://wa.me/59995550014" },
-  { name: "Harbor Logistics 2", logo: "img/premium-harbor2.png", link: "https://wa.me/59995550015" },
-  { name: "Royal Insurance 2", logo: "img/premium-insurance2.png", link: "https://wa.me/59995550016" }
+/* ============================================
+   SPONSOR DATA (DEFINED ONCE)
+============================================ */
+const premiumSponsors = [
+  { name: "BlueWave Bank", logo: "https://placehold.co/400x100/0057b8/white?text=BlueWave+Bank", link: "https://wa.me/59995550001" },
+  { name: "Curaçao Energy", logo: "https://placehold.co/400x100/ffd23f/003f87?text=Curaçao+Energy", link: "https://wa.me/59995550002" },
+  { name: "Island Telecom", logo: "https://placehold.co/400x100/003f87/white?text=Island+Telecom", link: "https://wa.me/59995550003" },
+  { name: "Caribbean Motors", logo: "https://placehold.co/400x100/0057b8/white?text=Caribbean+Motors", link: "https://wa.me/59995550004" },
+  { name: "Sunset Resorts", logo: "https://placehold.co/400x100/ffd23f/003f87?text=Sunset+Resorts", link: "https://wa.me/59995550005" },
+  { name: "Ocean Fresh Foods", logo: "https://placehold.co/400x100/003f87/white?text=Ocean+Fresh", link: "https://wa.me/59995550006" },
+  { name: "Harbor Logistics", logo: "https://placehold.co/400x100/0057b8/white?text=Harbor+Logistics", link: "https://wa.me/59995550007" },
+  { name: "Royal Insurance", logo: "https://placehold.co/400x100/ffd23f/003f87?text=Royal+Insurance", link: "https://wa.me/59995550008" },
+  { name: "BlueWave Bank 2", logo: "https://placehold.co/400x100/003f87/white?text=BlueWave+Bank+2", link: "https://wa.me/59995550009" },
+  { name: "Curaçao Energy 2", logo: "https://placehold.co/400x100/0057b8/white?text=Energy+2", link: "https://wa.me/59995550010" },
+  { name: "Island Telecom 2", logo: "https://placehold.co/400x100/ffd23f/003f87?text=Telecom+2", link: "https://wa.me/59995550011" },
+  { name: "Caribbean Motors 2", logo: "https://placehold.co/400x100/003f87/white?text=Motors+2", link: "https://wa.me/59995550012" },
+  { name: "Sunset Resorts 2", logo: "https://placehold.co/400x100/0057b8/white?text=Resorts+2", link: "https://wa.me/59995550013" },
+  { name: "Ocean Fresh Foods 2", logo: "https://placehold.co/400x100/ffd23f/003f87?text=Ocean+Fresh+2", link: "https://wa.me/59995550014" },
+  { name: "Harbor Logistics 2", logo: "https://placehold.co/400x100/003f87/white?text=Logistics+2", link: "https://wa.me/59995550015" },
+  { name: "Royal Insurance 2", logo: "https://placehold.co/400x100/0057b8/white?text=Insurance+2", link: "https://wa.me/59995550016" }
 ];
-const goldSponsors = [
-  { name: "Island Fitness", logo: "img/gold-fitness.png", link: "https://wa.me/59995551001" },
-  { name: "Tropical Café", logo: "img/gold-cafe.png", link: "https://wa.me/59995551002" },
-  { name: "Aqua Rentals", logo: "img/gold-aqua.png", link: "https://wa.me/59995551003" },
-  { name: "Caribbean Print", logo: "img/gold-print.png", link: "https://wa.me/59995551004" },
-  { name: "Island Tech", logo: "img/gold-tech.png", link: "https://wa.me/59995551005" },
-  { name: "Blue Taxi", logo: "img/gold-taxi.png", link: "https://wa.me/59995551006" },
-  { name: "Fresh Market", logo: "img/gold-market.png", link: "https://wa.me/59995551007" },
-  { name: "Harbor Café", logo: "img/gold-harborcafe.png", link: "https://wa.me/59995551008" },
-  { name: "Sunrise Tours", logo: "img/gold-tours.png", link: "https://wa.me/59995551009" },
-  { name: "Island Auto", logo: "img/gold-auto.png", link: "https://wa.me/59995551010" },
 
-  { name: "Island Fitness 2", logo: "img/gold-fitness2.png", link: "https://wa.me/59995551011" },
-  { name: "Tropical Café 2", logo: "img/gold-cafe2.png", link: "https://wa.me/59995551012" },
-  { name: "Aqua Rentals 2", logo: "img/gold-aqua2.png", link: "https://wa.me/59995551013" },
-  { name: "Caribbean Print 2", logo: "img/gold-print2.png", link: "https://wa.me/59995551014" },
-  { name: "Island Tech 2", logo: "img/gold-tech2.png", link: "https://wa.me/59995551015" },
-  { name: "Blue Taxi 2", logo: "img/gold-taxi2.png", link: "https://wa.me/59995551016" },
-  { name: "Fresh Market 2", logo: "img/gold-market2.png", link: "https://wa.me/59995551017" },
-  { name: "Harbor Café 2", logo: "img/gold-harborcafe2.png", link: "https://wa.me/59995551018" },
-  { name: "Sunrise Tours 2", logo: "img/gold-tours2.png", link: "https://wa.me/59995551019" },
-  { name: "Island Auto 2", logo: "img/gold-auto2.png", link: "https://wa.me/59995551020" }
+const goldSponsors = [
+  { name: "Island Fitness", logo: "https://placehold.co/200x100/0057b8/white?text=Fitness", link: "https://wa.me/59995551001" },
+  { name: "Tropical Café", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Café", link: "https://wa.me/59995551002" },
+  { name: "Aqua Rentals", logo: "https://placehold.co/200x100/003f87/white?text=Aqua", link: "https://wa.me/59995551003" },
+  { name: "Caribbean Print", logo: "https://placehold.co/200x100/0057b8/white?text=Print", link: "https://wa.me/59995551004" },
+  { name: "Island Tech", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Tech", link: "https://wa.me/59995551005" },
+  { name: "Blue Taxi", logo: "https://placehold.co/200x100/003f87/white?text=Blue+Taxi", link: "https://wa.me/59995551006" },
+  { name: "Fresh Market", logo: "https://placehold.co/200x100/0057b8/white?text=Fresh+Market", link: "https://wa.me/59995551007" },
+  { name: "Harbor Café", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Harbor+Café", link: "https://wa.me/59995551008" },
+  { name: "Sunrise Tours", logo: "https://placehold.co/200x100/003f87/white?text=Sunrise", link: "https://wa.me/59995551009" },
+  { name: "Island Auto", logo: "https://placehold.co/200x100/0057b8/white?text=Island+Auto", link: "https://wa.me/59995551010" },
+  { name: "Island Fitness 2", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Fitness+2", link: "https://wa.me/59995551011" },
+  { name: "Tropical Café 2", logo: "https://placehold.co/200x100/003f87/white?text=Café+2", link: "https://wa.me/59995551012" },
+  { name: "Aqua Rentals 2", logo: "https://placehold.co/200x100/0057b8/white?text=Aqua+2", link: "https://wa.me/59995551013" },
+  { name: "Caribbean Print 2", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Print+2", link: "https://wa.me/59995551014" },
+  { name: "Island Tech 2", logo: "https://placehold.co/200x100/003f87/white?text=Tech+2", link: "https://wa.me/59995551015" },
+  { name: "Blue Taxi 2", logo: "https://placehold.co/200x100/0057b8/white?text=Taxi+2", link: "https://wa.me/59995551016" },
+  { name: "Fresh Market 2", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Market+2", link: "https://wa.me/59995551017" },
+  { name: "Harbor Café 2", logo: "https://placehold.co/200x100/003f87/white?text=Café+2", link: "https://wa.me/59995551018" },
+  { name: "Sunrise Tours 2", logo: "https://placehold.co/200x100/0057b8/white?text=Tours+2", link: "https://wa.me/59995551019" },
+  { name: "Island Auto 2", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Auto+2", link: "https://wa.me/59995551020" }
 ];
+
 const silverSponsors = [
   { name: "BlueWave Bank", message: "Supporting Curaçao’s youth" },
   { name: "Island Fitness", message: "Stay strong, stay active" },
@@ -143,7 +121,6 @@ const silverSponsors = [
   { name: "Fresh Market", message: "Local freshness daily" },
   { name: "Harbor Café", message: "Taste the island" },
   { name: "Sunrise Tours", message: "Discover Curaçao" },
-
   { name: "BlueWave Bank 2", message: "Proud to support the community" },
   { name: "Island Fitness 2", message: "Your health matters" },
   { name: "Tropical Café 2", message: "Good vibes only" },
@@ -154,7 +131,6 @@ const silverSponsors = [
   { name: "Fresh Market 2", message: "Eat well, live well" },
   { name: "Harbor Café 2", message: "Island flavor" },
   { name: "Sunrise Tours 2", message: "See the beauty" },
-
   { name: "Ocean Fresh Foods", message: "Taste the ocean" },
   { name: "Harbor Logistics", message: "Moving Curaçao forward" },
   { name: "Royal Insurance", message: "Protecting what matters" },
@@ -167,59 +143,36 @@ const silverSponsors = [
   { name: "Royal Insurance 2", message: "We’ve got you covered" }
 ];
 
-// ===============================
-// SPONSOR DATA (EXAMPLE STRUCTURE)
-// ===============================
-// You will fill these arrays from your backend.
-// Each item: { name, logo, link, message }
+const PREMIUM_GROUP_SIZE = 8;
+const GOLD_GROUP_SIZE = 10;
+const SILVER_GROUP_SIZE = 10;
 
-const premiumSponsors = [
-  // 16 total, shown 8 at a time (banners)
-  // { name: "Aqualectra", logo: "img/aqualectra-banner.png", link: "https://...", ... },
-];
-
-const goldSponsors = [
-  // 20 total, shown 10 at a time (logos)
-  // { name: "BDO", logo: "img/bdo-logo.png", link: "https://...", ... },
-];
-
-const silverSponsors = [
-  // 30 total, shown 10 at a time (messages)
-  // { name: "Aqualectra", message: "We celebrate the Curaçao Wave" },
-];
-
-const PREMIUM_GROUP_SIZE = 8;   // 2 groups → 16 total
-const GOLD_GROUP_SIZE    = 10;  // 2 groups → 20 total
-const SILVER_GROUP_SIZE  = 10;  // 3 groups → 30 total
-
-// ===============================
-// ROTATION COUNTER (PER APP OPEN)
-// ===============================
+/* ============================================
+   ROTATION COUNTER (PER APP OPEN)
+============================================ */
 function getRotationIndex() {
   let rotation = parseInt(localStorage.getItem("bwRotation") || "0", 10);
-  rotation = (rotation + 1); // increment on each open
+  rotation = rotation + 1;
   localStorage.setItem("bwRotation", rotation);
   return rotation;
 }
 
-// ===============================
-// GROUP SELECTION HELPERS
-// ===============================
+/* ============================================
+   GROUP SELECTION HELPERS
+============================================ */
 function getGroup(items, groupSize, groupCount, rotationIndex) {
-  // rotationIndex starts at 1, so we normalize:
-  const groupIndex = (rotationIndex - 1) % groupCount; // 0,1,2,...
+  const groupIndex = (rotationIndex - 1) % groupCount;
   const start = groupIndex * groupSize;
   return items.slice(start, start + groupSize);
 }
 
-// ===============================
-// RENDER FUNCTIONS
-// ===============================
+/* ============================================
+   RENDER FUNCTIONS
+============================================ */
 function renderPremium(group) {
   const container = document.getElementById("premiumContainer");
   if (!container) return;
   container.innerHTML = "";
-
   group.forEach(s => {
     container.innerHTML += `
       <div class="premium-banner" onclick="openLink('${s.link}')">
@@ -233,7 +186,6 @@ function renderGold(group) {
   const container = document.getElementById("goldContainer");
   if (!container) return;
   container.innerHTML = "";
-
   group.forEach(s => {
     container.innerHTML += `
       <div class="gold-item" onclick="openLink('${s.link}')">
@@ -246,9 +198,10 @@ function renderGold(group) {
 function renderSilver(group) {
   const container = document.getElementById("silverScroller");
   if (!container) return;
+  // Double the items for seamless looping
+  const doubled = [...group, ...group];
   container.innerHTML = "";
-
-  group.forEach(s => {
+  doubled.forEach(s => {
     container.innerHTML += `
       <div class="silver-item">
         <span class="silver-name">${s.name}</span>
@@ -258,51 +211,60 @@ function renderSilver(group) {
   });
 }
 
-// ===============================
-// LINK HELPER
-// ===============================
+/* ============================================
+   LINK HELPER
+============================================ */
 function openLink(url) {
-  if (!url) return;
-  window.open(url, "_blank");
+  if (url && url !== "") window.open(url, "_blank");
 }
 
-// ===============================
-// INITIALIZE LANDING PAGE ROTATION
-// ===============================
+/* ============================================
+   INITIALIZE LANDING PAGE ROTATION
+============================================ */
 function initLandingPageSponsors() {
+  console.log("Initializing landing page sponsors...");
+  
   const rotationIndex = getRotationIndex();
+  console.log("Rotation index:", rotationIndex);
 
-  // Premium: 2 groups (16 total, 8 per group)
   const premiumGroupCount = Math.ceil(premiumSponsors.length / PREMIUM_GROUP_SIZE) || 1;
   const premiumGroup = getGroup(premiumSponsors, PREMIUM_GROUP_SIZE, premiumGroupCount, rotationIndex);
   renderPremium(premiumGroup);
 
-  // Gold: 2 groups (20 total, 10 per group)
   const goldGroupCount = Math.ceil(goldSponsors.length / GOLD_GROUP_SIZE) || 1;
   const goldGroup = getGroup(goldSponsors, GOLD_GROUP_SIZE, goldGroupCount, rotationIndex);
   renderGold(goldGroup);
 
-  // Silver: 3 groups (30 total, 10 per group)
   const silverGroupCount = Math.ceil(silverSponsors.length / SILVER_GROUP_SIZE) || 1;
   const silverGroup = getGroup(silverSponsors, SILVER_GROUP_SIZE, silverGroupCount, rotationIndex);
   renderSilver(silverGroup);
+  
+  console.log("Sponsors rendered successfully!");
 }
 
-// Call this once when the page loads
-document.addEventListener("DOMContentLoaded", initLandingPageSponsors);
-
-// ===============================
-// ENTER APP (HIDE LANDING, SHOW UI)
-// ===============================
+/* ============================================
+   ENTER APP (HIDE LANDING, SHOW UI)
+============================================ */
 function enterApp() {
+  console.log("enterApp() called - entering app");
+  
   const landing = document.getElementById("landingPage");
-  if (landing) landing.style.display = "none";
-
   const app = document.getElementById("appWrapper");
-  if (app) app.style.display = "block";
+  
+  if (landing) {
+    landing.style.display = "none";
+    console.log("Landing page hidden");
+  } else {
+    console.error("Element 'landingPage' not found!");
+  }
+  
+  if (app) {
+    app.style.display = "block";
+    console.log("App wrapper shown");
+  } else {
+    console.error("Element 'appWrapper' not found!");
+  }
 }
-
-
 
 /* ============================================
    LOAD COUNTRY
@@ -330,7 +292,6 @@ async function loadCountry(name) {
   document.getElementById("countryAnalysis").textContent = data.Analysis;
 }
 
-
 /* ============================================
    LOAD LOYALTY MATCH
 ============================================ */
@@ -352,12 +313,12 @@ function loadLoyalty(loyalty) {
   document.getElementById("loyaltyVoucher").textContent = match.VoucherCode;
 }
 
-
 /* ============================================
    LOAD SPONSORS
 ============================================ */
 function loadSponsors(sponsors) {
   const list = document.getElementById("sponsorList");
+  if (!list) return;
   list.innerHTML = "";
 
   sponsors.forEach(s => {
@@ -381,7 +342,6 @@ function loadSponsors(sponsors) {
   loadChallenge(sponsors);
 }
 
-
 /* ============================================
    LOAD ACTIVE CHALLENGE
 ============================================ */
@@ -404,55 +364,58 @@ function openChallenge() {
   if (url) window.open(url, "_blank");
 }
 
-
 /* ============================================
    LOAD RESULTS / CALENDAR / BRACKET / FACTS
 ============================================ */
 function loadResults(matches) {
-  document.getElementById("resultsContent").textContent =
-    JSON.stringify(matches, null, 2);
+  const el = document.getElementById("resultsContent");
+  if (el) el.textContent = JSON.stringify(matches, null, 2);
 }
 
 function loadCalendar(matches) {
-  document.getElementById("calendarContent").textContent =
-    JSON.stringify(matches, null, 2);
+  const el = document.getElementById("calendarContent");
+  if (el) el.textContent = JSON.stringify(matches, null, 2);
 }
 
 function loadBracket(bracket) {
-  document.getElementById("bracketContent").textContent =
-    JSON.stringify(bracket, null, 2);
+  const el = document.getElementById("bracketContent");
+  if (el) el.textContent = JSON.stringify(bracket, null, 2);
 }
 
 function loadFacts(facts) {
-  document.getElementById("factsContent").textContent =
-    JSON.stringify(facts, null, 2);
+  const el = document.getElementById("factsContent");
+  if (el) el.textContent = JSON.stringify(facts, null, 2);
 }
-
-
-/* ============================================
-   UTIL
-============================================ */
-function openLink(url) {
-  if (url && url !== "") window.open(url, "_blank");
-}
-
 
 /* ============================================
    INIT
 ============================================ */
 async function loadAll() {
-  const res = await fetch(`${API_URL}?action=all`);
-  const data = await res.json();
-  if (!data) return;
+  try {
+    const res = await fetch(`${API_URL}?action=all`);
+    const data = await res.json();
+    if (!data) return;
 
-  loadSponsors(data.sponsors);
-  loadLoyalty(data.loyalty);
-  loadResults(data.matches);
-  loadCalendar(data.matches);
-  loadBracket(data.bracket);
-  loadFacts(data.facts);
+    if (data.sponsors) loadSponsors(data.sponsors);
+    if (data.loyalty) loadLoyalty(data.loyalty);
+    if (data.matches) {
+      loadResults(data.matches);
+      loadCalendar(data.matches);
+    }
+    if (data.bracket) loadBracket(data.bracket);
+    if (data.facts) loadFacts(data.facts);
 
-  showSection('results');
+    showSection('results');
+  } catch (error) {
+    console.error("Error loading data:", error);
+  }
 }
 
-loadAll();
+/* ============================================
+   PAGE LOAD INITIALIZATION
+============================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM loaded - initializing...");
+  initLandingPageSponsors();
+  loadAll();
+});
