@@ -6,82 +6,189 @@
 <title>Blue Wave</title>
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #eef4ff;
-    margin: 0;
-    padding: 0;
-  }
+  /* ============================================
+   COLOR SYSTEM
+============================================ */
+:root {
+  --blue-dark: #003a7a;
+  --blue-main: #0057b8;
+  --blue-light: #e8f1ff;
+  --yellow: #ffd23f;
+  --text-dark: #1a1a1a;
+  --text-light: #ffffff;
+  --card-bg: #ffffff;
+  --shadow: rgba(0,0,0,0.12);
+  --radius: 12px;
+  --transition: 0.25s ease;
+}
 
-  header {
-    background: #0057b8;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    font-size: 22px;
-    font-weight: bold;
-  }
+/* ============================================
+   GLOBAL
+============================================ */
+body {
+  font-family: "Inter", Arial, sans-serif;
+  background: var(--blue-light);
+  margin: 0;
+  padding: 0;
+  color: var(--text-dark);
+}
 
-  .tabs {
-    display: flex;
-    background: #003a7a;
-  }
+header {
+  background: var(--blue-main);
+  color: var(--text-light);
+  padding: 18px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 6px var(--shadow);
+}
 
-  .tab {
-    flex: 1;
-    padding: 12px;
-    text-align: center;
-    color: white;
-    cursor: pointer;
-  }
+/* ============================================
+   TABS
+============================================ */
+.tabs {
+  display: flex;
+  background: var(--blue-dark);
+  box-shadow: 0 2px 6px var(--shadow);
+}
 
-  .tab.active {
-    background: #ffd23f;
-    color: #003a7a;
-    font-weight: bold;
-  }
+.tab {
+  flex: 1;
+  padding: 14px;
+  text-align: center;
+  color: var(--text-light);
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+}
 
-  .section {
-    padding: 15px;
-    display: none;
-  }
+.tab:hover {
+  background: rgba(255,255,255,0.15);
+}
 
-  .hidden {
-    display: none;
-  }
+.tab.active {
+  background: var(--yellow);
+  color: var(--blue-dark);
+  font-weight: 700;
+}
 
-  .card {
-    background: white;
-    padding: 15px;
-    margin: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  }
+/* ============================================
+   SECTIONS
+============================================ */
+.section {
+  padding: 20px;
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
 
-  .sponsor-item {
-    background: #fff;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  .link-pill {
-    background: #0057b8;
-    color: white;
-    padding: 6px 10px;
-    border-radius: 6px;
-    display: inline-block;
-    margin-left: 5px;
-    cursor: pointer;
-  }
+/* ============================================
+   CARDS
+============================================ */
+.card {
+  background: var(--card-bg);
+  padding: 20px;
+  margin: 20px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px var(--shadow);
+  animation: fadeIn 0.3s ease;
+}
 
-  pre {
-    background: #f4f4f4;
-    padding: 10px;
-    border-radius: 6px;
-    overflow-x: auto;
-  }
+.card h2, .card h3 {
+  margin-top: 0;
+  color: var(--blue-dark);
+}
+
+/* ============================================
+   SPONSORS
+============================================ */
+.sponsor-item {
+  background: #ffffff;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: var(--radius);
+  box-shadow: 0 2px 6px var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sponsor-main {
+  font-size: 16px;
+}
+
+.sponsor-name {
+  font-weight: 700;
+  color: var(--blue-main);
+}
+
+.sponsor-tier {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.sponsor-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.link-pill {
+  background: var(--blue-main);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.link-pill:hover {
+  background: var(--blue-dark);
+}
+
+/* ============================================
+   CHALLENGE BUTTON
+============================================ */
+#challengeLink {
+  background: var(--yellow);
+  color: var(--blue-dark);
+  padding: 10px 16px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: var(--transition);
+}
+
+#challengeLink:hover {
+  background: #ffcc00;
+}
+
+/* ============================================
+   PRE BLOCKS
+============================================ */
+pre {
+  background: #f7f9fc;
+  padding: 16px;
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
+  font-size: 14px;
+  overflow-x: auto;
+}
+
+/* ============================================
+   UTILITY
+============================================ */
+.hidden {
+  display: none;
+}
+
 </style>
 </head>
 
