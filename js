@@ -67,6 +67,29 @@ function showSection(section) {
     }
   });
 }
+const premiumSponsors = [
+  {
+    name: "Company Name",
+    logo: "img/company-banner.png",   // rectangular banner
+    link: "https://wa.me/5999XXXXXXX" // or website
+  },
+  // repeat until you have 16
+];
+const goldSponsors = [
+  {
+    name: "Company Name",
+    logo: "img/company-logo.png",    // square or horizontal logo
+    link: "https://wa.me/5999XXXXXXX"
+  },
+  // repeat until you have 20
+];
+const silverSponsors = [
+  {
+    name: "Company Name",
+    message: "Short message of support"
+  },
+  // repeat until you have 30
+];
 
 // ===============================
 // SPONSOR DATA (EXAMPLE STRUCTURE)
