@@ -90,6 +90,25 @@ const silverSponsors = [
   },
   // repeat until you have 30
 ];
+const premiumSponsors = [
+  { name: "BlueWave Bank", logo: "img/premium-bluewave.png", link: "https://wa.me/59995550001" },
+  { name: "Curaçao Energy", logo: "img/premium-energy.png", link: "https://wa.me/59995550002" },
+  { name: "Island Telecom", logo: "img/premium-telecom.png", link: "https://wa.me/59995550003" },
+  { name: "Caribbean Motors", logo: "img/premium-motors.png", link: "https://wa.me/59995550004" },
+  { name: "Sunset Resorts", logo: "img/premium-resorts.png", link: "https://wa.me/59995550005" },
+  { name: "Ocean Fresh Foods", logo: "img/premium-oceanfresh.png", link: "https://wa.me/59995550006" },
+  { name: "Harbor Logistics", logo: "img/premium-harbor.png", link: "https://wa.me/59995550007" },
+  { name: "Royal Insurance", logo: "img/premium-insurance.png", link: "https://wa.me/59995550008" },
+
+  { name: "BlueWave Bank 2", logo: "img/premium-bluewave2.png", link: "https://wa.me/59995550009" },
+  { name: "Curaçao Energy 2", logo: "img/premium-energy2.png", link: "https://wa.me/59995550010" },
+  { name: "Island Telecom 2", logo: "img/premium-telecom2.png", link: "https://wa.me/59995550011" },
+  { name: "Caribbean Motors 2", logo: "img/premium-motors2.png", link: "https://wa.me/59995550012" },
+  { name: "Sunset Resorts 2", logo: "img/premium-resorts2.png", link: "https://wa.me/59995550013" },
+  { name: "Ocean Fresh Foods 2", logo: "img/premium-oceanfresh2.png", link: "https://wa.me/59995550014" },
+  { name: "Harbor Logistics 2", logo: "img/premium-harbor2.png", link: "https://wa.me/59995550015" },
+  { name: "Royal Insurance 2", logo: "img/premium-insurance2.png", link: "https://wa.me/59995550016" }
+];
 
 // ===============================
 // SPONSOR DATA (EXAMPLE STRUCTURE)
