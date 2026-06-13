@@ -18,49 +18,170 @@
     min-height: 100vh;
   }
 
+  /* ============================
+     LANDING PAGE (Brand Style)
+  ============================ */
   #landingPage {
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(135deg, #0057b8, #003a7a);
+    background: linear-gradient(135deg, #0a2a44, #001a33);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 40px 20px;
+    position: relative;
   }
 
-  .hero-logo {
+  .brand-hero {
     text-align: center;
-    margin-bottom: 40px;
+    max-width: 400px;
+    width: 100%;
   }
 
-  .hero-logo h1 {
-    font-size: 56px;
+  .wave-icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+  }
+
+  .brand-hero h1 {
+    font-size: 52px;
     font-weight: 800;
     color: white;
     letter-spacing: 4px;
+    line-height: 1.2;
     margin-bottom: 10px;
     text-shadow: 0 4px 20px rgba(0,0,0,0.3);
   }
 
-  .hero-logo p {
-    font-size: 20px;
+  .subtitle {
+    font-size: 14px;
     color: #ffd23f;
+    letter-spacing: 3px;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+
+  .lang-switch {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .lang {
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .lang.active {
+    color: #ffd23f;
+  }
+
+  .tagline {
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+  }
+
+  .team-card {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  .team-name {
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 15px;
+  }
+
+  .next-match-label {
+    font-size: 11px;
+    color: #ffd23f;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+  }
+
+  .next-match-teams {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 5px;
+  }
+
+  .match-date {
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 15px;
+  }
+
+  .wave-percent {
+    margin-top: 15px;
+  }
+
+  .wave-percent span {
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffd23f;
+  }
+
+  .wave-bar {
+    background: rgba(255,255,255,0.2);
+    height: 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .wave-fill {
+    background: linear-gradient(90deg, #ffd23f, #ffaa00);
+    height: 100%;
+    width: 0%;
+    border-radius: 4px;
+  }
+
+  .motto {
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+  }
+
+  .sponsor-strip {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .sponsor-strip span {
+    color: rgba(255,255,255,0.5);
+    font-size: 12px;
     font-weight: 600;
   }
 
   .enter-btn {
     background: #ffd23f;
-    color: #003a7a;
-    padding: 18px 48px;
-    border-radius: 60px;
-    font-size: 20px;
+    color: #001a33;
+    padding: 16px 40px;
+    border-radius: 50px;
+    font-size: 18px;
     font-weight: 800;
     border: none;
     cursor: pointer;
     transition: 0.2s;
-    margin-bottom: 30px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    margin: 20px auto;
+    display: inline-block;
   }
 
   .enter-btn:hover {
@@ -68,6 +189,43 @@
     background: #ffe066;
   }
 
+  /* Premium Ads Grid on Landing */
+  .premium-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+  }
+
+  .premium-ad {
+    background: white;
+    border-radius: 16px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .premium-ad:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+
+  .premium-ad img {
+    max-width: 100%;
+    height: 60px;
+    object-fit: contain;
+  }
+
+  .premium-ad .ad-name {
+    font-size: 11px;
+    margin-top: 6px;
+    color: #666;
+  }
+
+  /* ============================
+     APP WRAPPER
+  ============================ */
   #appWrapper {
     display: none;
     max-width: 500px;
@@ -75,11 +233,10 @@
     background: #f5f7fb;
     min-height: 100vh;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
   }
 
   .app-header {
-    background: linear-gradient(135deg, #0057b8, #003a7a);
+    background: linear-gradient(135deg, #0a2a44, #001a33);
     color: white;
     padding: 20px 16px;
     text-align: center;
@@ -91,11 +248,12 @@
   }
 
   .app-header p {
-    font-size: 12px;
+    font-size: 11px;
     opacity: 0.8;
-    margin-top: 5px;
+    margin-top: 4px;
   }
 
+  /* Tabs */
   .tabs {
     display: flex;
     flex-wrap: wrap;
@@ -105,10 +263,10 @@
 
   .tab {
     flex: 1;
-    min-width: 70px;
-    padding: 14px 8px;
+    min-width: 65px;
+    padding: 12px 6px;
     text-align: center;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     color: #666;
     cursor: pointer;
@@ -123,10 +281,11 @@
   }
 
   .tab.active {
-    background: #0057b8;
+    background: #0a2a44;
     color: white;
   }
 
+  /* Sections */
   .section {
     display: none;
     padding: 16px;
@@ -144,25 +303,26 @@
 
   .card {
     background: white;
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 16px;
     margin-bottom: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   }
 
   .card-title {
     font-size: 18px;
     font-weight: 700;
-    color: #003a7a;
+    color: #0a2a44;
     margin-bottom: 12px;
     padding-bottom: 8px;
     border-bottom: 2px solid #ffd23f;
     display: inline-block;
   }
 
+  /* Match Items */
   .match-item {
     background: #f8f9fa;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 12px;
     margin-bottom: 10px;
   }
@@ -187,23 +347,156 @@
   .match-score {
     font-size: 16px;
     font-weight: 800;
-    color: #003a7a;
+    color: #0a2a44;
     background: #e8f1ff;
     padding: 4px 10px;
     border-radius: 20px;
   }
 
-  .match-location {
-    font-size: 11px;
-    color: #888;
-    margin-top: 6px;
+  /* Leaderboard */
+  .leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .leaderboard-rank {
+    font-weight: 800;
+    color: #ffd23f;
+    width: 40px;
+  }
+
+  .leaderboard-user {
+    flex: 1;
+    font-weight: 600;
+  }
+
+  .leaderboard-points {
+    font-weight: 800;
+    color: #0a2a44;
+  }
+
+  .sponsored-badge {
+    background: #ffd23f;
+    color: #0a2a44;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 20px;
+    margin-left: 8px;
+  }
+
+  /* Promotion Card */
+  .promo-card {
+    background: linear-gradient(135deg, #ffd23f20, #ffd23f08);
+    border-left: 4px solid #ffd23f;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  .promo-title {
+    font-weight: 800;
+    color: #0a2a44;
+  }
+
+  .promo-text {
+    font-size: 13px;
+    margin: 5px 0;
+  }
+
+  /* Gold Grid */
+  .gold-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 15px 0;
+  }
+
+  .gold-item {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .gold-item img {
+    max-width: 100%;
+    height: 50px;
+    object-fit: contain;
+  }
+
+  /* Silver Scrolling */
+  .silver-frame {
+    background: #0a2a44;
+    padding: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 15px 0;
+  }
+
+  .silver-scroll {
+    display: flex;
+    gap: 40px;
+    white-space: nowrap;
+    animation: scrollLeft 20s linear infinite;
+  }
+
+  .silver-item {
+    color: #ffd23f;
+    font-size: 14px;
+  }
+
+  .silver-name {
+    color: white;
+    font-weight: 700;
+  }
+
+  @keyframes scrollLeft {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+  }
+
+  /* Prediction Form */
+  .prediction-form {
+    background: #f0f4fa;
+    border-radius: 16px;
+    padding: 16px;
+    margin-top: 15px;
+  }
+
+  .prediction-options {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+    justify-content: center;
+  }
+
+  .prediction-options label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  .submit-prediction {
+    background: #0a2a44;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    width: 100%;
+    cursor: pointer;
   }
 
   .country-stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    margin-top: 15px;
   }
 
   .stat-item {
@@ -213,60 +506,21 @@
     text-align: center;
   }
 
-  .stat-label {
-    font-size: 11px;
-    color: #666;
-    text-transform: uppercase;
-  }
-
-  .stat-value {
-    font-size: 22px;
+  .donate-btn {
+    background: #ffd23f;
+    color: #0a2a44;
+    padding: 14px;
+    border-radius: 40px;
     font-weight: 800;
-    color: #0057b8;
-  }
-
-  .wave-bar {
-    background: #e0e0e0;
-    height: 12px;
-    border-radius: 6px;
-    overflow: hidden;
-    margin: 10px 0;
-  }
-
-  .wave-fill {
-    background: linear-gradient(90deg, #0057b8, #ffd23f);
-    height: 100%;
-    width: 0%;
-    border-radius: 6px;
-    transition: width 0.5s ease;
-  }
-
-  .facts-list {
-    list-style: none;
-    padding: 0;
-  }
-
-  .facts-list li {
-    padding: 12px;
-    margin-bottom: 8px;
-    background: #f0f4fa;
-    border-radius: 12px;
-    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 15px;
   }
 
   .loading {
     text-align: center;
-    padding: 40px;
-    color: #666;
-  }
-
-  .badge-upcoming {
-    background: #ffd23f;
-    color: #003a7a;
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    font-weight: 600;
+    padding: 30px;
+    color: #888;
   }
 </style>
 </head>
@@ -274,12 +528,44 @@
 
 <!-- LANDING PAGE -->
 <div id="landingPage">
-  <div class="hero-logo">
-    <h1>🌊 BLUE WAVE</h1>
-    <p>Curaçao's First World Cup</p>
+  <div class="brand-hero">
+    <div class="wave-icon">🌊</div>
+    <h1>BLUE<br>WAVE<br>2026</h1>
+    <div class="subtitle">WORLD CUP TRACKER</div>
+    <div class="lang-switch">
+      <span class="lang active">EN</span>
+      <span class="lang">ES</span>
+    </div>
+    <div class="tagline">CURAÇAO'S FIRST WORLD CUP</div>
+    
+    <div class="team-card">
+      <div class="team-name">🇨🇼 CURAÇAO</div>
+      <div class="next-match-label">NEXT MATCH</div>
+      <div class="next-match-teams">Curaçao vs Germany</div>
+      <div class="match-date">June 15, 2026 - 18:00</div>
+      <div class="wave-percent">
+        <span>72%</span>
+        <div class="wave-bar"><div class="wave-fill" style="width:72%"></div></div>
+      </div>
+    </div>
+    
+    <div class="motto">PROUD. UNITED. BLUE WAVE.</div>
+    
+    <!-- Premium Ads Row -->
+    <div id="premiumContainer" class="premium-grid"></div>
+    
+    <button class="enter-btn" id="enterAppBtn">ENTER APP</button>
+    
+    <div class="sponsor-strip">
+      <span>AQUALECTRA</span>
+      <span>CAVALIER</span>
+      <span>hbn</span>
+      <span>Law & Tax</span>
+      <span>MANGROVE BEACH</span>
+      <span>BDO</span>
+      <span>KLM</span>
+    </div>
   </div>
-  <button class="enter-btn" id="enterAppBtn">SEE MATCH RESULTS</button>
-  <div class="sponsor-teaser">⚽ 32 Teams | 64 Matches | One Dream ⚽</div>
 </div>
 
 <!-- MAIN APP -->
@@ -291,87 +577,103 @@
 
   <div class="tabs">
     <button class="tab" data-tab="results">📋 Results</button>
-    <button class="tab" data-tab="last">🔄 Last Matches</button>
-    <button class="tab" data-tab="next">⏭️ Next Matches</button>
+    <button class="tab" data-tab="last">🔄 Last</button>
+    <button class="tab" data-tab="next">⏭️ Next</button>
     <button class="tab" data-tab="country">🇨🇼 Country</button>
-    <button class="tab" data-tab="facts">⭐ Facts</button>
+    <button class="tab" data-tab="fanzone">⭐ Fan Zone</button>
   </div>
 
+  <!-- RESULTS -->
   <div id="section-results" class="section">
     <div class="card">
-      <h3 class="card-title">📋 All Results</h3>
-      <div id="resultsContent" class="loading">Loading matches...</div>
+      <h3 class="card-title">📋 Match Results</h3>
+      <div id="resultsContent" class="loading">Loading...</div>
     </div>
   </div>
 
+  <!-- LAST MATCHES -->
   <div id="section-last" class="section">
     <div class="card">
       <h3 class="card-title">🔄 Last 5 Matches</h3>
-      <div id="lastMatchesContent" class="loading">Loading last matches...</div>
+      <div id="lastMatchesContent" class="loading">Loading...</div>
     </div>
   </div>
 
+  <!-- NEXT MATCHES -->
   <div id="section-next" class="section">
     <div class="card">
-      <h3 class="card-title">⏭️ Next 3 Days</h3>
-      <div id="nextMatchesContent" class="loading">Loading upcoming matches...</div>
+      <h3 class="card-title">⏭️ Upcoming Matches</h3>
+      <div id="nextMatchesContent" class="loading">Loading...</div>
     </div>
   </div>
 
+  <!-- COUNTRY -->
   <div id="section-country" class="section">
     <div class="card">
       <h3 class="card-title">🇨🇼 Curaçao</h3>
-      <div id="countryContent" class="loading">Loading country data...</div>
+      <div id="countryContent" class="loading">Loading...</div>
     </div>
   </div>
 
-  <div id="section-facts" class="section">
+  <!-- FAN ZONE (Leaderboard + Promotions + Gold + Silver) -->
+  <div id="section-fanzone" class="section">
+    <!-- Prediction Leaderboard -->
     <div class="card">
-      <h3 class="card-title">⭐ World Cup Facts</h3>
-      <div id="factsContent" class="loading">Loading facts...</div>
+      <h3 class="card-title">🏆 Prediction Leaderboard</h3>
+      <div id="leaderboardContent" class="loading">Loading...</div>
+    </div>
+
+    <!-- Sponsored Promotions (Extra fee spots) -->
+    <div class="card">
+      <h3 class="card-title">🔥 Sponsored Promotions</h3>
+      <div id="promotionsContent" class="loading">Loading...</div>
+    </div>
+
+    <!-- Gold Sponsors Grid -->
+    <div class="card">
+      <h3 class="card-title">📢 Our Supporters</h3>
+      <div id="goldContainer" class="gold-grid"></div>
+    </div>
+
+    <!-- Silver Scrolling Shoutouts -->
+    <div class="card">
+      <h3 class="card-title">🌟 Shoutouts</h3>
+      <div class="silver-frame">
+        <div id="silverScroller" class="silver-scroll"></div>
+      </div>
+    </div>
+
+    <!-- Daily Prediction Form -->
+    <div class="prediction-form">
+      <div style="font-weight: 700; margin-bottom: 10px;">🎯 TODAY'S PREDICTION</div>
+      <div>Germany vs Curaçao (June 15, 2026)</div>
+      <div class="prediction-options">
+        <label><input type="radio" name="prediction" value="Germany"> Germany</label>
+        <label><input type="radio" name="prediction" value="Curaçao"> Curaçao 🇨🇼</label>
+        <label><input type="radio" name="prediction" value="Draw"> Draw</label>
+      </div>
+      <input type="text" id="userName" placeholder="Your name" style="width:100%; padding:10px; margin:10px 0; border-radius:30px; border:1px solid #ddd;">
+      <button class="submit-prediction" onclick="submitPrediction()">SUBMIT PREDICTION</button>
+    </div>
+
+    <!-- Promote Your Business Button -->
+    <div class="donate-btn" onclick="openSponsorWhatsApp()">
+      💝 PROMOTE YOUR BUSINESS - Extra Fee for Promotion
     </div>
   </div>
 </div>
 
 <script>
 // ============================================
-// MATCH DATA (Updated with all matches)
+// SAMPLE DATA (Matches your sheet structure)
 // ============================================
 const MATCHES_DATA = [
-  // Finished matches
   { date: "2026-06-11", team1: "Mexico", team2: "South Africa", score1: 2, score2: 0, status: "Finished", location: "Blue Wave Stadium" },
   { date: "2026-06-11", team1: "South Korea", team2: "Czechia", score1: 2, score2: 1, status: "Finished", location: "Ocean Arena" },
-  { date: "2026-06-12", team1: "Canada", team2: "Bosnia and Herzegovina", score1: 1, score2: 1, status: "Finished", location: "Caribbean Park" },
-  { date: "2026-06-12", team1: "United States", team2: "Paraguay", score1: 4, score2: 1, status: "Finished", location: "Blue Wave Stadium" },
-  
-  // Today (June 13) - Upcoming
-  { date: "2026-06-13", team1: "Qatar", team2: "Switzerland", score1: null, score2: null, status: "Upcoming", location: "Ocean Arena" },
-  { date: "2026-06-13", team1: "Brazil", team2: "Morocco", score1: null, score2: null, status: "Upcoming", location: "Blue Wave Stadium" },
-  { date: "2026-06-13", team1: "Haiti", team2: "Scotland", score1: null, score2: null, status: "Upcoming", location: "Sunset Stadium" },
-  
-  // Sunday June 14
-  { date: "2026-06-14", team1: "Australia", team2: "Türkiye", score1: null, score2: null, status: "Upcoming", location: "Caribbean Park" },
-  { date: "2026-06-14", team1: "Germany", team2: "Curaçao", score1: null, score2: null, status: "Upcoming", location: "Blue Wave Stadium" },
-  { date: "2026-06-14", team1: "Netherlands", team2: "Japan", score1: null, score2: null, status: "Upcoming", location: "Ocean Arena" },
-  { date: "2026-06-14", team1: "Côte d'Ivoire", team2: "Ecuador", score1: null, score2: null, status: "Upcoming", location: "Sunset Stadium" },
-  { date: "2026-06-14", team1: "Sweden", team2: "Tunisia", score1: null, score2: null, status: "Upcoming", location: "Caribbean Park" },
-  
-  // Monday June 15
-  { date: "2026-06-15", team1: "Belgium", team2: "Egypt", score1: null, score2: null, status: "Upcoming", location: "Blue Wave Stadium" },
-  { date: "2026-06-15", team1: "Iran", team2: "New Zealand", score1: null, score2: null, status: "Upcoming", location: "Ocean Arena" },
-  { date: "2026-06-15", team1: "Saudi Arabia", team2: "Uruguay", score1: null, score2: null, status: "Upcoming", location: "Sunset Stadium" },
-  { date: "2026-06-15", team1: "Spain", team2: "Cabo Verde", score1: null, score2: null, status: "Upcoming", location: "Caribbean Park" },
-  
-  // Tuesday June 16
-  { date: "2026-06-16", team1: "France", team2: "Senegal", score1: null, score2: null, status: "Upcoming", location: "Blue Wave Stadium" },
-  { date: "2026-06-16", team1: "Iraq", team2: "Norway", score1: null, score2: null, status: "Upcoming", location: "Ocean Arena" },
-  { date: "2026-06-16", team1: "Argentina", team2: "Algeria", score1: null, score2: null, status: "Upcoming", location: "Sunset Stadium" },
-  
-  // Wednesday June 17
-  { date: "2026-06-17", team1: "Austria", team2: "Jordan", score1: null, score2: null, status: "Upcoming", location: "Caribbean Park" },
-  { date: "2026-06-17", team1: "Portugal", team2: "Congo DR", score1: null, score2: null, status: "Upcoming", location: "Blue Wave Stadium" },
-  { date: "2026-06-17", team1: "England", team2: "Croatia", score1: null, score2: null, status: "Upcoming", location: "Ocean Arena" },
-  { date: "2026-06-17", team1: "Ghana", team2: "Panama", score1: null, score2: null, status: "Upcoming", location: "Sunset Stadium" }
+  { date: "2026-06-12", team1: "Canada", team2: "Bosnia", score1: 1, score2: 1, status: "Finished", location: "Caribbean Park" },
+  { date: "2026-06-12", team1: "USA", team2: "Paraguay", score1: 4, score2: 1, status: "Finished", location: "Blue Wave Stadium" },
+  { date: "2026-06-15", team1: "Germany", team2: "Curaçao", score1: null, score2: null, status: "Upcoming", location: "Blue Wave Stadium" },
+  { date: "2026-06-16", team1: "Brazil", team2: "Netherlands", score1: null, score2: null, status: "Upcoming", location: "Ocean Arena" }
 ];
 
 const COUNTRY_DATA = {
@@ -385,69 +687,149 @@ const COUNTRY_DATA = {
   gf: 2,
   ga: 1,
   wavePercent: 72,
-  analysis: "Curaçao showing strong form after defeating Japan 2-1. Next match vs Germany will be crucial.",
   lastMatch: "Curaçao 2-1 Japan",
-  nextMatch: "Germany vs Curaçao (June 14)"
+  nextMatch: "Germany vs Curaçao (June 15)"
 };
 
-const FACTS_DATA = [
-  "Brazil is the only nation to play in every World Cup.",
-  "Curaçao is hosting its FIRST EVER World Cup in 2026!",
-  "The Blue Wave Stadium seats 45,000 fans.",
-  "32 teams from 6 continents are competing.",
-  "Over 500,000 visitors expected during the tournament.",
-  "The official mascot is 'Wavy' the Blue Dolphin.",
-  "64 matches will be played across 8 world-class stadiums."
+// Premium Ads (Landing Page) - 3 groups of 4
+const premiumGroups = [
+  [{ name: "AQUALECTRA", logo: "https://placehold.co/200x80/0057b8/white?text=AQUALECTRA", link: "https://wa.me/59995120536" },
+   { name: "CAVALIER", logo: "https://placehold.co/200x80/ffd23f/003f87?text=CAVALIER", link: "https://wa.me/59995120536" },
+   { name: "hbn", logo: "https://placehold.co/200x80/003f87/white?text=hbn", link: "https://wa.me/59995120536" },
+   { name: "Law & Tax", logo: "https://placehold.co/200x80/0057b8/white?text=Law+%26+Tax", link: "https://wa.me/59995120536" }],
+  [{ name: "MANGROVE BEACH", logo: "https://placehold.co/200x80/ffd23f/003f87?text=MANGROVE", link: "https://wa.me/59995120536" },
+   { name: "BDO", logo: "https://placehold.co/200x80/003f87/white?text=BDO", link: "https://wa.me/59995120536" },
+   { name: "KLM", logo: "https://placehold.co/200x80/0057b8/white?text=KLM", link: "https://wa.me/59995120536" },
+   { name: "BlueWave", logo: "https://placehold.co/200x80/ffd23f/003f87?text=BlueWave", link: "https://wa.me/59995120536" }],
+  [{ name: "Sponsor A", logo: "https://placehold.co/200x80/003f87/white?text=Sponsor+A", link: "https://wa.me/59995120536" },
+   { name: "Sponsor B", logo: "https://placehold.co/200x80/0057b8/white?text=Sponsor+B", link: "https://wa.me/59995120536" },
+   { name: "Sponsor C", logo: "https://placehold.co/200x80/ffd23f/003f87?text=Sponsor+C", link: "https://wa.me/59995120536" },
+   { name: "Sponsor D", logo: "https://placehold.co/200x80/003f87/white?text=Sponsor+D", link: "https://wa.me/59995120536" }]
+];
+
+// Gold Sponsors (4 groups of 8)
+const goldGroups = [
+  Array(8).fill().map((_,i) => ({ name: `Gold Sponsor ${i+1}`, logo: "https://placehold.co/150x80/0057b8/white?text=Gold", link: "https://wa.me/59995120536" })),
+  Array(8).fill().map((_,i) => ({ name: `Gold Sponsor ${i+9}`, logo: "https://placehold.co/150x80/ffd23f/003f87?text=Gold", link: "https://wa.me/59995120536" })),
+  Array(8).fill().map((_,i) => ({ name: `Gold Sponsor ${i+17}`, logo: "https://placehold.co/150x80/003f87/white?text=Gold", link: "https://wa.me/59995120536" })),
+  Array(8).fill().map((_,i) => ({ name: `Gold Sponsor ${i+25}`, logo: "https://placehold.co/150x80/0057b8/white?text=Gold", link: "https://wa.me/59995120536" }))
+];
+
+// Silver Shoutouts (4 groups of 10 + 15 base)
+const baseShoutouts = [
+  "💙 One love, Curaçao! 🇨🇼", "⚽ First World Cup in Curaçao!", "🌊 Blue Wave forever!",
+  "🇨🇼 Proud to be Curaçaoan!", "🎉 Let's make history!", "💪 Support the Wave!",
+  "🏆 2026 - Our year!", "⭐ Rise of the Blue Wave!", "🔥 Curaçao on fire!",
+  "🤝 Together we win!", "🌈 Unity is strength!", "⚡ Feel the energy!",
+  "🎯 Go for glory!", "💙 Blue Wave nation!", "🌊 Ride the Wave!"
+];
+
+const silverGroups = [
+  Array(10).fill().map((_,i) => ({ name: "Café Tropical", message: "Best coffee on the island!" })),
+  Array(10).fill().map((_,i) => ({ name: "Aqua Rentals", message: "Explore Curaçao!" })),
+  Array(10).fill().map((_,i) => ({ name: "Sunrise Tours", message: "Discover paradise!" })),
+  Array(10).fill().map((_,i) => ({ name: "Fresh Market", message: "Local freshness daily!" }))
+];
+
+// Promotions (Extra fee sponsored offers)
+const promotions = [
+  { title: "🍺 BlueWave Bank", text: "Next match: 50% off all beers! Show this app.", link: "https://wa.me/59995120536" },
+  { title: "☕ Tropical Café", text: "Buy 1 get 1 free coffee - present this app!", link: "https://wa.me/59995120536" }
+];
+
+// Leaderboard (Just for fun)
+let leaderboard = [
+  { user: "🇨🇼 Maria", points: 47, sponsored: false },
+  { user: "🇳🇱 Johan", points: 44, sponsored: false },
+  { user: "🇺🇸 Mike", points: 42, sponsored: false },
+  { user: "🇨🇼 Kevin", points: 39, sponsored: false },
+  { user: "🏆 BlueWave Bank", points: 35, sponsored: true, message: "Banking on victory!" }
 ];
 
 // ============================================
-// HELPER FUNCTIONS
+// ROTATION LOGIC
 // ============================================
-function formatDate(dateStr) {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-
-function getLast5Matches(matches) {
-  const finished = matches.filter(m => m.status === "Finished" && m.score1 !== null);
-  return finished.slice(-5).reverse();
-}
-
-function getNext3DaysMatches(matches) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  
-  const threeDaysLater = new Date(today);
-  threeDaysLater.setDate(today.getDate() + 3);
-  
-  return matches.filter(m => {
-    if (m.status !== "Upcoming") return false;
-    const matchDate = new Date(m.date);
-    matchDate.setHours(0, 0, 0, 0);
-    return matchDate >= today && matchDate <= threeDaysLater;
-  }).sort((a, b) => new Date(a.date) - new Date(b.date));
-}
-
-function getAllResults(matches) {
-  return matches.filter(m => m.status === "Finished" && m.score1 !== null)
-    .sort((a, b) => new Date(b.date) - new Date(a.date));
+function getRotationIndex(totalGroups) {
+  let idx = localStorage.getItem("adRotation") || 0;
+  idx = (parseInt(idx) + 1) % totalGroups;
+  localStorage.setItem("adRotation", idx);
+  return idx;
 }
 
 // ============================================
 // RENDER FUNCTIONS
 // ============================================
+function renderPremiumAds() {
+  const container = document.getElementById("premiumContainer");
+  if (!container) return;
+  const groupIdx = getRotationIndex(3);
+  const ads = premiumGroups[groupIdx];
+  container.innerHTML = ads.map(ad => `
+    <div class="premium-ad" onclick="openLink('${ad.link}')">
+      <img src="${ad.logo}" alt="${ad.name}">
+      <div class="ad-name">${ad.name}</div>
+    </div>
+  `).join('');
+}
+
+function renderGoldAds() {
+  const container = document.getElementById("goldContainer");
+  if (!container) return;
+  const groupIdx = getRotationIndex(4);
+  const ads = goldGroups[groupIdx];
+  container.innerHTML = ads.map(ad => `
+    <div class="gold-item" onclick="openLink('${ad.link}')">
+      <img src="${ad.logo}" alt="${ad.name}">
+      <div style="font-size:10px; margin-top:5px;">${ad.name}</div>
+    </div>
+  `).join('');
+}
+
+function renderSilverShoutouts() {
+  const container = document.getElementById("silverScroller");
+  if (!container) return;
+  const groupIdx = getRotationIndex(4);
+  const messages = [...baseShoutouts, ...silverGroups[groupIdx].map(s => `${s.name}: ${s.message}`)];
+  const doubled = [...messages, ...messages];
+  container.innerHTML = doubled.map(msg => `<div class="silver-item">⚽ ${msg}</div>`).join('');
+}
+
+function renderPromotions() {
+  const container = document.getElementById("promotionsContent");
+  if (!container) return;
+  container.innerHTML = promotions.map(p => `
+    <div class="promo-card" onclick="openLink('${p.link}')">
+      <div class="promo-title">${p.title}</div>
+      <div class="promo-text">${p.text}</div>
+      <div style="font-size:10px; color:#0057b8;">Click for offer →</div>
+    </div>
+  `).join('');
+  if (promotions.length === 0) container.innerHTML = "<p>No active promotions. Be the first!</p>";
+}
+
+function renderLeaderboard() {
+  const container = document.getElementById("leaderboardContent");
+  if (!container) return;
+  const sorted = [...leaderboard].sort((a,b) => b.points - a.points);
+  container.innerHTML = sorted.slice(0, 10).map((user, idx) => `
+    <div class="leaderboard-item">
+      <div class="leaderboard-rank">#${idx+1}</div>
+      <div class="leaderboard-user">
+        ${user.user}
+        ${user.sponsored ? `<span class="sponsored-badge">📢 SPONSORED</span>` : ''}
+        ${user.sponsored ? `<div style="font-size:10px; color:#ffd23f;">${user.message || ''}</div>` : ''}
+      </div>
+      <div class="leaderboard-points">${user.points} pts</div>
+    </div>
+  `).join('');
+}
+
 function renderResults() {
   const container = document.getElementById("resultsContent");
-  const results = getAllResults(MATCHES_DATA);
-  
-  if (results.length === 0) {
-    container.innerHTML = "<p style='text-align:center; padding:20px;'>No finished matches yet.</p>";
-    return;
-  }
-  
-  container.innerHTML = results.map(m => `
+  const finished = MATCHES_DATA.filter(m => m.status === "Finished");
+  container.innerHTML = finished.map(m => `
     <div class="match-item">
-      <div class="match-date">📅 ${formatDate(m.date)}</div>
+      <div class="match-date">📅 ${m.date}</div>
       <div class="match-teams">
         <span>${m.team1}</span>
         <span class="match-score">${m.score1} - ${m.score2}</span>
@@ -456,20 +838,15 @@ function renderResults() {
       <div class="match-location">📍 ${m.location}</div>
     </div>
   `).join('');
+  if (finished.length === 0) container.innerHTML = "<p>No finished matches yet.</p>";
 }
 
 function renderLastMatches() {
   const container = document.getElementById("lastMatchesContent");
-  const lastMatches = getLast5Matches(MATCHES_DATA);
-  
-  if (lastMatches.length === 0) {
-    container.innerHTML = "<p style='text-align:center; padding:20px;'>No recent matches.</p>";
-    return;
-  }
-  
-  container.innerHTML = lastMatches.map(m => `
+  const finished = MATCHES_DATA.filter(m => m.status === "Finished").slice(-5).reverse();
+  container.innerHTML = finished.map(m => `
     <div class="match-item">
-      <div class="match-date">📅 ${formatDate(m.date)}</div>
+      <div class="match-date">📅 ${m.date}</div>
       <div class="match-teams">
         <span>${m.team1}</span>
         <span class="match-score">${m.score1} - ${m.score2}</span>
@@ -481,16 +858,10 @@ function renderLastMatches() {
 
 function renderNextMatches() {
   const container = document.getElementById("nextMatchesContent");
-  const nextMatches = getNext3DaysMatches(MATCHES_DATA);
-  
-  if (nextMatches.length === 0) {
-    container.innerHTML = "<p style='text-align:center; padding:20px;'>No matches in the next 3 days.</p>";
-    return;
-  }
-  
-  container.innerHTML = nextMatches.map(m => `
+  const upcoming = MATCHES_DATA.filter(m => m.status === "Upcoming");
+  container.innerHTML = upcoming.map(m => `
     <div class="match-item">
-      <div class="match-date">📅 ${formatDate(m.date)} <span class="badge-upcoming">Upcoming</span></div>
+      <div class="match-date">📅 ${m.date}</div>
       <div class="match-teams">
         <span>${m.team1}</span>
         <span>vs</span>
@@ -504,102 +875,9 @@ function renderNextMatches() {
 function renderCountry() {
   const container = document.getElementById("countryContent");
   const c = COUNTRY_DATA;
-  
   container.innerHTML = `
-    <div style="text-align: center; margin-bottom: 20px;">
-      <div style="font-size: 48px;">🇨🇼</div>
-      <h2 style="color: #0057b8;">${c.name}</h2>
-    </div>
-    
+    <div style="text-align:center; margin-bottom:15px;"><div style="font-size:48px;">🇨🇼</div></div>
     <div class="country-stats">
       <div class="stat-item"><div class="stat-label">Group</div><div class="stat-value">${c.group}</div></div>
       <div class="stat-item"><div class="stat-label">Position</div><div class="stat-value">${c.position}</div></div>
-      <div class="stat-item"><div class="stat-label">Points</div><div class="stat-value">${c.points}</div></div>
-      <div class="stat-item"><div class="stat-label">W/D/L</div><div class="stat-value">${c.wins}/${c.draws}/${c.losses}</div></div>
-      <div class="stat-item"><div class="stat-label">GF</div><div class="stat-value">${c.gf}</div></div>
-      <div class="stat-item"><div class="stat-label">GA</div><div class="stat-value">${c.ga}</div></div>
-    </div>
-    
-    <div style="margin-top: 15px;">
-      <div style="display: flex; justify-content: space-between; font-size: 13px;">
-        <span>WAVE %</span>
-        <span><strong>${c.wavePercent}%</strong></span>
-      </div>
-      <div class="wave-bar">
-        <div class="wave-fill" style="width: ${c.wavePercent}%;"></div>
-      </div>
-    </div>
-    
-    <div style="margin-top: 15px; padding: 12px; background: #f0f4fa; border-radius: 12px;">
-      <p><strong>📊 Analysis:</strong> ${c.analysis}</p>
-      <p style="margin-top: 10px;"><strong>🔄 Last Match:</strong> ${c.lastMatch}</p>
-      <p><strong>⏭️ Next Match:</strong> ${c.nextMatch}</p>
-    </div>
-  `;
-}
-
-function renderFacts() {
-  const container = document.getElementById("factsContent");
-  container.innerHTML = `
-    <ul class="facts-list">
-      ${FACTS_DATA.map(fact => `<li>⭐ ${fact}</li>`).join('')}
-    </ul>
-  `;
-}
-
-// ============================================
-// TAB NAVIGATION
-// ============================================
-function showSection(sectionName) {
-  const sections = ["results", "last", "next", "country", "facts"];
-  sections.forEach(s => {
-    const el = document.getElementById(`section-${s}`);
-    if (el) el.style.display = "none";
-  });
-  
-  const selected = document.getElementById(`section-${sectionName}`);
-  if (selected) selected.style.display = "block";
-  
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.classList.remove("active");
-    if (tab.getAttribute("data-tab") === sectionName) {
-      tab.classList.add("active");
-    }
-  });
-}
-
-function enterApp() {
-  const landing = document.getElementById("landingPage");
-  const app = document.getElementById("appWrapper");
-  if (landing) landing.style.display = "none";
-  if (app) app.style.display = "block";
-  
-  // Render all content
-  renderResults();
-  renderLastMatches();
-  renderNextMatches();
-  renderCountry();
-  renderFacts();
-  
-  showSection("results");
-}
-
-// ============================================
-// INITIALIZATION
-// ============================================
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.addEventListener("click", function() {
-      const sectionName = this.getAttribute("data-tab");
-      if (sectionName) showSection(sectionName);
-    });
-  });
-  
-  const enterBtn = document.getElementById("enterAppBtn");
-  if (enterBtn) {
-    enterBtn.addEventListener("click", enterApp);
-  }
-});
-</script>
-</body>
-</html>
+      <div class="stat-item
