@@ -1,7 +1,7 @@
 /* ============================================
    CONFIG
 ============================================ */
-const API_URL = "https://script.google.com/macros/s/AKfycbvWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
 
 
 /* ============================================
