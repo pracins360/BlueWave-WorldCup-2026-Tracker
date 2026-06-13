@@ -298,10 +298,11 @@ function enterApp() {
   const landing = document.getElementById("landingPage");
   if (landing) landing.style.display = "none";
 
-  // If you want, you can explicitly show your app wrapper here:
-  // const app = document.getElementById("appWrapper");
-  // if (app) app.style.display = "block";
+  const app = document.getElementById("appWrapper");
+  if (app) app.style.display = "block";
 }
+
+
 
 /* ============================================
    LOAD COUNTRY
