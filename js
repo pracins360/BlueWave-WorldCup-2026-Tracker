@@ -93,8 +93,6 @@ async function loadCountry(name) {
   document.getElementById("waveFill").style.width = wave + "%";
 
   document.getElementById("countryAnalysis").textContent = data.Analysis;
-
-  
 }
 
 
@@ -118,7 +116,6 @@ function loadLoyalty(loyalty) {
   document.getElementById("loyaltyResult").textContent = match.Result;
   document.getElementById("loyaltyVoucher").textContent = match.VoucherCode;
 }
-
 
 
 /* ============================================
@@ -150,18 +147,15 @@ function loadSponsors(sponsors) {
 }
 
 
-    loadChallenge(sponsors);
-
-  } catch (err) {
-    console.error("Sponsor error:", err);
-  }
-}
-
 /* ============================================
    LOAD ACTIVE CHALLENGE
 ============================================ */
 function loadChallenge(sponsors) {
-  const active = sponsors.find(s => s.ActiveChallenge === true || s.ActiveChallenge === "TRUE");
+  const active = sponsors.find(s =>
+    s.ActiveChallenge === true ||
+    String(s.ActiveChallenge).toUpperCase() === "TRUE"
+  );
+
   if (!active) return;
 
   document.getElementById("challengeCard").classList.remove("hidden");
@@ -184,7 +178,6 @@ function loadResults(matches) {
     JSON.stringify(matches, null, 2);
 }
 
-
 function loadCalendar(matches) {
   document.getElementById("calendarContent").textContent =
     JSON.stringify(matches, null, 2);
@@ -195,13 +188,10 @@ function loadBracket(bracket) {
     JSON.stringify(bracket, null, 2);
 }
 
-
 function loadFacts(facts) {
   document.getElementById("factsContent").textContent =
     JSON.stringify(facts, null, 2);
 }
-
-
 
 
 /* ============================================
@@ -231,7 +221,3 @@ async function loadAll() {
 }
 
 loadAll();
-
-
-
-
