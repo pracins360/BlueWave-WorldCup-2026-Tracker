@@ -109,6 +109,63 @@ const premiumSponsors = [
   { name: "Harbor Logistics 2", logo: "img/premium-harbor2.png", link: "https://wa.me/59995550015" },
   { name: "Royal Insurance 2", logo: "img/premium-insurance2.png", link: "https://wa.me/59995550016" }
 ];
+const goldSponsors = [
+  { name: "Island Fitness", logo: "img/gold-fitness.png", link: "https://wa.me/59995551001" },
+  { name: "Tropical Café", logo: "img/gold-cafe.png", link: "https://wa.me/59995551002" },
+  { name: "Aqua Rentals", logo: "img/gold-aqua.png", link: "https://wa.me/59995551003" },
+  { name: "Caribbean Print", logo: "img/gold-print.png", link: "https://wa.me/59995551004" },
+  { name: "Island Tech", logo: "img/gold-tech.png", link: "https://wa.me/59995551005" },
+  { name: "Blue Taxi", logo: "img/gold-taxi.png", link: "https://wa.me/59995551006" },
+  { name: "Fresh Market", logo: "img/gold-market.png", link: "https://wa.me/59995551007" },
+  { name: "Harbor Café", logo: "img/gold-harborcafe.png", link: "https://wa.me/59995551008" },
+  { name: "Sunrise Tours", logo: "img/gold-tours.png", link: "https://wa.me/59995551009" },
+  { name: "Island Auto", logo: "img/gold-auto.png", link: "https://wa.me/59995551010" },
+
+  { name: "Island Fitness 2", logo: "img/gold-fitness2.png", link: "https://wa.me/59995551011" },
+  { name: "Tropical Café 2", logo: "img/gold-cafe2.png", link: "https://wa.me/59995551012" },
+  { name: "Aqua Rentals 2", logo: "img/gold-aqua2.png", link: "https://wa.me/59995551013" },
+  { name: "Caribbean Print 2", logo: "img/gold-print2.png", link: "https://wa.me/59995551014" },
+  { name: "Island Tech 2", logo: "img/gold-tech2.png", link: "https://wa.me/59995551015" },
+  { name: "Blue Taxi 2", logo: "img/gold-taxi2.png", link: "https://wa.me/59995551016" },
+  { name: "Fresh Market 2", logo: "img/gold-market2.png", link: "https://wa.me/59995551017" },
+  { name: "Harbor Café 2", logo: "img/gold-harborcafe2.png", link: "https://wa.me/59995551018" },
+  { name: "Sunrise Tours 2", logo: "img/gold-tours2.png", link: "https://wa.me/59995551019" },
+  { name: "Island Auto 2", logo: "img/gold-auto2.png", link: "https://wa.me/59995551020" }
+];
+const silverSponsors = [
+  { name: "BlueWave Bank", message: "Supporting Curaçao’s youth" },
+  { name: "Island Fitness", message: "Stay strong, stay active" },
+  { name: "Tropical Café", message: "Fuel your day" },
+  { name: "Aqua Rentals", message: "Explore the island" },
+  { name: "Caribbean Print", message: "Print with pride" },
+  { name: "Island Tech", message: "Innovation for all" },
+  { name: "Blue Taxi", message: "Ride with comfort" },
+  { name: "Fresh Market", message: "Local freshness daily" },
+  { name: "Harbor Café", message: "Taste the island" },
+  { name: "Sunrise Tours", message: "Discover Curaçao" },
+
+  { name: "BlueWave Bank 2", message: "Proud to support the community" },
+  { name: "Island Fitness 2", message: "Your health matters" },
+  { name: "Tropical Café 2", message: "Good vibes only" },
+  { name: "Aqua Rentals 2", message: "Adventure awaits" },
+  { name: "Caribbean Print 2", message: "Quality you trust" },
+  { name: "Island Tech 2", message: "Tech made simple" },
+  { name: "Blue Taxi 2", message: "We take you there" },
+  { name: "Fresh Market 2", message: "Eat well, live well" },
+  { name: "Harbor Café 2", message: "Island flavor" },
+  { name: "Sunrise Tours 2", message: "See the beauty" },
+
+  { name: "Ocean Fresh Foods", message: "Taste the ocean" },
+  { name: "Harbor Logistics", message: "Moving Curaçao forward" },
+  { name: "Royal Insurance", message: "Protecting what matters" },
+  { name: "Sunset Resorts", message: "Relax in paradise" },
+  { name: "Island Auto", message: "Drive with confidence" },
+  { name: "Curaçao Energy", message: "Powering the island" },
+  { name: "Island Telecom", message: "Stay connected" },
+  { name: "Caribbean Motors", message: "Your journey starts here" },
+  { name: "Ocean Fresh Foods 2", message: "Fresh every day" },
+  { name: "Royal Insurance 2", message: "We’ve got you covered" }
+];
 
 // ===============================
 // SPONSOR DATA (EXAMPLE STRUCTURE)
