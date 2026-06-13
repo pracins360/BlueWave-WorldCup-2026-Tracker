@@ -88,7 +88,7 @@ async function loadCountry(name) {
   document.getElementById("countryGA").textContent = data.GA;
   document.getElementById("countryLast").textContent = data.LastMatch;
 
-  const wave = parseInt(data["WAVE %"]) || 0;
+  const wave = parseInt(data["WAVE%"] || data["WAVE %"] || 0);
   document.getElementById("waveValue").textContent = wave + "%";
   document.getElementById("waveFill").style.width = wave + "%";
 
