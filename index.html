@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blue Wave</title>
+<title>Blue Wave - Curaçao World Cup 2026</title>
 
 <style>
   /* ============================================
@@ -32,70 +32,6 @@
   flex-direction: column;
   gap: 40px;
   padding-bottom: 40px;
-}
-/* SILVER SCROLLER (10 per rotation) */
-.silver-frame {
-  background: #003f87;
-  padding: 12px;
-  border-radius: 12px;
-  margin: 0 20px;
-  overflow: hidden;
-}
-
-.silver-scroll {
-  display: flex;
-  gap: 40px;
-  white-space: nowrap;
-  animation: scrollLeft 18s linear infinite;
-}
-
-.silver-item {
-  color: #ffd200;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.silver-name {
-  color: white;
-  font-weight: 700;
-}
-
-/* Smooth scrolling animation */
-@keyframes scrollLeft {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
-}
-/* SILVER SCROLLER (10 per rotation) */
-.silver-frame {
-  background: #003f87;
-  padding: 12px;
-  border-radius: 12px;
-  margin: 0 20px;
-  overflow: hidden;
-}
-
-.silver-scroll {
-  display: flex;
-  gap: 40px;
-  white-space: nowrap;
-  animation: scrollLeft 18s linear infinite;
-}
-
-.silver-item {
-  color: #ffd200;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.silver-name {
-  color: white;
-  font-weight: 700;
-}
-
-/* Smooth scrolling animation */
-@keyframes scrollLeft {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
 }
 
 /* ============================
@@ -135,6 +71,7 @@
 
 .enter-btn:hover {
   background: #ffdf4d;
+  transform: scale(1.02);
 }
 
 /* ============================
@@ -145,7 +82,7 @@
   font-size: 20px;
   font-weight: 700;
   color: #003f87;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 /* ============================
@@ -222,7 +159,7 @@
   display: flex;
   gap: 40px;
   white-space: nowrap;
-  animation: scrollLeft 18s linear infinite;
+  animation: scrollLeft 25s linear infinite;
 }
 
 .silver-item {
@@ -418,8 +355,8 @@ pre {
   <!-- HERO -->
   <section class="hero">
     <h1 class="hero-title">BLUE WAVE 2026</h1>
-    <p class="hero-sub">Curaçao’s First World Cup</p>
-    <button class="enter-btn" onclick="enterApp()">ENTER APP</button>
+    <p class="hero-sub">Curaçao's First World Cup</p>
+    <button class="enter-btn" id="enterAppBtn">ENTER APP</button>
   </section>
 
   <!-- FEATURED SUPPORTERS OF THE WAVE -->
@@ -434,7 +371,7 @@ pre {
     <div id="goldContainer" class="gold-grid"></div>
   </section>
 
-  <!-- COMMUNITY SHOUT‑OUTS -->
+  <!-- COMMUNITY SHOUT-OUTS -->
   <section class="community-section">
     <h2 class="section-title">Messages of Support</h2>
     <div class="silver-frame">
@@ -469,7 +406,7 @@ pre {
 
   <div>
     <b>WAVE %:</b> <span id="waveValue"></span>
-    <div style="background:#ddd;width:100%;height:10px;border-radius:5px;">
+    <div style="background:#ddd;width:100%;height:10px;border-radius:5px;margin-top:5px;">
       <div id="waveFill" style="background:#0057b8;height:10px;width:0%;border-radius:5px;"></div>
     </div>
   </div>
@@ -496,35 +433,237 @@ pre {
 <div id="challengeCard" class="card hidden">
   <h3 id="challengeTitle"></h3>
   <p id="challengeTeaser"></p>
-  <button id="challengeLink" onclick="openChallenge()">Open Challenge</button>
+  <button id="challengeLinkBtn" onclick="openChallenge()">Open Challenge</button>
 </div>
 
 <!-- RESULTS -->
 <div id="section-results" class="section">
   <h2>Results</h2>
-  <pre id="resultsContent"></pre>
+  <pre id="resultsContent">Loading...</pre>
 </div>
 
 <!-- CALENDAR -->
 <div id="section-calendar" class="section">
   <h2>Calendar</h2>
-  <pre id="calendarContent"></pre>
+  <pre id="calendarContent">Loading...</pre>
 </div>
 
 <!-- BRACKET -->
 <div id="section-bracket" class="section">
   <h2>Bracket</h2>
-  <pre id="bracketContent"></pre>
+  <pre id="bracketContent">Loading...</pre>
 </div>
 
 <!-- FACTS -->
 <div id="section-facts" class="section">
   <h2>Facts</h2>
-  <pre id="factsContent"></pre>
+  <pre id="factsContent">Loading...</pre>
 </div>
 </div> <!-- end of appWrapper -->
 
-<script src="script.js"></script>
+<script>
+/* ============================================
+   CONFIG
+============================================ */
+const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
+
+/* ============================================
+   FLAG MAPPER (Emoji)
+============================================ */
+function flagFor(country) {
+  if (!country) return "🏳️";
+  const map = {
+    "curacao": "🇨🇼",
+    "brazil": "🇧🇷",
+    "germany": "🇩🇪",
+    "argentina": "🇦🇷",
+    "france": "🇫🇷",
+    "spain": "🇪🇸",
+    "usa": "🇺🇸",
+    "netherlands": "🇳🇱",
+    "italy": "🇮🇹",
+    "england": "🏴",
+    "portugal": "🇵🇹",
+    "colombia": "🇨🇴",
+    "mexico": "🇲🇽",
+    "japan": "🇯🇵",
+    "south korea": "🇰🇷"
+  };
+  const key = country.toLowerCase().trim();
+  return map[key] || "🏳️";
+}
+
+/* ============================================
+   SECTION TABS
+============================================ */
+function hideAllSections() {
+  const sections = ["section-results", "section-calendar", "section-bracket", "section-facts"];
+  sections.forEach(section => {
+    const el = document.getElementById(section);
+    if (el) el.classList.add("hidden");
+  });
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+}
+
+function showSection(section) {
+  hideAllSections();
+  const targetSection = document.getElementById(`section-${section}`);
+  if (targetSection) targetSection.classList.remove("hidden");
+  document.querySelectorAll(".tab").forEach(t => {
+    if (t.textContent.toLowerCase().includes(section)) {
+      t.classList.add("active");
+    }
+  });
+}
+
+/* ============================================
+   SPONSOR DATA
+============================================ */
+const premiumSponsors = [
+  { name: "BlueWave Bank", logo: "https://placehold.co/400x100/0057b8/white?text=BlueWave+Bank", link: "https://wa.me/59995550001" },
+  { name: "Curaçao Energy", logo: "https://placehold.co/400x100/ffd23f/003f87?text=Curaçao+Energy", link: "https://wa.me/59995550002" },
+  { name: "Island Telecom", logo: "https://placehold.co/400x100/003f87/white?text=Island+Telecom", link: "https://wa.me/59995550003" },
+  { name: "Caribbean Motors", logo: "https://placehold.co/400x100/0057b8/white?text=Caribbean+Motors", link: "https://wa.me/59995550004" },
+  { name: "Sunset Resorts", logo: "https://placehold.co/400x100/ffd23f/003f87?text=Sunset+Resorts", link: "https://wa.me/59995550005" },
+  { name: "Ocean Fresh Foods", logo: "https://placehold.co/400x100/003f87/white?text=Ocean+Fresh", link: "https://wa.me/59995550006" },
+  { name: "Harbor Logistics", logo: "https://placehold.co/400x100/0057b8/white?text=Harbor+Logistics", link: "https://wa.me/59995550007" },
+  { name: "Royal Insurance", logo: "https://placehold.co/400x100/ffd23f/003f87?text=Royal+Insurance", link: "https://wa.me/59995550008" }
+];
+
+const goldSponsors = [
+  { name: "Island Fitness", logo: "https://placehold.co/200x100/0057b8/white?text=Fitness", link: "https://wa.me/59995551001" },
+  { name: "Tropical Café", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Café", link: "https://wa.me/59995551002" },
+  { name: "Aqua Rentals", logo: "https://placehold.co/200x100/003f87/white?text=Aqua", link: "https://wa.me/59995551003" },
+  { name: "Caribbean Print", logo: "https://placehold.co/200x100/0057b8/white?text=Print", link: "https://wa.me/59995551004" },
+  { name: "Island Tech", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Tech", link: "https://wa.me/59995551005" },
+  { name: "Blue Taxi", logo: "https://placehold.co/200x100/003f87/white?text=Blue+Taxi", link: "https://wa.me/59995551006" },
+  { name: "Fresh Market", logo: "https://placehold.co/200x100/0057b8/white?text=Fresh+Market", link: "https://wa.me/59995551007" },
+  { name: "Harbor Café", logo: "https://placehold.co/200x100/ffd23f/003f87?text=Harbor+Café", link: "https://wa.me/59995551008" },
+  { name: "Sunrise Tours", logo: "https://placehold.co/200x100/003f87/white?text=Sunrise", link: "https://wa.me/59995551009" },
+  { name: "Island Auto", logo: "https://placehold.co/200x100/0057b8/white?text=Island+Auto", link: "https://wa.me/59995551010" }
+];
+
+const silverSponsors = [
+  { name: "BlueWave Bank", message: "Supporting Curaçao's youth" },
+  { name: "Island Fitness", message: "Stay strong, stay active" },
+  { name: "Tropical Café", message: "Fuel your day" },
+  { name: "Aqua Rentals", message: "Explore the island" },
+  { name: "Caribbean Print", message: "Print with pride" },
+  { name: "Island Tech", message: "Innovation for all" },
+  { name: "Blue Taxi", message: "Ride with comfort" },
+  { name: "Fresh Market", message: "Local freshness daily" },
+  { name: "Harbor Café", message: "Taste the island" },
+  { name: "Sunrise Tours", message: "Discover Curaçao" }
+];
+
+/* ============================================
+   RENDER SPONSORS
+============================================ */
+function renderSponsors() {
+  const premiumContainer = document.getElementById("premiumContainer");
+  if (premiumContainer) {
+    premiumContainer.innerHTML = premiumSponsors.map(s => `
+      <div class="premium-banner" onclick="openLink('${s.link}')">
+        <img src="${s.logo}" alt="${s.name}">
+      </div>
+    `).join('');
+  }
+  
+  const goldContainer = document.getElementById("goldContainer");
+  if (goldContainer) {
+    goldContainer.innerHTML = goldSponsors.map(s => `
+      <div class="gold-item" onclick="openLink('${s.link}')">
+        <img src="${s.logo}" alt="${s.name}">
+      </div>
+    `).join('');
+  }
+  
+  const silverScroller = document.getElementById("silverScroller");
+  if (silverScroller) {
+    // Double the items for seamless scrolling
+    const doubled = [...silverSponsors, ...silverSponsors];
+    silverScroller.innerHTML = doubled.map(s => `
+      <div class="silver-item">
+        <span class="silver-name">${s.name}</span>
+        <span class="silver-message"> – ${s.message}</span>
+      </div>
+    `).join('');
+  }
+}
+
+function openLink(url) {
+  if (url && url !== "") window.open(url, "_blank");
+}
+
+/* ============================================
+   ENTER APP FUNCTION
+============================================ */
+function enterApp() {
+  console.log("Entering app...");
+  const landing = document.getElementById("landingPage");
+  const app = document.getElementById("appWrapper");
+  
+  if (landing) landing.style.display = "none";
+  if (app) app.style.display = "block";
+}
+
+/* ============================================
+   LOAD DATA FROM API
+============================================ */
+async function loadAll() {
+  try {
+    const res = await fetch(`${API_URL}?action=all`);
+    const data = await res.json();
+    if (!data) return;
+    
+    if (data.sponsors) {
+      const list = document.getElementById("sponsorList");
+      if (list) {
+        list.innerHTML = data.sponsors.map(s => `
+          <div class="sponsor-item">
+            <div class="sponsor-main">
+              <div class="sponsor-name">${s.SponsorName}</div>
+              <div class="sponsor-tier">Tier: ${s.Tier}</div>
+            </div>
+            <div class="sponsor-actions">
+              <div class="link-pill" onclick="openLink('${s.AdURL}')">Ad</div>
+              <div class="link-pill" onclick="openLink('${s.WhatsAppLink}')">WhatsApp</div>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+    
+    showSection('results');
+  } catch (error) {
+    console.error("Error loading data:", error);
+  }
+}
+
+/* ============================================
+   INITIALIZE ON PAGE LOAD
+============================================ */
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Page loaded - initializing...");
+  renderSponsors();
+  loadAll();
+  
+  // Attach enter app button event listener
+  const enterBtn = document.getElementById("enterAppBtn");
+  if (enterBtn) {
+    enterBtn.addEventListener("click", enterApp);
+  }
+});
+
+// Make functions globally available
+window.showSection = showSection;
+window.openLink = openLink;
+window.openChallenge = function() {
+  const btn = document.getElementById("challengeLinkBtn");
+  const url = btn ? btn.getAttribute("data-url") : null;
+  if (url) window.open(url, "_blank");
+};
+</script>
 
 </body>
 </html>
