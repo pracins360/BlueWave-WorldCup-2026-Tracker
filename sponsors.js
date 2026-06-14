@@ -10,22 +10,16 @@ function openLink(url) {
     if (url && url !== "#") window.open(url, "_blank");
 }
 
-// ========== PREMIUM SPONSORS (3 groups of 4) ==========
+// Premium sponsors - JUST LOGO, no text name overlay
 const PREMIUM_GROUPS = [
     [
-        { name: "AQUALECTRA", logo: "https://placehold.co/300x100/0057b8/white?text=AQUALECTRA", link: "https://wa.me/59995120536" },
-        { name: "CAVALIER", logo: "https://placehold.co/300x100/ffcd3c/002b54?text=CAVALIER", link: "https://wa.me/59995120536" },
-        { name: "hbn Law", logo: "https://placehold.co/300x100/003f6e/white?text=hbn+Law", link: "https://wa.me/59995120536" },
-        { name: "MANGROVE BEACH", logo: "https://placehold.co/300x100/1f5e3a/white?text=MANGROVE", link: "https://wa.me/59995120536" }
+        { name: "Jaguar Pizza", logo: "https://placehold.co/400x150/white/003366?text=JAGUAR", link: "https://wa.me/59995120536" },
+        { name: "AQUALECTRA", logo: "https://placehold.co/400x150/white/0057b8?text=AQUALECTRA", link: "https://wa.me/59995120536" },
+        { name: "CAVALIER", logo: "https://placehold.co/400x150/white/ffcd3c?text=CAVALIER", link: "https://wa.me/59995120536" },
+        { name: "MANGROVE BEACH", logo: "https://placehold.co/400x150/white/1f5e3a?text=MANGROVE", link: "https://wa.me/59995120536" }
     ],
-    [
-        { name: "BDO", logo: "https://placehold.co/300x100/1e4a76/white?text=BDO", link: "https://wa.me/59995120536" },
-        { name: "KLM", logo: "https://placehold.co/300x100/0a3366/white?text=KLM", link: "https://wa.me/59995120536" },
-        { name: "Sunset Resort", logo: "https://placehold.co/300x100/e68a2e/white?text=Sunset", link: "https://wa.me/59995120536" },
-        { name: "Island Auto", logo: "https://placehold.co/300x100/2c5f8a/white?text=Island+Auto", link: "https://wa.me/59995120536" }
-    ],
-    [
-        { name: "Royal Insure", logo: "https://placehold.co/300x100/8b5a2b/white?text=Royal+Insure", link: "https://wa.me/59995120536" },
+    // ... rest of groups
+];: "Royal Insure", logo: "https://placehold.co/300x100/8b5a2b/white?text=Royal+Insure", link: "https://wa.me/59995120536" },
         { name: "Ocean Fresh", logo: "https://placehold.co/300x100/2c7a4a/white?text=Ocean+Fresh", link: "https://wa.me/59995120536" },
         { name: "Tropical Café", logo: "https://placehold.co/300x100/c97e2a/white?text=Tropical+Cafe", link: "https://wa.me/59995120536" },
         { name: "BlueWave Bank", logo: "https://placehold.co/300x100/164b7a/white?text=BlueWave", link: "https://wa.me/59995120536" }
