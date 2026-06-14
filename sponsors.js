@@ -19,11 +19,6 @@ const PREMIUM_GROUPS = [
         { name: "MANGROVE BEACH", logo: "https://placehold.co/400x150/white/1f5e3a?text=MANGROVE", link: "https://wa.me/59995120536" }
     ],
     // ... rest of groups
-];: "Royal Insure", logo: "https://placehold.co/300x100/8b5a2b/white?text=Royal+Insure", link: "https://wa.me/59995120536" },
-        { name: "Ocean Fresh", logo: "https://placehold.co/300x100/2c7a4a/white?text=Ocean+Fresh", link: "https://wa.me/59995120536" },
-        { name: "Tropical Café", logo: "https://placehold.co/300x100/c97e2a/white?text=Tropical+Cafe", link: "https://wa.me/59995120536" },
-        { name: "BlueWave Bank", logo: "https://placehold.co/300x100/164b7a/white?text=BlueWave", link: "https://wa.me/59995120536" }
-    ]
 ];
 
 // ========== GOLD SPONSORS (4 groups of 8) ==========
