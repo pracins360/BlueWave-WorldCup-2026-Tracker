@@ -458,3 +458,17 @@ body {
 .hidden {
   display: none;
 }
+/* Ensure landing page and app wrapper work properly */
+#landingPage {
+    display: flex;  /* or block, but visible initially */
+}
+
+#appWrapper {
+    display: none;  /* Hidden initially */
+}
+
+/* Make sure no conflicting styles */
+#landingPage.hidden,
+#appWrapper.hidden {
+    display: none;
+}
