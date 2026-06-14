@@ -4,9 +4,10 @@ const FALLBACK_MATCHES = [
     { date: "2026-06-11", team1: "South Korea", team2: "Czechia", score1: 2, score2: 1, status: "Final", location: "Ocean Arena" },
     { date: "2026-06-12", team1: "Canada", team2: "Bosnia", score1: 1, score2: 1, status: "Final", location: "Caribbean Park" },
     { date: "2026-06-12", team1: "USA", team2: "Paraguay", score1: 4, score2: 1, status: "Final", location: "Blue Wave Stadium" },
-    { date: "2026-06-15", team1: "Germany", team2: "Curaçao", score1: null, score2: null, status: "Scheduled", location: "Blue Wave Stadium" },
+    { date: "2026-06-14", team1: "Curaçao", team2: "Germany", score1: 1, score2: 1, status: "Final", location: "Blue Wave Stadium" },
     { date: "2026-06-15", team1: "Netherlands", team2: "Japan", score1: null, score2: null, status: "Scheduled", location: "Blue Wave Stadium" },
-    { date: "2026-06-16", team1: "Brazil", team2: "Argentina", score1: null, score2: null, status: "Scheduled", location: "Ocean Arena" }
+    { date: "2026-06-16", team1: "Brazil", team2: "Argentina", score1: null, score2: null, status: "Scheduled", location: "Ocean Arena" },
+    { date: "2026-06-17", team1: "France", team2: "Spain", score1: null, score2: null, status: "Scheduled", location: "Sunset Stadium" }
 ];
 
 let liveMatches = [...FALLBACK_MATCHES];
@@ -78,6 +79,10 @@ function renderLastMatches() {
     const container = document.getElementById("lastMatchesContent");
     if (!container) return;
     const finished = liveMatches.filter(m => m.status === "Final" || (m.score1 !== null && m.score2 !== null)).slice(-5).reverse();
+    if (finished.length === 0) {
+        container.innerHTML = "<div class='loading'>No recent matches</div>";
+        return;
+    }
     container.innerHTML = finished.map(m => `
         <div class="match-item">
             <div class="match-date">📅 ${m.date}</div>
@@ -87,13 +92,17 @@ function renderLastMatches() {
                 <span>${m.team2}</span>
             </div>
         </div>
-    `).join('') || "<div class='loading'>No recent matches</div>";
+    `).join('');
 }
 
 function renderNextMatches() {
     const container = document.getElementById("nextMatchesContent");
     if (!container) return;
     const upcoming = liveMatches.filter(m => m.status === "Scheduled" || (m.score1 === null && m.score2 === null));
+    if (upcoming.length === 0) {
+        container.innerHTML = "<div class='loading'>No upcoming matches</div>";
+        return;
+    }
     container.innerHTML = upcoming.map(m => `
         <div class="match-item">
             <div class="match-date">📅 ${m.date}</div>
@@ -124,15 +133,33 @@ function shareApp() {
     }
 }
 
-// ========== ENTER APP ==========
+// ========== ENTER APP (FIXED!) ==========
 function enterApp() {
-    document.getElementById("landingPage").style.display = "none";
-    document.getElementById("appWrapper").style.display = "block";
+    console.log("Enter App clicked"); // Debug
+    const landingPage = document.getElementById("landingPage");
+    const appWrapper = document.getElementById("appWrapper");
+    
+    if (landingPage) {
+        landingPage.style.display = "none";
+        console.log("Landing page hidden");
+    }
+    
+    if (appWrapper) {
+        appWrapper.style.display = "block";
+        console.log("App wrapper shown");
+    }
+    
+    // Load all data
     fetchLiveScores().then(() => {
         renderResults();
         renderLastMatches();
         renderNextMatches();
     });
+    
+    // Render sponsors
+    if (typeof renderGold === 'function') renderGold("goldContainer");
+    if (typeof renderSilver === 'function') renderSilver("silverScroller");
+    
     showSection('results');
 }
 
@@ -154,16 +181,29 @@ function showSection(sectionId) {
 
 // ========== INITIALIZATION ==========
 document.addEventListener("DOMContentLoaded", () => {
-    renderPremium("premiumContainer");
-    renderGold("goldContainer");
-    renderSilver("silverScroller");
+    console.log("DOM loaded");
     
+    // Render premium sponsors on landing page
+    if (typeof renderPremium === 'function') {
+        renderPremium("premiumContainer");
+    }
+    
+    // Setup enter button
     const enterBtn = document.getElementById("enterAppBtn");
-    if (enterBtn) enterBtn.addEventListener("click", enterApp);
+    if (enterBtn) {
+        enterBtn.addEventListener("click", enterApp);
+        console.log("Enter button attached");
+    } else {
+        console.error("Enter button not found!");
+    }
     
+    // Setup share button (will be available after app loads)
     const shareBtn = document.getElementById("shareAppBtn");
-    if (shareBtn) shareBtn.addEventListener("click", shareApp);
+    if (shareBtn) {
+        shareBtn.addEventListener("click", shareApp);
+    }
     
+    // Setup tabs (will be available after app loads)
     document.querySelectorAll(".tab").forEach(tab => {
         tab.addEventListener("click", () => {
             const tabId = tab.getAttribute("data-tab");
