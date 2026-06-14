@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Blue Wave · Match Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* EXTRA FIXES FOR BLURRY LANDING PAGE */
+        #landingPage {
+            background: #001e3c;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+        
+        .banner-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+        
+        /* Remove any blur filters */
+        .premium-sponsor-area {
+            backdrop-filter: none;
+            background: rgba(0, 30, 60, 0.9);
+        }
+        
+        /* Sharper text */
+        .premium-title, .enter-btn {
+            -webkit-font-smoothing: antialiased;
+            font-smoothing: antialiased;
+        }
+    </style>
+</head>
+<body>
+
+<!-- LANDING PAGE -->
+<div id="landingPage">
+    <div class="banner-container">
+        <img src="https://i.ibb.co/KxtD3C2w/banner-world-cup-app.png" alt="Blue Wave 2026" style="width:100%; height:auto; display:block;">
+    </div>
+    
+    <div class="premium-sponsor-area">
+        <div class="premium-title">⭐ TOGETHER FOR CURAÇAO ⭐</div>
+        <div id="premiumContainer" class="premium-grid"></div>
+    </div>
+    
+    <button class="enter-btn" id="enterAppBtn">⚽ SEE MATCH RESULTS ⚽</button>
+</div>
+
+<!-- REST OF YOUR APP (same as before) -->
+<div id="appWrapper">
+    <div class="app-header">
+        <h2>🌊 BLUE WAVE 2026</h2>
+        <p>Curaçao World Cup Tracker · Live Scores</p>
+    </div>
+    
+    <div class="tabs">
+        <button class="tab active" data-tab="results">📋 RESULTS</button>
+        <button class="tab" data-tab="last">🔄 LAST</button>
+        <button class="tab" data-tab="next">⏭️ NEXT</button>
+    </div>
+    
+    <div id="section-results" class="section active-section">
+        <div class="card">
+            <div class="card-title">📋 Match Results</div>
+            <div id="resultsContent" class="loading">Loading...</div>
+        </div>
+    </div>
+    
+    <div id="section-last" class="section">
+        <div class="card">
+            <div class="card-title">🔄 Recent Matches</div>
+            <div id="lastMatchesContent" class="loading">Loading...</div>
+        </div>
+    </div>
+    
+    <div id="section-next" class="section">
+        <div class="card">
+            <div class="card-title">⏭️ Upcoming Matches</div>
+            <div id="nextMatchesContent" class="loading">Loading...</div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">📢 OUR SUPPORTERS</div>
+        <div id="goldContainer" class="gold-grid"></div>
+    </div>
+    
+    <div class="card">
+        <div class="card-title">🌟 SHOUTOUTS</div>
+        <div class="silver-frame">
+            <div id="silverScroller" class="silver-scroll"></div>
+        </div>
+    </div>
+    
+    <div class="card" style="text-align: center; background: linear-gradient(135deg, #001e3c, #002b54);">
+        <div class="card-title" style="color: #ffcd3c; border-left-color: #ffcd3c;">🎬 OFFICIAL HIGHLIGHTS</div>
+        <p style="color: white; font-size: 13px; margin-bottom: 12px;">Watch all goals & best moments from every match</p>
+        <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/highlights" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           style="display: inline-block; background: #ffcd3c; color: #002b54; padding: 10px 20px; border-radius: 40px; text-decoration: none; font-weight: bold;">
+            🎥 WATCH ON FIFA.com
+        </a>
+    </div>
+    
+    <div class="chain-nav">
+        <a href="donate.html">💝 Donate</a>
+        <a href="leaderboard.html">🏆 Leaderboard</a>
+        <a href="promotions.html">📢 Promotions</a>
+    </div>
+    
+    <button class="share-btn" id="shareAppBtn">📲 SHARE THIS APP</button>
+</div>
+
+<script src="sponsors.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
