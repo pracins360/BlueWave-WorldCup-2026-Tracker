@@ -48,7 +48,7 @@
             display: block;
         }
 
-        /* PREMIUM SPONSORS SECTION - FIXED */
+        /* PREMIUM SPONSORS SECTION */
         .premium-sponsor-area {
             max-width: 500px;
             margin: 24px auto;
@@ -185,7 +185,9 @@
             font-weight: 700;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin: 8px 0;
+            flex-wrap: wrap;
         }
 
         .match-score {
@@ -273,6 +275,12 @@
             padding: 28px;
             color: #888;
         }
+
+        .error {
+            text-align: center;
+            padding: 28px;
+            color: #e74c3c;
+        }
     </style>
 </head>
 <body>
@@ -283,7 +291,7 @@
         <img src="https://i.ibb.co/KxtD3C2w/banner-world-cup-app.png" alt="Blue Wave 2026">
     </div>
     
-    <!-- PREMIUM SPONSORS SECTION - RESTORED -->
+    <!-- PREMIUM SPONSORS SECTION -->
     <div class="premium-sponsor-area">
         <div class="premium-title">⭐ PREMIUM SPONSORS ⭐</div>
         <div id="premiumContainer" class="premium-grid"></div>
@@ -296,7 +304,7 @@
 <div id="appWrapper">
     <div class="app-header">
         <h2>🌊 BLUE WAVE 2026</h2>
-        <p>Curaçao World Cup Tracker · Live Scores</p>
+        <p>Curaçao World Cup Tracker · Live from Your Sheet</p>
     </div>
     
     <div class="tabs">
@@ -308,21 +316,21 @@
     <div id="section-results" class="section active-section">
         <div class="card">
             <div class="card-title">📋 Match Results</div>
-            <div id="resultsContent" class="loading">Loading...</div>
+            <div id="resultsContent" class="loading">Loading from sheet...</div>
         </div>
     </div>
     
     <div id="section-last" class="section">
         <div class="card">
             <div class="card-title">🔄 Recent Matches</div>
-            <div id="lastMatchesContent" class="loading">Loading...</div>
+            <div id="lastMatchesContent" class="loading">Loading from sheet...</div>
         </div>
     </div>
     
     <div id="section-next" class="section">
         <div class="card">
             <div class="card-title">⏭️ Upcoming Matches</div>
-            <div id="nextMatchesContent" class="loading">Loading...</div>
+            <div id="nextMatchesContent" class="loading">Loading from sheet...</div>
         </div>
     </div>
     
@@ -358,18 +366,24 @@
 </div>
 
 <script>
-    // ========== MATCH DATA ==========
-    const MATCHES_DATA = [
+    // ========== YOUR GOOGLE SHEET API URL ==========
+    // IMPORTANT: Replace this with your actual Google Apps Script URL
+    const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
+    
+    // ========== FALLBACK DATA (if sheet fails to load) ==========
+    const FALLBACK_MATCHES = [
         { date: "2026-06-11", team1: "Mexico", team2: "South Africa", score1: 2, score2: 0, status: "Final", location: "Blue Wave Stadium" },
         { date: "2026-06-11", team1: "South Korea", team2: "Czechia", score1: 2, score2: 1, status: "Final", location: "Ocean Arena" },
         { date: "2026-06-12", team1: "Canada", team2: "Bosnia", score1: 1, score2: 1, status: "Final", location: "Caribbean Park" },
         { date: "2026-06-12", team1: "USA", team2: "Paraguay", score1: 4, score2: 1, status: "Final", location: "Blue Wave Stadium" },
-        { date: "2026-06-14", team1: "Curaçao", team2: "Germany", score1: 1, score2: 1, status: "Final", location: "Blue Wave Stadium" },
-        { date: "2026-06-15", team1: "Netherlands", team2: "Japan", score1: null, score2: null, status: "Scheduled", location: "Blue Wave Stadium" },
-        { date: "2026-06-16", team1: "Brazil", team2: "Argentina", score1: null, score2: null, status: "Scheduled", location: "Ocean Arena" }
+        { date: "2026-06-14", team1: "Curaçao", team2: "Germany", score1: 1, score2: 1, status: "Final", location: "Blue Wave Stadium" }
     ];
-
-    // ========== PREMIUM SPONSORS (Restored) ==========
+    
+    // Global variable to store data from sheet
+    let sheetMatches = [];
+    let isLoading = false;
+    
+    // ========== PREMIUM SPONSORS (Local fallback) ==========
     const PREMIUM_GROUPS = [
         [
             { name: "Jaguar Pizza", logo: "https://placehold.co/400x120/white/003366?text=JAGUAR+PIZZA", link: "https://wa.me/59995120536" },
@@ -390,8 +404,7 @@
             { name: "BlueWave Bank", logo: "https://placehold.co/400x120/white/164b7a?text=BlueWave", link: "https://wa.me/59995120536" }
         ]
     ];
-
-    // ========== GOLD SPONSORS ==========
+    
     const GOLD_GROUPS = Array(4).fill().map((_, idx) => 
         Array(8).fill().map((__, i) => ({ 
             name: `Sponsor ${idx * 8 + i + 1}`, 
@@ -399,20 +412,54 @@
             link: "https://wa.me/59995120536" 
         }))
     );
-
-    // ========== SILVER SHOUTOUTS ==========
+    
     const BASE_SHOUTS = [
         "💙 One love, Curaçao! 🇨🇼", "⚽ First World Cup in Curaçao!", "🌊 Blue Wave forever!",
         "🇨🇼 Proud to be Curaçaoan!", "🎉 Make history!", "💪 Support the Wave!"
     ];
-
+    
     const SILVER_GROUPS = [
         Array(10).fill().map(() => ({ name: "Café Tropical", message: "Best coffee!" })),
         Array(10).fill().map(() => ({ name: "Aqua Rentals", message: "Explore Curaçao!" })),
         Array(10).fill().map(() => ({ name: "Sunrise Tours", message: "Discover paradise!" })),
         Array(10).fill().map(() => ({ name: "Fresh Market", message: "Local freshness!" }))
     ];
-
+    
+    // ========== FETCH DATA FROM GOOGLE SHEET ==========
+    async function fetchDataFromSheet() {
+        if (isLoading) return;
+        isLoading = true;
+        
+        try {
+            console.log("Fetching data from Google Sheet...");
+            const response = await fetch(`${API_URL}?action=all&t=${Date.now()}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log("Data received:", data);
+            
+            // Check if matches data exists
+            if (data && data.matches && data.matches.length > 0) {
+                sheetMatches = data.matches;
+                console.log(`Loaded ${sheetMatches.length} matches from sheet`);
+            } else {
+                console.log("No matches in sheet, using fallback data");
+                sheetMatches = [...FALLBACK_MATCHES];
+            }
+            
+            return true;
+        } catch (error) {
+            console.error("Error fetching from sheet:", error);
+            sheetMatches = [...FALLBACK_MATCHES];
+            return false;
+        } finally {
+            isLoading = false;
+        }
+    }
+    
     // ========== ROTATION FUNCTION ==========
     function getRotationIndex(total) {
         let idx = parseInt(localStorage.getItem("bwRot") || "0", 10);
@@ -420,8 +467,8 @@
         localStorage.setItem("bwRot", idx);
         return idx;
     }
-
-    // ========== RENDER FUNCTIONS ==========
+    
+    // ========== RENDER FUNCTIONS (using sheet data) ==========
     function renderPremium() {
         const container = document.getElementById("premiumContainer");
         if (!container) return;
@@ -432,7 +479,7 @@
             </div>
         `).join('');
     }
-
+    
     function renderGold() {
         const container = document.getElementById("goldContainer");
         if (!container) return;
@@ -444,7 +491,7 @@
             </div>
         `).join('');
     }
-
+    
     function renderSilver() {
         const container = document.getElementById("silverScroller");
         if (!container) return;
@@ -453,62 +500,87 @@
         const doubled = [...all, ...all];
         container.innerHTML = doubled.map(msg => `<div class="silver-item">⚽ ${msg}</div>`).join('');
     }
-
+    
     function renderResults() {
         const container = document.getElementById("resultsContent");
         if (!container) return;
-        const finished = MATCHES_DATA.filter(m => m.status === "Final");
+        
+        const matches = sheetMatches.length ? sheetMatches : FALLBACK_MATCHES;
+        const finished = matches.filter(m => m.status === "Final" || (m.score1 !== null && m.score1 !== undefined));
+        
+        if (finished.length === 0) {
+            container.innerHTML = "<div class='loading'>No finished matches yet</div>";
+            return;
+        }
+        
         container.innerHTML = finished.map(m => `
             <div class="match-item">
-                <div class="match-date">📅 ${m.date}</div>
+                <div class="match-date">📅 ${m.date || m.Date || "TBD"}</div>
                 <div class="match-teams">
-                    <span>${m.team1}</span>
-                    <span class="match-score">${m.score1} - ${m.score2}</span>
-                    <span>${m.team2}</span>
+                    <span>${m.team1 || m.Team1 || "?"}</span>
+                    <span class="match-score">${m.score1 ?? m.Score1 ?? '?'} - ${m.score2 ?? m.Score2 ?? '?'}</span>
+                    <span>${m.team2 || m.Team2 || "?"}</span>
                 </div>
-                <div>📍 ${m.location}</div>
+                <div>📍 ${m.location || m.Location || "Stadium"}</div>
             </div>
         `).join('');
     }
-
+    
     function renderLastMatches() {
         const container = document.getElementById("lastMatchesContent");
         if (!container) return;
-        const finished = MATCHES_DATA.filter(m => m.status === "Final").slice(-5).reverse();
-        container.innerHTML = finished.map(m => `
+        
+        const matches = sheetMatches.length ? sheetMatches : FALLBACK_MATCHES;
+        const finished = matches.filter(m => m.status === "Final" || (m.score1 !== null && m.score1 !== undefined));
+        const last5 = finished.slice(-5).reverse();
+        
+        if (last5.length === 0) {
+            container.innerHTML = "<div class='loading'>No recent matches</div>";
+            return;
+        }
+        
+        container.innerHTML = last5.map(m => `
             <div class="match-item">
-                <div class="match-date">📅 ${m.date}</div>
+                <div class="match-date">📅 ${m.date || m.Date || "TBD"}</div>
                 <div class="match-teams">
-                    <span>${m.team1}</span>
-                    <span class="match-score">${m.score1} - ${m.score2}</span>
-                    <span>${m.team2}</span>
+                    <span>${m.team1 || m.Team1 || "?"}</span>
+                    <span class="match-score">${m.score1 ?? m.Score1 ?? '?'} - ${m.score2 ?? m.Score2 ?? '?'}</span>
+                    <span>${m.team2 || m.Team2 || "?"}</span>
                 </div>
             </div>
         `).join('');
     }
-
+    
     function renderNextMatches() {
         const container = document.getElementById("nextMatchesContent");
         if (!container) return;
-        const upcoming = MATCHES_DATA.filter(m => m.status === "Scheduled");
+        
+        const matches = sheetMatches.length ? sheetMatches : FALLBACK_MATCHES;
+        const upcoming = matches.filter(m => m.status === "Scheduled" || m.status === "Upcoming" || (m.score1 === null && m.score2 === null));
+        
+        if (upcoming.length === 0) {
+            container.innerHTML = "<div class='loading'>No upcoming matches</div>";
+            return;
+        }
+        
         container.innerHTML = upcoming.map(m => `
             <div class="match-item">
-                <div class="match-date">📅 ${m.date}</div>
+                <div class="match-date">📅 ${m.date || m.Date || "TBD"}</div>
                 <div class="match-teams">
-                    <span>${m.team1}</span>
+                    <span>${m.team1 || m.Team1 || "?"}</span>
                     <span>🆚</span>
-                    <span>${m.team2}</span>
+                    <span>${m.team2 || m.Team2 || "?"}</span>
                 </div>
-                <div>📍 ${m.location}</div>
+                <div>📍 ${m.location || m.Location || "TBD"}</div>
             </div>
         `).join('');
     }
-
+    
     function shareApp() {
         if (navigator.share) {
             navigator.share({
                 title: 'Blue Wave 2026',
-                text: '🌊 Curaçao World Cup Tracker!',
+                text: '🌊 Curaçao World Cup Tracker! Live scores from the sheet!',
                 url: window.location.href
             }).catch(() => {
                 navigator.clipboard.writeText(window.location.href);
@@ -519,8 +591,8 @@
             alert('🔗 Link copied!');
         }
     }
-
-    // ========== ENTER APP FUNCTION - FIXED ==========
+    
+    // ========== ENTER APP FUNCTION ==========
     function enterApp() {
         const landing = document.getElementById("landingPage");
         const app = document.getElementById("appWrapper");
@@ -528,6 +600,7 @@
         landing.style.display = "none";
         app.style.display = "block";
         
+        // Render all sections with sheet data
         renderResults();
         renderLastMatches();
         renderNextMatches();
@@ -536,40 +609,64 @@
         
         showSection('results');
     }
-
+    
     function showSection(sectionId) {
         const sections = ["results", "last", "next"];
         sections.forEach(s => {
             const el = document.getElementById(`section-${s}`);
             if (el) el.style.display = "none";
         });
-        document.getElementById(`section-${sectionId}`).style.display = "block";
+        const activeEl = document.getElementById(`section-${sectionId}`);
+        if (activeEl) activeEl.style.display = "block";
         
         document.querySelectorAll(".tab").forEach(tab => {
             tab.classList.remove("active");
             if (tab.getAttribute("data-tab") === sectionId) tab.classList.add("active");
         });
     }
-
+    
     // ========== INITIALIZATION ==========
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
+        console.log("DOM loaded - fetching sheet data...");
+        
+        // Show loading on content areas
+        document.getElementById("resultsContent").innerHTML = "<div class='loading'>Loading from sheet...</div>";
+        document.getElementById("lastMatchesContent").innerHTML = "<div class='loading'>Loading from sheet...</div>";
+        document.getElementById("nextMatchesContent").innerHTML = "<div class='loading'>Loading from sheet...</div>";
+        
+        // Fetch data from Google Sheet
+        await fetchDataFromSheet();
+        
+        // Render sponsors (always local)
         renderPremium();
         
+        // Render initial match views
+        renderResults();
+        renderLastMatches();
+        renderNextMatches();
+        renderGold();
+        renderSilver();
+        
+        // Setup enter button
         const enterBtn = document.getElementById("enterAppBtn");
         if (enterBtn) {
             enterBtn.addEventListener("click", enterApp);
         }
         
+        // Setup share button
         const shareBtn = document.getElementById("shareAppBtn");
         if (shareBtn) {
             shareBtn.addEventListener("click", shareApp);
         }
         
+        // Setup tabs
         document.querySelectorAll(".tab").forEach(tab => {
             tab.addEventListener("click", () => {
                 showSection(tab.getAttribute("data-tab"));
             });
         });
+        
+        console.log("App initialized. Sheet data loaded:", sheetMatches.length, "matches");
     });
 </script>
 </body>
