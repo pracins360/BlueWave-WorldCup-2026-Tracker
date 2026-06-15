@@ -366,62 +366,22 @@
 
 <script>
     // ========== YOUR GOOGLE SHEET API URL ==========
-    // IMPORTANT: Replace this with your actual Google Apps Script URL
     const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
     
-    // Global variable to store data from sheet
+    // Global variables
     let sheetMatches = [];
+    let goldSponsors = [];
+    let silverSponsors = [];
+    let premiumSponsors = [];
     let isLoading = false;
     
-    // ========== PREMIUM SPONSORS ==========
-    const PREMIUM_GROUPS = [
-        [
-            { name: "Jaguar Pizza", logo: "https://placehold.co/400x120/white/003366?text=JAGUAR+PIZZA", link: "https://wa.me/59995120536" },
-            { name: "AQUALECTRA", logo: "https://placehold.co/400x120/white/0057b8?text=AQUALECTRA", link: "https://wa.me/59995120536" },
-            { name: "CAVALIER", logo: "https://placehold.co/400x120/white/ffcd3c?text=CAVALIER", link: "https://wa.me/59995120536" },
-            { name: "MANGROVE BEACH", logo: "https://placehold.co/400x120/white/1f5e3a?text=MANGROVE", link: "https://wa.me/59995120536" }
-        ],
-        [
-            { name: "BDO", logo: "https://placehold.co/400x120/white/1e4a76?text=BDO", link: "https://wa.me/59995120536" },
-            { name: "KLM", logo: "https://placehold.co/400x120/white/0a3366?text=KLM", link: "https://wa.me/59995120536" },
-            { name: "Sunset Resort", logo: "https://placehold.co/400x120/white/e68a2e?text=Sunset", link: "https://wa.me/59995120536" },
-            { name: "Island Auto", logo: "https://placehold.co/400x120/white/2c5f8a?text=Island+Auto", link: "https://wa.me/59995120536" }
-        ],
-        [
-            { name: "Royal Insure", logo: "https://placehold.co/400x120/white/8b5a2b?text=Royal+Insure", link: "https://wa.me/59995120536" },
-            { name: "Ocean Fresh", logo: "https://placehold.co/400x120/white/2c7a4a?text=Ocean+Fresh", link: "https://wa.me/59995120536" },
-            { name: "Tropical Café", logo: "https://placehold.co/400x120/white/c97e2a?text=Tropical+Cafe", link: "https://wa.me/59995120536" },
-            { name: "BlueWave Bank", logo: "https://placehold.co/400x120/white/164b7a?text=BlueWave", link: "https://wa.me/59995120536" }
-        ]
-    ];
-    
-    const GOLD_GROUPS = Array(4).fill().map((_, idx) => 
-        Array(8).fill().map((__, i) => ({ 
-            name: `Sponsor ${idx * 8 + i + 1}`, 
-            logo: `https://placehold.co/200x80/2c5e8c/white?text=Sponsor+${idx * 8 + i + 1}`, 
-            link: "https://wa.me/59995120536" 
-        }))
-    );
-    
-    const BASE_SHOUTS = [
-        "💙 One love, Curaçao! 🇨🇼", "⚽ First World Cup in Curaçao!", "🌊 Blue Wave forever!",
-        "🇨🇼 Proud to be Curaçaoan!", "🎉 Make history!", "💪 Support the Wave!"
-    ];
-    
-    const SILVER_GROUPS = [
-        Array(10).fill().map(() => ({ name: "Café Tropical", message: "Best coffee!" })),
-        Array(10).fill().map(() => ({ name: "Aqua Rentals", message: "Explore Curaçao!" })),
-        Array(10).fill().map(() => ({ name: "Sunrise Tours", message: "Discover paradise!" })),
-        Array(10).fill().map(() => ({ name: "Fresh Market", message: "Local freshness!" }))
-    ];
-    
-    // ========== FETCH DATA FROM GOOGLE SHEET ==========
-    async function fetchDataFromSheet() {
+    // ========== FETCH ALL DATA FROM GOOGLE SHEET ==========
+    async function fetchAllData() {
         if (isLoading) return;
         isLoading = true;
         
         try {
-            console.log("Fetching data from Google Sheet...");
+            console.log("Fetching all data from Google Sheet...");
             const response = await fetch(`${API_URL}?action=all&t=${Date.now()}`);
             
             if (!response.ok) {
@@ -431,9 +391,8 @@
             const data = await response.json();
             console.log("Raw data received:", data);
             
-            // Check if matches data exists
-            if (data && data.matches && data.matches.length > 0) {
-                // Map the column names from your sheet to what the app expects
+            // Parse MATCHES
+            if (data.matches && data.matches.length > 0) {
                 sheetMatches = data.matches.map(row => {
                     return {
                         date: row.Date || row.date || "",
@@ -445,17 +404,45 @@
                         location: row.Location || row.location || "Stadium"
                     };
                 });
-                console.log(`Loaded ${sheetMatches.length} matches from sheet`);
-                console.log("First match:", sheetMatches[0]);
+                console.log(`Loaded ${sheetMatches.length} matches`);
+            }
+            
+            // Parse SPONSORS (from your SPONSORS tab)
+            if (data.sponsors && data.sponsors.length > 0) {
+                // Gold sponsors (Tier = "gold")
+                goldSponsors = data.sponsors.filter(s => 
+                    s.Tier && s.Tier.toLowerCase() === "gold"
+                ).map(s => ({
+                    name: s.SponsorName || s.name || "Sponsor",
+                    logo: s.AdURL || s.logo || "https://placehold.co/200x80/2c5e8c/white?text=Logo",
+                    link: s.WhatsAppLink || s.link || "https://wa.me/59995120536"
+                }));
+                
+                // Silver sponsors (Tier = "silver")
+                silverSponsors = data.sponsors.filter(s => 
+                    s.Tier && s.Tier.toLowerCase() === "silver"
+                ).map(s => ({
+                    name: s.SponsorName || s.name || "Supporter",
+                    message: s.ChallengeTeaser || s.message || "Supporting Curaçao!"
+                }));
+                
+                // Premium sponsors (Tier = "premium")
+                premiumSponsors = data.sponsors.filter(s => 
+                    s.Tier && s.Tier.toLowerCase() === "premium"
+                ).map(s => ({
+                    name: s.SponsorName || s.name || "Premium Sponsor",
+                    logo: s.AdURL || s.logo || "https://placehold.co/400x120/white/003366?text=Premium",
+                    link: s.WhatsAppLink || s.link || "https://wa.me/59995120536"
+                }));
+                
+                console.log(`Loaded ${goldSponsors.length} gold sponsors, ${silverSponsors.length} silver, ${premiumSponsors.length} premium`);
             } else {
-                console.log("No matches in sheet response, using fallback");
-                sheetMatches = [];
+                console.log("No sponsors found in sheet response");
             }
             
             return true;
         } catch (error) {
             console.error("Error fetching from sheet:", error);
-            sheetMatches = [];
             return false;
         } finally {
             isLoading = false;
@@ -470,45 +457,89 @@
         return idx;
     }
     
-    // ========== RENDER FUNCTIONS ==========
+    // ========== RENDER SPONSORS FROM SHEET DATA ==========
     function renderPremium() {
         const container = document.getElementById("premiumContainer");
         if (!container) return;
-        const group = PREMIUM_GROUPS[getRotationIndex(3)];
-        container.innerHTML = group.map(ad => `
-            <div class="premium-ad" onclick="window.open('${ad.link}', '_blank')">
-                <img src="${ad.logo}" alt="${ad.name}">
-            </div>
-        `).join('');
+        
+        // If we have premium sponsors from sheet, use them
+        if (premiumSponsors.length > 0) {
+            // Create groups of 4 for rotation
+            const groups = [];
+            for (let i = 0; i < premiumSponsors.length; i += 4) {
+                groups.push(premiumSponsors.slice(i, i + 4));
+            }
+            if (groups.length === 0) groups.push(premiumSponsors);
+            
+            const groupIdx = getRotationIndex(groups.length);
+            const group = groups[groupIdx] || [];
+            
+            container.innerHTML = group.map(ad => `
+                <div class="premium-ad" onclick="window.open('${ad.link}', '_blank')">
+                    <img src="${ad.logo}" alt="${ad.name}">
+                </div>
+            `).join('');
+        } else {
+            // Fallback if no premium sponsors in sheet
+            container.innerHTML = "<div class='loading'>No premium sponsors yet</div>";
+        }
     }
     
     function renderGold() {
         const container = document.getElementById("goldContainer");
         if (!container) return;
-        const group = GOLD_GROUPS[getRotationIndex(4)];
-        container.innerHTML = group.map(g => `
-            <div class="gold-item" onclick="window.open('${g.link}', '_blank')">
-                <img src="${g.logo}" alt="${g.name}">
-                <div style="font-size:10px; margin-top:5px;">${g.name}</div>
-            </div>
-        `).join('');
+        
+        if (goldSponsors.length > 0) {
+            // Create groups of 8 for rotation
+            const groups = [];
+            for (let i = 0; i < goldSponsors.length; i += 8) {
+                groups.push(goldSponsors.slice(i, i + 8));
+            }
+            if (groups.length === 0) groups.push(goldSponsors);
+            
+            const groupIdx = getRotationIndex(groups.length);
+            const group = groups[groupIdx] || [];
+            
+            container.innerHTML = group.map(g => `
+                <div class="gold-item" onclick="window.open('${g.link}', '_blank')">
+                    <img src="${g.logo}" alt="${g.name}">
+                    <div style="font-size:10px; margin-top:5px;">${g.name}</div>
+                </div>
+            `).join('');
+        } else {
+            container.innerHTML = "<div class='loading'>No gold sponsors yet.<br>Be the first!</div>";
+        }
     }
     
     function renderSilver() {
         const container = document.getElementById("silverScroller");
         if (!container) return;
-        const extra = SILVER_GROUPS[getRotationIndex(4)].map(s => `${s.name}: ${s.message}`);
-        const all = [...BASE_SHOUTS, ...extra];
-        const doubled = [...all, ...all];
+        
+        const baseMessages = [
+            "💙 One love, Curaçao! 🇨🇼",
+            "⚽ First World Cup in Curaçao!",
+            "🌊 Blue Wave forever!",
+            "🇨🇼 Proud to be Curaçaoan!"
+        ];
+        
+        let allMessages = [...baseMessages];
+        
+        if (silverSponsors.length > 0) {
+            const silverMessages = silverSponsors.map(s => `${s.name}: ${s.message}`);
+            allMessages = [...allMessages, ...silverMessages];
+        }
+        
+        const doubled = [...allMessages, ...allMessages];
         container.innerHTML = doubled.map(msg => `<div class="silver-item">⚽ ${msg}</div>`).join('');
     }
     
+    // ========== RENDER MATCHES ==========
     function renderResults() {
         const container = document.getElementById("resultsContent");
         if (!container) return;
         
         if (!sheetMatches.length) {
-            container.innerHTML = "<div class='loading'>No matches found in sheet. Check API connection.</div>";
+            container.innerHTML = "<div class='loading'>No matches found in sheet.</div>";
             return;
         }
         
@@ -640,36 +671,32 @@
     
     // ========== INITIALIZATION ==========
     document.addEventListener("DOMContentLoaded", async () => {
-        console.log("DOM loaded - fetching sheet data...");
+        console.log("DOM loaded - fetching all sheet data...");
         
-        document.getElementById("resultsContent").innerHTML = "<div class='loading'>Loading from sheet...</div>";
-        document.getElementById("lastMatchesContent").innerHTML = "<div class='loading'>Loading from sheet...</div>";
-        document.getElementById("nextMatchesContent").innerHTML = "<div class='loading'>Loading from sheet...</div>";
+        document.getElementById("resultsContent").innerHTML = "<div class='loading'>Loading matches...</div>";
+        document.getElementById("goldContainer").innerHTML = "<div class='loading'>Loading sponsors...</div>";
         
-        await fetchDataFromSheet();
+        await fetchAllData();
         
+        // Render everything
         renderPremium();
+        renderGold();
+        renderSilver();
         
         if (sheetMatches.length > 0) {
             renderResults();
             renderLastMatches();
             renderNextMatches();
         } else {
-            document.getElementById("resultsContent").innerHTML = "<div class='error'>⚠️ Could not load data from sheet. Check API URL.</div>";
+            document.getElementById("resultsContent").innerHTML = "<div class='error'>⚠️ Could not load matches. Check API URL.</div>";
         }
         
-        renderGold();
-        renderSilver();
-        
+        // Setup event listeners
         const enterBtn = document.getElementById("enterAppBtn");
-        if (enterBtn) {
-            enterBtn.addEventListener("click", enterApp);
-        }
+        if (enterBtn) enterBtn.addEventListener("click", enterApp);
         
         const shareBtn = document.getElementById("shareAppBtn");
-        if (shareBtn) {
-            shareBtn.addEventListener("click", shareApp);
-        }
+        if (shareBtn) shareBtn.addEventListener("click", shareApp);
         
         document.querySelectorAll(".tab").forEach(tab => {
             tab.addEventListener("click", () => {
@@ -677,7 +704,7 @@
             });
         });
         
-        console.log("App initialized. Sheet matches:", sheetMatches.length);
+        console.log(`App initialized. Matches: ${sheetMatches.length}, Gold: ${goldSponsors.length}`);
     });
 </script>
 </body>
