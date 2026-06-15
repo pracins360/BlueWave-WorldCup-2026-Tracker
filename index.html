@@ -291,7 +291,6 @@
         <img src="https://i.ibb.co/KxtD3C2w/banner-world-cup-app.png" alt="Blue Wave 2026">
     </div>
     
-    <!-- PREMIUM SPONSORS SECTION -->
     <div class="premium-sponsor-area">
         <div class="premium-title">⭐ PREMIUM SPONSORS ⭐</div>
         <div id="premiumContainer" class="premium-grid"></div>
@@ -304,7 +303,7 @@
 <div id="appWrapper">
     <div class="app-header">
         <h2>🌊 BLUE WAVE 2026</h2>
-        <p>Curaçao World Cup Tracker · Live from Your Sheet</p>
+        <p>Curaçao World Cup Tracker · Live from Google Sheet</p>
     </div>
     
     <div class="tabs">
@@ -370,20 +369,11 @@
     // IMPORTANT: Replace this with your actual Google Apps Script URL
     const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
     
-    // ========== FALLBACK DATA (if sheet fails to load) ==========
-    const FALLBACK_MATCHES = [
-        { date: "2026-06-11", team1: "Mexico", team2: "South Africa", score1: 2, score2: 0, status: "Final", location: "Blue Wave Stadium" },
-        { date: "2026-06-11", team1: "South Korea", team2: "Czechia", score1: 2, score2: 1, status: "Final", location: "Ocean Arena" },
-        { date: "2026-06-12", team1: "Canada", team2: "Bosnia", score1: 1, score2: 1, status: "Final", location: "Caribbean Park" },
-        { date: "2026-06-12", team1: "USA", team2: "Paraguay", score1: 4, score2: 1, status: "Final", location: "Blue Wave Stadium" },
-        { date: "2026-06-14", team1: "Curaçao", team2: "Germany", score1: 1, score2: 1, status: "Final", location: "Blue Wave Stadium" }
-    ];
-    
     // Global variable to store data from sheet
     let sheetMatches = [];
     let isLoading = false;
     
-    // ========== PREMIUM SPONSORS (Local fallback) ==========
+    // ========== PREMIUM SPONSORS ==========
     const PREMIUM_GROUPS = [
         [
             { name: "Jaguar Pizza", logo: "https://placehold.co/400x120/white/003366?text=JAGUAR+PIZZA", link: "https://wa.me/59995120536" },
@@ -439,21 +429,33 @@
             }
             
             const data = await response.json();
-            console.log("Data received:", data);
+            console.log("Raw data received:", data);
             
             // Check if matches data exists
             if (data && data.matches && data.matches.length > 0) {
-                sheetMatches = data.matches;
+                // Map the column names from your sheet to what the app expects
+                sheetMatches = data.matches.map(row => {
+                    return {
+                        date: row.Date || row.date || "",
+                        team1: row["Team 1"] || row.Team1 || row.team1 || "",
+                        team2: row["Team 2"] || row.Team2 || row.team2 || "",
+                        score1: row["Score 1"] !== undefined && row["Score 1"] !== "" ? row["Score 1"] : (row.Score1 !== undefined ? row.Score1 : null),
+                        score2: row["Score 2"] !== undefined && row["Score 2"] !== "" ? row["Score 2"] : (row.Score2 !== undefined ? row.Score2 : null),
+                        status: row.Status || row.status || (row["Score 1"] ? "Final" : "Upcoming"),
+                        location: row.Location || row.location || "Stadium"
+                    };
+                });
                 console.log(`Loaded ${sheetMatches.length} matches from sheet`);
+                console.log("First match:", sheetMatches[0]);
             } else {
-                console.log("No matches in sheet, using fallback data");
-                sheetMatches = [...FALLBACK_MATCHES];
+                console.log("No matches in sheet response, using fallback");
+                sheetMatches = [];
             }
             
             return true;
         } catch (error) {
             console.error("Error fetching from sheet:", error);
-            sheetMatches = [...FALLBACK_MATCHES];
+            sheetMatches = [];
             return false;
         } finally {
             isLoading = false;
@@ -468,7 +470,7 @@
         return idx;
     }
     
-    // ========== RENDER FUNCTIONS (using sheet data) ==========
+    // ========== RENDER FUNCTIONS ==========
     function renderPremium() {
         const container = document.getElementById("premiumContainer");
         if (!container) return;
@@ -505,8 +507,12 @@
         const container = document.getElementById("resultsContent");
         if (!container) return;
         
-        const matches = sheetMatches.length ? sheetMatches : FALLBACK_MATCHES;
-        const finished = matches.filter(m => m.status === "Final" || (m.score1 !== null && m.score1 !== undefined));
+        if (!sheetMatches.length) {
+            container.innerHTML = "<div class='loading'>No matches found in sheet. Check API connection.</div>";
+            return;
+        }
+        
+        const finished = sheetMatches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score1 !== "" && m.score1 !== undefined));
         
         if (finished.length === 0) {
             container.innerHTML = "<div class='loading'>No finished matches yet</div>";
@@ -515,13 +521,13 @@
         
         container.innerHTML = finished.map(m => `
             <div class="match-item">
-                <div class="match-date">📅 ${m.date || m.Date || "TBD"}</div>
+                <div class="match-date">📅 ${m.date}</div>
                 <div class="match-teams">
-                    <span>${m.team1 || m.Team1 || "?"}</span>
-                    <span class="match-score">${m.score1 ?? m.Score1 ?? '?'} - ${m.score2 ?? m.Score2 ?? '?'}</span>
-                    <span>${m.team2 || m.Team2 || "?"}</span>
+                    <span>${m.team1}</span>
+                    <span class="match-score">${m.score1 ?? '?'} - ${m.score2 ?? '?'}</span>
+                    <span>${m.team2}</span>
                 </div>
-                <div>📍 ${m.location || m.Location || "Stadium"}</div>
+                <div>📍 ${m.location}</div>
             </div>
         `).join('');
     }
@@ -530,8 +536,12 @@
         const container = document.getElementById("lastMatchesContent");
         if (!container) return;
         
-        const matches = sheetMatches.length ? sheetMatches : FALLBACK_MATCHES;
-        const finished = matches.filter(m => m.status === "Final" || (m.score1 !== null && m.score1 !== undefined));
+        if (!sheetMatches.length) {
+            container.innerHTML = "<div class='loading'>No matches found</div>";
+            return;
+        }
+        
+        const finished = sheetMatches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score1 !== "" && m.score1 !== undefined));
         const last5 = finished.slice(-5).reverse();
         
         if (last5.length === 0) {
@@ -541,11 +551,11 @@
         
         container.innerHTML = last5.map(m => `
             <div class="match-item">
-                <div class="match-date">📅 ${m.date || m.Date || "TBD"}</div>
+                <div class="match-date">📅 ${m.date}</div>
                 <div class="match-teams">
-                    <span>${m.team1 || m.Team1 || "?"}</span>
-                    <span class="match-score">${m.score1 ?? m.Score1 ?? '?'} - ${m.score2 ?? m.Score2 ?? '?'}</span>
-                    <span>${m.team2 || m.Team2 || "?"}</span>
+                    <span>${m.team1}</span>
+                    <span class="match-score">${m.score1 ?? '?'} - ${m.score2 ?? '?'}</span>
+                    <span>${m.team2}</span>
                 </div>
             </div>
         `).join('');
@@ -555,8 +565,12 @@
         const container = document.getElementById("nextMatchesContent");
         if (!container) return;
         
-        const matches = sheetMatches.length ? sheetMatches : FALLBACK_MATCHES;
-        const upcoming = matches.filter(m => m.status === "Scheduled" || m.status === "Upcoming" || (m.score1 === null && m.score2 === null));
+        if (!sheetMatches.length) {
+            container.innerHTML = "<div class='loading'>No matches found</div>";
+            return;
+        }
+        
+        const upcoming = sheetMatches.filter(m => m.status === "Upcoming" || (m.score1 === null || m.score1 === "" || m.score1 === undefined));
         
         if (upcoming.length === 0) {
             container.innerHTML = "<div class='loading'>No upcoming matches</div>";
@@ -565,13 +579,13 @@
         
         container.innerHTML = upcoming.map(m => `
             <div class="match-item">
-                <div class="match-date">📅 ${m.date || m.Date || "TBD"}</div>
+                <div class="match-date">📅 ${m.date}</div>
                 <div class="match-teams">
-                    <span>${m.team1 || m.Team1 || "?"}</span>
+                    <span>${m.team1}</span>
                     <span>🆚</span>
-                    <span>${m.team2 || m.Team2 || "?"}</span>
+                    <span>${m.team2}</span>
                 </div>
-                <div>📍 ${m.location || m.Location || "TBD"}</div>
+                <div>📍 ${m.location}</div>
             </div>
         `).join('');
     }
@@ -600,7 +614,6 @@
         landing.style.display = "none";
         app.style.display = "block";
         
-        // Render all sections with sheet data
         renderResults();
         renderLastMatches();
         renderNextMatches();
@@ -629,44 +642,42 @@
     document.addEventListener("DOMContentLoaded", async () => {
         console.log("DOM loaded - fetching sheet data...");
         
-        // Show loading on content areas
         document.getElementById("resultsContent").innerHTML = "<div class='loading'>Loading from sheet...</div>";
         document.getElementById("lastMatchesContent").innerHTML = "<div class='loading'>Loading from sheet...</div>";
         document.getElementById("nextMatchesContent").innerHTML = "<div class='loading'>Loading from sheet...</div>";
         
-        // Fetch data from Google Sheet
         await fetchDataFromSheet();
         
-        // Render sponsors (always local)
         renderPremium();
         
-        // Render initial match views
-        renderResults();
-        renderLastMatches();
-        renderNextMatches();
+        if (sheetMatches.length > 0) {
+            renderResults();
+            renderLastMatches();
+            renderNextMatches();
+        } else {
+            document.getElementById("resultsContent").innerHTML = "<div class='error'>⚠️ Could not load data from sheet. Check API URL.</div>";
+        }
+        
         renderGold();
         renderSilver();
         
-        // Setup enter button
         const enterBtn = document.getElementById("enterAppBtn");
         if (enterBtn) {
             enterBtn.addEventListener("click", enterApp);
         }
         
-        // Setup share button
         const shareBtn = document.getElementById("shareAppBtn");
         if (shareBtn) {
             shareBtn.addEventListener("click", shareApp);
         }
         
-        // Setup tabs
         document.querySelectorAll(".tab").forEach(tab => {
             tab.addEventListener("click", () => {
                 showSection(tab.getAttribute("data-tab"));
             });
         });
         
-        console.log("App initialized. Sheet data loaded:", sheetMatches.length, "matches");
+        console.log("App initialized. Sheet matches:", sheetMatches.length);
     });
 </script>
 </body>
