@@ -26,7 +26,7 @@
             padding: 20px;
         }
 
-        /* APP WRAPPER - HIDDEN BY DEFAULT */
+        /* APP WRAPPER */
         #appWrapper {
             display: none;
             max-width: 500px;
@@ -48,7 +48,7 @@
             display: block;
         }
 
-        /* PREMIUM SPONSORS SECTION */
+        /* PREMIUM SPONSORS */
         .premium-sponsor-area {
             max-width: 500px;
             margin: 24px auto;
@@ -69,28 +69,25 @@
         .premium-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            gap: 10px;
         }
 
         .premium-ad {
             background: white;
-            border-radius: 16px;
-            padding: 16px 12px;
+            border-radius: 12px;
+            padding: 8px;
             cursor: pointer;
-            transition: all 0.2s;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            border: 1px solid #eef2f6;
-        }
-
-        .premium-ad:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .premium-ad img {
-            max-width: 100%;
-            height: 60px;
+            max-width: 95%;
+            height: auto;
+            max-height: 90px;
             object-fit: contain;
         }
 
@@ -122,20 +119,24 @@
             color: white;
         }
 
+        /* TABS - NOW 4 TABS */
         .tabs {
             display: flex;
+            flex-wrap: wrap;
             background: white;
             border-bottom: 2px solid #e2e8f0;
         }
 
         .tab {
             flex: 1;
-            padding: 14px;
-            font-size: 13px;
+            min-width: 70px;
+            padding: 12px 6px;
+            font-size: 11px;
             font-weight: 700;
             background: #f1f5f9;
             border: none;
             cursor: pointer;
+            text-align: center;
         }
 
         .tab.active {
@@ -168,6 +169,7 @@
             margin-bottom: 16px;
         }
 
+        /* Match Items */
         .match-item {
             background: #f8fafc;
             border-radius: 16px;
@@ -196,26 +198,73 @@
             border-radius: 40px;
         }
 
+        /* STANDINGS TABLE */
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .standings-table th {
+            background: #002b54;
+            color: white;
+            padding: 8px 4px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .standings-table td {
+            padding: 8px 4px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .standings-table tr:hover {
+            background: #f1f5f9;
+        }
+
+        .group-header {
+            background: #ffcd3c;
+            color: #002b54;
+            font-weight: 800;
+            margin-top: 16px;
+        }
+
+        /* Gold Sponsors */
         .gold-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            gap: 8px;
         }
 
         .gold-item {
             background: #f1f5f9;
-            border-radius: 16px;
-            padding: 12px;
+            border-radius: 12px;
+            padding: 6px;
             text-align: center;
             cursor: pointer;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .gold-item img {
-            max-width: 100%;
-            height: 50px;
+            max-width: 90%;
+            height: auto;
+            max-height: 80px;
             object-fit: contain;
         }
 
+        .gold-item div {
+            font-size: 10px;
+            margin-top: 4px;
+            color: #003366;
+            font-weight: 600;
+        }
+
+        /* Silver Scrolling */
         .silver-frame {
             background: #002b54;
             border-radius: 40px;
@@ -239,6 +288,7 @@
             to { transform: translateX(-100%); }
         }
 
+        /* Navigation */
         .chain-nav {
             display: flex;
             gap: 12px;
@@ -275,12 +325,6 @@
             padding: 28px;
             color: #888;
         }
-
-        .error {
-            text-align: center;
-            padding: 28px;
-            color: #e74c3c;
-        }
     </style>
 </head>
 <body>
@@ -310,6 +354,7 @@
         <button class="tab" data-tab="results">📋 RESULTS</button>
         <button class="tab" data-tab="last">🔄 LAST</button>
         <button class="tab" data-tab="next">⏭️ NEXT</button>
+        <button class="tab" data-tab="standings">🏆 STANDINGS</button>
     </div>
     
     <div id="section-results" class="section active-section">
@@ -330,6 +375,13 @@
         <div class="card">
             <div class="card-title">⏭️ Upcoming Matches</div>
             <div id="nextMatchesContent" class="loading">Loading from sheet...</div>
+        </div>
+    </div>
+    
+    <div id="section-standings" class="section">
+        <div class="card">
+            <div class="card-title">🏆 Group Standings</div>
+            <div id="standingsContent" class="loading">Loading standings...</div>
         </div>
     </div>
     
@@ -370,12 +422,13 @@
     
     // Global variables
     let sheetMatches = [];
+    let sheetStandings = [];
     let goldSponsors = [];
     let silverSponsors = [];
     let premiumSponsors = [];
     let isLoading = false;
     
-    // ========== FETCH ALL DATA FROM GOOGLE SHEET ==========
+    // ========== FETCH ALL DATA ==========
     async function fetchAllData() {
         if (isLoading) return;
         isLoading = true;
@@ -407,37 +460,34 @@
                 console.log(`Loaded ${sheetMatches.length} matches`);
             }
             
-            // Parse SPONSORS (from your SPONSORS tab)
+            // Parse STANDINGS (COUNTRIES sheet)
+            if (data.standings && data.standings.length > 0) {
+                sheetStandings = data.standings.map(row => {
+                    return {
+                        country: row.Country || row.country || "",
+                        group: row.Group || row.group || "",
+                        pos: row.Pos || row.pos || row.Position || "",
+                        pts: row.Pts || row.pts || row.Points || 0,
+                        w: row.W || row.w || 0,
+                        d: row.D || row.d || 0,
+                        l: row.L || row.l || 0,
+                        gf: row.GF || row.gf || 0,
+                        ga: row.GA || row.ga || 0,
+                        wave: row.Wave || row["WAVE%"] || row.wave || 0,
+                        analysis: row.Analysis || row.analysis || "",
+                        lastMatch: row.LastMatch || row.lastMatch || "",
+                        nextMatch: row.NextMatch || row.nextMatch || ""
+                    };
+                });
+                console.log(`Loaded ${sheetStandings.length} teams from standings`);
+            }
+            
+            // Parse SPONSORS
             if (data.sponsors && data.sponsors.length > 0) {
-                // Gold sponsors (Tier = "gold")
-                goldSponsors = data.sponsors.filter(s => 
-                    s.Tier && s.Tier.toLowerCase() === "gold"
-                ).map(s => ({
-                    name: s.SponsorName || s.name || "Sponsor",
-                    logo: s.AdURL || s.logo || "https://placehold.co/200x80/2c5e8c/white?text=Logo",
-                    link: s.WhatsAppLink || s.link || "https://wa.me/59995120536"
-                }));
-                
-                // Silver sponsors (Tier = "silver")
-                silverSponsors = data.sponsors.filter(s => 
-                    s.Tier && s.Tier.toLowerCase() === "silver"
-                ).map(s => ({
-                    name: s.SponsorName || s.name || "Supporter",
-                    message: s.ChallengeTeaser || s.message || "Supporting Curaçao!"
-                }));
-                
-                // Premium sponsors (Tier = "premium")
-                premiumSponsors = data.sponsors.filter(s => 
-                    s.Tier && s.Tier.toLowerCase() === "premium"
-                ).map(s => ({
-                    name: s.SponsorName || s.name || "Premium Sponsor",
-                    logo: s.AdURL || s.logo || "https://placehold.co/400x120/white/003366?text=Premium",
-                    link: s.WhatsAppLink || s.link || "https://wa.me/59995120536"
-                }));
-                
-                console.log(`Loaded ${goldSponsors.length} gold sponsors, ${silverSponsors.length} silver, ${premiumSponsors.length} premium`);
-            } else {
-                console.log("No sponsors found in sheet response");
+                goldSponsors = data.sponsors.filter(s => s.Tier && s.Tier.toLowerCase() === "gold");
+                silverSponsors = data.sponsors.filter(s => s.Tier && s.Tier.toLowerCase() === "silver");
+                premiumSponsors = data.sponsors.filter(s => s.Tier && s.Tier.toLowerCase() === "premium");
+                console.log(`Loaded ${goldSponsors.length} gold, ${silverSponsors.length} silver, ${premiumSponsors.length} premium`);
             }
             
             return true;
@@ -449,22 +499,67 @@
         }
     }
     
-    // ========== ROTATION FUNCTION ==========
-    function getRotationIndex(total) {
-        let idx = parseInt(localStorage.getItem("bwRot") || "0", 10);
-        idx = (idx + 1) % total;
-        localStorage.setItem("bwRot", idx);
-        return idx;
+    // ========== RENDER STANDINGS ==========
+    function renderStandings() {
+        const container = document.getElementById("standingsContent");
+        if (!container) return;
+        
+        if (!sheetStandings.length) {
+            container.innerHTML = "<div class='loading'>No standings data available</div>";
+            return;
+        }
+        
+        // Group standings by group
+        const groups = {};
+        sheetStandings.forEach(team => {
+            const groupLetter = team.group || "?";
+            if (!groups[groupLetter]) groups[groupLetter] = [];
+            groups[groupLetter].push(team);
+        });
+        
+        // Sort each group by position
+        for (const group in groups) {
+            groups[group].sort((a, b) => (a.pos || 99) - (b.pos || 99));
+        }
+        
+        // Get unique group letters and sort them
+        const groupLetters = Object.keys(groups).sort();
+        
+        let html = "";
+        groupLetters.forEach(group => {
+            html += `<div style="margin-bottom: 24px;">`;
+            html += `<div class="group-header" style="background:#ffcd3c; color:#002b54; font-weight:800; padding:8px 12px; border-radius:12px; margin-bottom:8px;">Group ${group}</div>`;
+            html += `<table class="standings-table">`;
+            html += `<tr><th>Pos</th><th>Team</th><th>Pts</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Wave%</th></tr>`;
+            
+            groups[group].forEach(team => {
+                const waveVal = team.wave || 0;
+                html += `<tr>
+                    <td>${team.pos || "-"}</td>
+                    <td style="text-align:left; font-weight:600;">${team.country || "?"}</td>
+                    <td>${team.pts || 0}</td>
+                    <td>${team.w || 0}</td>
+                    <td>${team.d || 0}</td>
+                    <td>${team.l || 0}</td>
+                    <td>${team.gf || 0}</td>
+                    <td>${team.ga || 0}</td>
+                    <td><div style="background:#e0e0e0; border-radius:10px; width:40px;"><div style="background:#ffcd3c; width:${Math.min(100, waveVal)}%; height:6px; border-radius:10px;"></div></div> ${waveVal}%</td>
+                </tr>`;
+            });
+            
+            html += `</table>`;
+            html += `</div>`;
+        });
+        
+        container.innerHTML = html;
     }
     
-    // ========== RENDER SPONSORS FROM SHEET DATA ==========
+    // ========== RENDER SPONSORS ==========
     function renderPremium() {
         const container = document.getElementById("premiumContainer");
         if (!container) return;
         
-        // If we have premium sponsors from sheet, use them
         if (premiumSponsors.length > 0) {
-            // Create groups of 4 for rotation
             const groups = [];
             for (let i = 0; i < premiumSponsors.length; i += 4) {
                 groups.push(premiumSponsors.slice(i, i + 4));
@@ -475,12 +570,11 @@
             const group = groups[groupIdx] || [];
             
             container.innerHTML = group.map(ad => `
-                <div class="premium-ad" onclick="window.open('${ad.link}', '_blank')">
-                    <img src="${ad.logo}" alt="${ad.name}">
+                <div class="premium-ad" onclick="window.open('${ad.WhatsAppLink || "#"}', '_blank')">
+                    <img src="${ad.AdURL || "https://placehold.co/400x120/white/003366?text=Logo"}" alt="${ad.SponsorName}">
                 </div>
             `).join('');
         } else {
-            // Fallback if no premium sponsors in sheet
             container.innerHTML = "<div class='loading'>No premium sponsors yet</div>";
         }
     }
@@ -490,7 +584,6 @@
         if (!container) return;
         
         if (goldSponsors.length > 0) {
-            // Create groups of 8 for rotation
             const groups = [];
             for (let i = 0; i < goldSponsors.length; i += 8) {
                 groups.push(goldSponsors.slice(i, i + 8));
@@ -501,9 +594,9 @@
             const group = groups[groupIdx] || [];
             
             container.innerHTML = group.map(g => `
-                <div class="gold-item" onclick="window.open('${g.link}', '_blank')">
-                    <img src="${g.logo}" alt="${g.name}">
-                    <div style="font-size:10px; margin-top:5px;">${g.name}</div>
+                <div class="gold-item" onclick="window.open('${g.WhatsAppLink || "#"}', '_blank')">
+                    <img src="${g.AdURL || "https://placehold.co/200x80/2c5e8c/white?text=Logo"}" alt="${g.SponsorName}">
+                    <div>${g.SponsorName}</div>
                 </div>
             `).join('');
         } else {
@@ -515,17 +608,11 @@
         const container = document.getElementById("silverScroller");
         if (!container) return;
         
-        const baseMessages = [
-            "💙 One love, Curaçao! 🇨🇼",
-            "⚽ First World Cup in Curaçao!",
-            "🌊 Blue Wave forever!",
-            "🇨🇼 Proud to be Curaçaoan!"
-        ];
-        
+        const baseMessages = ["💙 One love, Curaçao! 🇨🇼", "⚽ First World Cup in Curaçao!", "🌊 Blue Wave forever!", "🇨🇼 Proud to be Curaçaoan!"];
         let allMessages = [...baseMessages];
         
         if (silverSponsors.length > 0) {
-            const silverMessages = silverSponsors.map(s => `${s.name}: ${s.message}`);
+            const silverMessages = silverSponsors.map(s => `${s.SponsorName}: ${s.ChallengeTeaser || "Supporting Curaçao!"}`);
             allMessages = [...allMessages, ...silverMessages];
         }
         
@@ -539,11 +626,11 @@
         if (!container) return;
         
         if (!sheetMatches.length) {
-            container.innerHTML = "<div class='loading'>No matches found in sheet.</div>";
+            container.innerHTML = "<div class='loading'>No matches found</div>";
             return;
         }
         
-        const finished = sheetMatches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score1 !== "" && m.score1 !== undefined));
+        const finished = sheetMatches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score1 !== ""));
         
         if (finished.length === 0) {
             container.innerHTML = "<div class='loading'>No finished matches yet</div>";
@@ -567,12 +654,7 @@
         const container = document.getElementById("lastMatchesContent");
         if (!container) return;
         
-        if (!sheetMatches.length) {
-            container.innerHTML = "<div class='loading'>No matches found</div>";
-            return;
-        }
-        
-        const finished = sheetMatches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score1 !== "" && m.score1 !== undefined));
+        const finished = sheetMatches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score1 !== ""));
         const last5 = finished.slice(-5).reverse();
         
         if (last5.length === 0) {
@@ -596,12 +678,7 @@
         const container = document.getElementById("nextMatchesContent");
         if (!container) return;
         
-        if (!sheetMatches.length) {
-            container.innerHTML = "<div class='loading'>No matches found</div>";
-            return;
-        }
-        
-        const upcoming = sheetMatches.filter(m => m.status === "Upcoming" || (m.score1 === null || m.score1 === "" || m.score1 === undefined));
+        const upcoming = sheetMatches.filter(m => m.status === "Upcoming" || (m.score1 === null || m.score1 === ""));
         
         if (upcoming.length === 0) {
             container.innerHTML = "<div class='loading'>No upcoming matches</div>";
@@ -621,11 +698,19 @@
         `).join('');
     }
     
+    // ========== UTILITIES ==========
+    function getRotationIndex(total) {
+        let idx = parseInt(localStorage.getItem("bwRot") || "0", 10);
+        idx = (idx + 1) % total;
+        localStorage.setItem("bwRot", idx);
+        return idx;
+    }
+    
     function shareApp() {
         if (navigator.share) {
             navigator.share({
                 title: 'Blue Wave 2026',
-                text: '🌊 Curaçao World Cup Tracker! Live scores from the sheet!',
+                text: '🌊 Curaçao World Cup Tracker! Live scores, standings & more!',
                 url: window.location.href
             }).catch(() => {
                 navigator.clipboard.writeText(window.location.href);
@@ -637,17 +722,14 @@
         }
     }
     
-    // ========== ENTER APP FUNCTION ==========
     function enterApp() {
-        const landing = document.getElementById("landingPage");
-        const app = document.getElementById("appWrapper");
-        
-        landing.style.display = "none";
-        app.style.display = "block";
+        document.getElementById("landingPage").style.display = "none";
+        document.getElementById("appWrapper").style.display = "block";
         
         renderResults();
         renderLastMatches();
         renderNextMatches();
+        renderStandings();
         renderGold();
         renderSilver();
         
@@ -655,13 +737,12 @@
     }
     
     function showSection(sectionId) {
-        const sections = ["results", "last", "next"];
+        const sections = ["results", "last", "next", "standings"];
         sections.forEach(s => {
             const el = document.getElementById(`section-${s}`);
             if (el) el.style.display = "none";
         });
-        const activeEl = document.getElementById(`section-${sectionId}`);
-        if (activeEl) activeEl.style.display = "block";
+        document.getElementById(`section-${sectionId}`).style.display = "block";
         
         document.querySelectorAll(".tab").forEach(tab => {
             tab.classList.remove("active");
@@ -674,37 +755,29 @@
         console.log("DOM loaded - fetching all sheet data...");
         
         document.getElementById("resultsContent").innerHTML = "<div class='loading'>Loading matches...</div>";
-        document.getElementById("goldContainer").innerHTML = "<div class='loading'>Loading sponsors...</div>";
+        document.getElementById("standingsContent").innerHTML = "<div class='loading'>Loading standings...</div>";
         
         await fetchAllData();
         
-        // Render everything
         renderPremium();
         renderGold();
         renderSilver();
+        renderStandings();
         
         if (sheetMatches.length > 0) {
             renderResults();
             renderLastMatches();
             renderNextMatches();
-        } else {
-            document.getElementById("resultsContent").innerHTML = "<div class='error'>⚠️ Could not load matches. Check API URL.</div>";
         }
         
-        // Setup event listeners
-        const enterBtn = document.getElementById("enterAppBtn");
-        if (enterBtn) enterBtn.addEventListener("click", enterApp);
-        
-        const shareBtn = document.getElementById("shareAppBtn");
-        if (shareBtn) shareBtn.addEventListener("click", shareApp);
+        document.getElementById("enterAppBtn").addEventListener("click", enterApp);
+        document.getElementById("shareAppBtn").addEventListener("click", shareApp);
         
         document.querySelectorAll(".tab").forEach(tab => {
-            tab.addEventListener("click", () => {
-                showSection(tab.getAttribute("data-tab"));
-            });
+            tab.addEventListener("click", () => showSection(tab.getAttribute("data-tab")));
         });
         
-        console.log(`App initialized. Matches: ${sheetMatches.length}, Gold: ${goldSponsors.length}`);
+        console.log(`App initialized. Matches: ${sheetMatches.length}, Standings: ${sheetStandings.length}, Gold: ${goldSponsors.length}`);
     });
 </script>
 </body>
