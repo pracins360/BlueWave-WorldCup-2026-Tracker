@@ -275,7 +275,6 @@
         <p>Curaçao World Cup Tracker</p>
     </div>
 
-    <!-- Navigation Grid -->
     <div class="nav-grid">
         <button class="nav-btn active" data-section="results">📋 Results</button>
         <button class="nav-btn" data-section="today">📅 Today</button>
@@ -304,22 +303,13 @@
     <div id="section-promos" class="section">
         <div class="card">
             <div class="card-title">🔥 Promos & Shoutouts</div>
-            
             <div class="sub-tabs">
                 <button class="sub-tab active" data-sub="promos">📢 Promos</button>
                 <button class="sub-tab" data-sub="shoutouts">📝 Shoutouts</button>
                 <button class="sub-tab" data-sub="add">➕ Add</button>
             </div>
-
-            <div id="sub-promos">
-                <div id="calendarContainer"></div>
-                <div id="promoList" class="loading">Select a date</div>
-            </div>
-
-            <div id="sub-shoutouts" style="display:none;">
-                <div id="shoutoutList" class="loading">Loading shoutouts...</div>
-            </div>
-
+            <div id="sub-promos"><div id="calendarContainer"></div><div id="promoList" class="loading">Select a date</div></div>
+            <div id="sub-shoutouts" style="display:none;"><div id="shoutoutList" class="loading">Loading shoutouts...</div></div>
             <div id="sub-add" style="display:none;">
                 <div style="background:#f1f5f9; padding:16px; border-radius:16px;">
                     <div class="form-group">
@@ -370,7 +360,6 @@
 
 <script>
     // ========== CONFIG ==========
-    // ⚠️ IMPORTANT: Replace this with your actual Google Apps Script URL
     const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
 
     // ========== GLOBAL DATA ==========
@@ -380,63 +369,47 @@
     let silverShouts = [];
     let isLoading = false;
 
-    // ========== FETCH ALL DATA FROM SHEET ==========
+    // ========== FETCH ALL DATA ==========
     async function fetchAllData() {
         if (isLoading) return;
         isLoading = true;
-        
         try {
-            console.log("📡 Fetching data from sheet...");
+            console.log("📡 Fetching from sheet...");
             const response = await fetch(`${API_URL}?action=all&t=${Date.now()}`);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-            
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
             console.log("✅ Data loaded:", data);
 
-            // Parse MATCHES
-            if (data.matches && data.matches.length > 0) {
+            if (data.matches) {
                 sheetMatches = data.matches.map(row => ({
                     date: row.Date || row.date || "",
-                    team1: row["Team 1"] || row.Team1 || row.team1 || "",
-                    team2: row["Team 2"] || row.Team2 || row.team2 || "",
+                    team1: row["Team 1"] || row.Team1 || "",
+                    team2: row["Team 2"] || row.Team2 || "",
                     score1: row["Score 1"] !== undefined && row["Score 1"] !== "" ? row["Score 1"] : null,
                     score2: row["Score 2"] !== undefined && row["Score 2"] !== "" ? row["Score 2"] : null,
                     status: row.Status || row.status || (row["Score 1"] ? "Finished" : "Upcoming"),
                     location: row.Location || row.location || ""
                 }));
-                console.log(`📋 Loaded ${sheetMatches.length} matches`);
-            } else {
-                console.warn("⚠️ No matches found in sheet response");
-                sheetMatches = [];
+                console.log(`📋 ${sheetMatches.length} matches`);
             }
 
-            // Parse STANDINGS (COUNTRIES)
-            if (data.standings && data.standings.length > 0) {
+            if (data.standings) {
                 sheetStandings = data.standings.map(row => ({
                     country: row.Country || row.country || "",
                     group: row.Group || row.group || "",
-                    pos: row.Pos || row.pos || row.Position || "",
-                    pts: row.Pts || row.pts || row.Points || 0,
+                    pos: row.Pos || row.pos || "",
+                    pts: row.Pts || row.pts || 0,
                     w: row.W || row.w || 0,
                     d: row.D || row.d || 0,
                     l: row.L || row.l || 0,
                     gf: row.GF || row.gf || 0,
                     ga: row.GA || row.ga || 0,
-                    wave: row.Wave || row["WAVE%"] || row.wave || 0,
-                    analysis: row.Analysis || "",
-                    nextMatch: row.NextMatch || row.nextMatch || ""
+                    wave: row.Wave || row["WAVE%"] || row.wave || 0
                 }));
-                console.log(`🏆 Loaded ${sheetStandings.length} teams in standings`);
-            } else {
-                console.warn("⚠️ No standings found in sheet response");
-                sheetStandings = [];
+                console.log(`🏆 ${sheetStandings.length} teams`);
             }
 
-            // Parse DAILY_PROMO
-            if (data.dailyPromo && data.dailyPromo.length > 0) {
+            if (data.dailyPromo) {
                 dailyPromos = data.dailyPromo.map(row => ({
                     Date: row.Date || row.date || "",
                     SponsorName: row.SponsorName || row.sponsorName || "",
@@ -446,28 +419,19 @@
                     Type: row.Type || row.type || "promo",
                     Active: row.Active === true || row.Active === "TRUE" || row.Active === "true"
                 }));
-                console.log(`🔥 Loaded ${dailyPromos.length} daily promos`);
-            } else {
-                console.warn("⚠️ No daily promos found");
-                dailyPromos = [];
+                console.log(`🔥 ${dailyPromos.length} promos`);
             }
 
-            // Parse SPONSORS (for silver shouts)
-            if (data.sponsors && data.sponsors.length > 0) {
+            if (data.sponsors) {
                 silverShouts = data.sponsors
                     .filter(s => s.Tier && s.Tier.toLowerCase() === "silver")
-                    .map(s => ({ 
-                        name: s.SponsorName || s.name, 
-                        message: s.ChallengeTeaser || s.message || "Supporting Curaçao!" 
-                    }));
-                console.log(`💬 Loaded ${silverShouts.length} silver shouts`);
-            } else {
-                silverShouts = [];
+                    .map(s => ({ name: s.SponsorName || s.name, message: s.ChallengeTeaser || s.message || "Supporting Curaçao!" }));
+                console.log(`💬 ${silverShouts.length} silver shouts`);
             }
 
             return true;
         } catch (error) {
-            console.error("❌ Error fetching data:", error);
+            console.error("❌ Fetch error:", error);
             return false;
         } finally {
             isLoading = false;
@@ -475,12 +439,11 @@
     }
 
     // ========== RENDER FUNCTIONS ==========
-
     function renderResults() {
         const container = document.getElementById("resultsContent");
         if (!container) return;
         if (!sheetMatches.length) {
-            container.innerHTML = "<div class='loading'>No matches found. Check your sheet and API URL.</div>";
+            container.innerHTML = "<div class='loading'>No matches found. Check your sheet.</div>";
             return;
         }
         const finished = sheetMatches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score1 !== ""));
@@ -531,10 +494,10 @@
         const container = document.getElementById("standingsContent");
         if (!container) return;
         if (!sheetStandings.length) {
-            container.innerHTML = "<div class='loading'>No standings data found. Check COUNTRIES tab.</div>";
+            container.innerHTML = "<div class='loading'>No standings data found</div>";
             return;
         }
-        const groupE = sheetStandings.filter(t => t.group === "E" || t.group === "E");
+        const groupE = sheetStandings.filter(t => t.group === "E");
         if (!groupE.length) {
             container.innerHTML = "<div class='loading'>No Group E data found</div>";
             return;
@@ -578,14 +541,12 @@
     }
 
     function renderFacts() {
-        const container = document.getElementById("factsContent");
-        container.innerHTML = `
+        document.getElementById("factsContent").innerHTML = `
             <ul style="list-style:none; padding:0;">
                 <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">🏆 Curaçao's first World Cup!</li>
                 <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">⚽ Germany 7-1 Curaçao (opener)</li>
                 <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">🌊 Blue Wave Stadium seats 45,000</li>
                 <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">🇨🇼 Curaçao scored in 19'28" vs Germany</li>
-                <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">📅 64 matches, 32 teams, 1 winner</li>
             </ul>
         `;
     }
@@ -683,11 +644,9 @@
     function showSubTab(tab) {
         document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
         document.querySelector(`.sub-tab[data-sub="${tab}"]`).classList.add('active');
-        
         document.getElementById('sub-promos').style.display = tab === 'promos' ? 'block' : 'none';
         document.getElementById('sub-shoutouts').style.display = tab === 'shoutouts' ? 'block' : 'none';
         document.getElementById('sub-add').style.display = tab === 'add' ? 'block' : 'none';
-        
         if (tab === 'promos') { renderCalendar(); renderPromoList(); }
         if (tab === 'shoutouts') { renderShoutouts(); }
     }
@@ -704,12 +663,7 @@
     });
 
     document.getElementById('addType').addEventListener('change', function() {
-        const imageField = document.getElementById('imageField');
-        if (this.value === 'promo') {
-            imageField.style.display = 'block';
-        } else {
-            imageField.style.display = 'none';
-        }
+        document.getElementById('imageField').style.display = this.value === 'promo' ? 'block' : 'none';
     });
 
     document.getElementById('submitAddBtn').addEventListener('click', function() {
@@ -722,10 +676,7 @@
 
         if (!name) { alert('Please enter Name'); return; }
         if (type === 'promo' && !image) { alert('Please enter Image URL for promo'); return; }
-        if (message.length < 50 && type === 'shoutout') { 
-            alert('Shoutout message must be at least 50 characters (excluding name)'); 
-            return; 
-        }
+        if (message.length < 50 && type === 'shoutout') { alert('Shoutout message must be at least 50 characters'); return; }
 
         const msg = `📢 New ${type === 'promo' ? 'PROMO' : 'SHOUTOUT'} Request:
 Type: ${type === 'promo' ? '📢 Promo (XCG 50/day)' : '📝 Shoutout (Free 3 days, XCG 3.33/day)'}
@@ -734,48 +685,106 @@ Name: ${name}
 ${type === 'promo' ? `Image: ${image}` : ''}
 Link: ${link}
 Message: ${message}
-${type === 'shoutout' ? `\n📝 Shoutout Rules:\n- Min 50 characters\n- First 3 days FREE\n- Extra days: XCG 3.33/day` : ''}`;
-        
+${type === 'shoutout' ? `\n📝 Rules:\n- Min 50 chars\n- First 3 days FREE\n- Extra: XCG 3.33/day` : ''}`;
         window.open(`https://wa.me/59995120536?text=${encodeURIComponent(msg)}`, '_blank');
     });
 
-    // ========== REFRESH ALL CONTENT ==========
-    async function refreshAllContent() {
-        // Show loading states
-        document.querySelectorAll('.section .loading').forEach(el => {
-            el.textContent = 'Loading from sheet...';
-        });
-        
-        // Fetch fresh data
-        await fetchAllData();
-        
-        // Render everything
-        renderResults();
-        renderToday();
-        renderStandings();
-        renderUpcoming();
-        renderFacts();
-        renderCalendar();
-        renderPromoList();
-        renderShoutouts();
-        renderSilver();
-        
-        console.log("✅ All content refreshed");
-    }
-
     // ========== NAVIGATION ==========
     async function showSection(sectionId) {
-        // Hide all sections
         document.querySelectorAll('.section').forEach(el => el.classList.remove('active-section'));
-        
-        // Show selected section
-        const targetSection = document.getElementById(`section-${sectionId}`);
-        if (targetSection) targetSection.classList.add('active-section');
-        
-        // Update nav buttons
+        document.getElementById(`section-${sectionId}`).classList.add('active-section');
         document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-        const activeBtn = document.querySelector(`.nav-btn[data-section="${sectionId}"]`);
-        if (activeBtn) activeBtn.classList.add('active');
+        document.querySelector(`.nav-btn[data-section="${sectionId}"]`).classList.add('active');
 
-        // ⚡ KEY FIX: Refresh data every time a button is clicked
+        // Refresh data on every click
         await fetchAllData();
+
+        switch(sectionId) {
+            case 'results': renderResults(); break;
+            case 'today': renderToday(); break;
+            case 'standings': renderStandings(); break;
+            case 'upcoming': renderUpcoming(); break;
+            case 'facts': renderFacts(); break;
+            case 'promos': renderCalendar(); renderPromoList(); renderShoutouts(); break;
+        }
+        renderSilver();
+    }
+
+    // ========== ENTER APP (YOUR FUNCTION - KEPT AS IS) ==========
+    function enterApp() {
+        console.log("🚀 Enter App clicked!");
+        
+        // Hide landing page
+        const landing = document.getElementById('landingPage');
+        const app = document.getElementById('appWrapper');
+        
+        if (landing) landing.style.display = 'none';
+        if (app) app.style.display = 'block';
+        
+        // Load data and show results
+        fetchAllData().then(() => {
+            renderSilver();
+            renderResults();
+            renderToday();
+            renderStandings();
+            renderUpcoming();
+            renderFacts();
+            renderCalendar();
+            renderPromoList();
+            renderShoutouts();
+            showSection('results');
+            console.log("✅ App ready!");
+        }).catch(err => {
+            console.error("❌ Error loading data:", err);
+            showSection('results');
+        });
+    }
+
+    // ========== EVENT LISTENERS ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("🚀 DOM loaded");
+
+        // ✅ FIX: Attach enter button listener
+        const enterBtn = document.getElementById('enterAppBtn');
+        if (enterBtn) {
+            enterBtn.addEventListener('click', enterApp);
+            console.log("✅ Enter button attached!");
+        } else {
+            console.error("❌ Enter button not found!");
+        }
+
+        // Navigation buttons
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const section = this.dataset.section;
+                if (section) showSection(section);
+            });
+        });
+
+        // Sub-tabs
+        document.querySelectorAll('.sub-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const sub = this.dataset.sub;
+                if (sub) showSubTab(sub);
+            });
+        });
+
+        // Pre-load data on page load
+        fetchAllData().then(() => {
+            renderSilver();
+            renderResults();
+            renderToday();
+            renderStandings();
+            renderUpcoming();
+            renderFacts();
+            renderCalendar();
+            renderPromoList();
+            renderShoutouts();
+            console.log("✅ Pre-load complete");
+        });
+    });
+
+    console.log("✅ Script loaded. Waiting for user interaction...");
+</script>
+</body>
+</
