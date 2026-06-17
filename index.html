@@ -167,20 +167,6 @@
         .calendar-day.selected { background: #ffcd3c; font-weight: 800; }
         .calendar-day.has-promo { border: 2px solid #25d366; }
         .calendar-day.has-match { border: 2px solid #0057b8; }
-        .calendar-day .badge {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            font-size: 8px;
-            background: #e74c3c;
-            color: white;
-            border-radius: 50%;
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
 
         /* PROMO CARDS */
         .promo-card {
@@ -291,7 +277,7 @@
 
     <!-- Navigation Grid -->
     <div class="nav-grid">
-        <button class="nav-btn" data-section="results">📋 Results</button>
+        <button class="nav-btn active" data-section="results">📋 Results</button>
         <button class="nav-btn" data-section="today">📅 Today</button>
         <button class="nav-btn" data-section="standings">🏆 Group E</button>
         <button class="nav-btn" data-section="upcoming">⏭️ Upcoming</button>
@@ -301,16 +287,16 @@
 
     <!-- SECTIONS -->
     <div id="section-results" class="section active-section">
-        <div class="card"><div class="card-title">📋 All Results</div><div id="resultsContent" class="loading">Loading...</div></div>
+        <div class="card"><div class="card-title">📋 All Results</div><div id="resultsContent" class="loading">Loading from sheet...</div></div>
     </div>
     <div id="section-today" class="section">
-        <div class="card"><div class="card-title">📅 Today's Matches</div><div id="todayContent" class="loading">Loading...</div></div>
+        <div class="card"><div class="card-title">📅 Today's Matches</div><div id="todayContent" class="loading">Loading from sheet...</div></div>
     </div>
     <div id="section-standings" class="section">
-        <div class="card"><div class="card-title">🏆 Group E Standings</div><div id="standingsContent" class="loading">Loading...</div></div>
+        <div class="card"><div class="card-title">🏆 Group E Standings</div><div id="standingsContent" class="loading">Loading from sheet...</div></div>
     </div>
     <div id="section-upcoming" class="section">
-        <div class="card"><div class="card-title">⏭️ All Upcoming Matches</div><div id="upcomingContent" class="loading">Loading...</div></div>
+        <div class="card"><div class="card-title">⏭️ All Upcoming Matches</div><div id="upcomingContent" class="loading">Loading from sheet...</div></div>
     </div>
     <div id="section-facts" class="section">
         <div class="card"><div class="card-title">📖 Facts</div><div id="factsContent" class="loading">Loading...</div></div>
@@ -319,25 +305,21 @@
         <div class="card">
             <div class="card-title">🔥 Promos & Shoutouts</div>
             
-            <!-- Sub-tabs -->
             <div class="sub-tabs">
                 <button class="sub-tab active" data-sub="promos">📢 Promos</button>
                 <button class="sub-tab" data-sub="shoutouts">📝 Shoutouts</button>
                 <button class="sub-tab" data-sub="add">➕ Add</button>
             </div>
 
-            <!-- Promos Sub-section -->
             <div id="sub-promos">
                 <div id="calendarContainer"></div>
                 <div id="promoList" class="loading">Select a date</div>
             </div>
 
-            <!-- Shoutouts Sub-section -->
             <div id="sub-shoutouts" style="display:none;">
                 <div id="shoutoutList" class="loading">Loading shoutouts...</div>
             </div>
 
-            <!-- Add Form Sub-section -->
             <div id="sub-add" style="display:none;">
                 <div style="background:#f1f5f9; padding:16px; border-radius:16px;">
                     <div class="form-group">
@@ -372,8 +354,7 @@
                         📝 <strong>Shoutout Rules:</strong><br>
                         • Minimum 50 characters (excluding name)<br>
                         • First 3 days: FREE<br>
-                        • Additional days: XCG 3.33/day (min 3 days)<br>
-                        • Duration: first 3 days + extra days
+                        • Additional days: XCG 3.33/day (min 3 days)
                     </div>
                     <button class="submit-btn" id="submitAddBtn">📤 Send Request via WhatsApp</button>
                 </div>
@@ -389,6 +370,7 @@
 
 <script>
     // ========== CONFIG ==========
+    // ⚠️ IMPORTANT: Replace this with your actual Google Apps Script URL
     const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
 
     // ========== GLOBAL DATA ==========
@@ -396,35 +378,48 @@
     let sheetStandings = [];
     let dailyPromos = [];
     let silverShouts = [];
+    let isLoading = false;
 
-    // ========== FETCH ALL DATA ==========
+    // ========== FETCH ALL DATA FROM SHEET ==========
     async function fetchAllData() {
+        if (isLoading) return;
+        isLoading = true;
+        
         try {
+            console.log("📡 Fetching data from sheet...");
             const response = await fetch(`${API_URL}?action=all&t=${Date.now()}`);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
             const data = await response.json();
-            console.log("Data loaded:", data);
+            console.log("✅ Data loaded:", data);
 
-            // Matches
-            if (data.matches) {
+            // Parse MATCHES
+            if (data.matches && data.matches.length > 0) {
                 sheetMatches = data.matches.map(row => ({
                     date: row.Date || row.date || "",
-                    team1: row["Team 1"] || row.Team1 || "",
-                    team2: row["Team 2"] || row.Team2 || "",
+                    team1: row["Team 1"] || row.Team1 || row.team1 || "",
+                    team2: row["Team 2"] || row.Team2 || row.team2 || "",
                     score1: row["Score 1"] !== undefined && row["Score 1"] !== "" ? row["Score 1"] : null,
                     score2: row["Score 2"] !== undefined && row["Score 2"] !== "" ? row["Score 2"] : null,
                     status: row.Status || row.status || (row["Score 1"] ? "Finished" : "Upcoming"),
                     location: row.Location || row.location || ""
                 }));
+                console.log(`📋 Loaded ${sheetMatches.length} matches`);
+            } else {
+                console.warn("⚠️ No matches found in sheet response");
+                sheetMatches = [];
             }
 
-            // Standings (COUNTRIES)
-            if (data.standings) {
+            // Parse STANDINGS (COUNTRIES)
+            if (data.standings && data.standings.length > 0) {
                 sheetStandings = data.standings.map(row => ({
                     country: row.Country || row.country || "",
                     group: row.Group || row.group || "",
-                    pos: row.Pos || row.pos || "",
-                    pts: row.Pts || row.pts || 0,
+                    pos: row.Pos || row.pos || row.Position || "",
+                    pts: row.Pts || row.pts || row.Points || 0,
                     w: row.W || row.w || 0,
                     d: row.D || row.d || 0,
                     l: row.L || row.l || 0,
@@ -434,10 +429,14 @@
                     analysis: row.Analysis || "",
                     nextMatch: row.NextMatch || row.nextMatch || ""
                 }));
+                console.log(`🏆 Loaded ${sheetStandings.length} teams in standings`);
+            } else {
+                console.warn("⚠️ No standings found in sheet response");
+                sheetStandings = [];
             }
 
-            // Daily Promos
-            if (data.dailyPromo) {
+            // Parse DAILY_PROMO
+            if (data.dailyPromo && data.dailyPromo.length > 0) {
                 dailyPromos = data.dailyPromo.map(row => ({
                     Date: row.Date || row.date || "",
                     SponsorName: row.SponsorName || row.sponsorName || "",
@@ -445,35 +444,50 @@
                     Link: row.Link || row.link || "",
                     Message: row.Message || row.message || "",
                     Type: row.Type || row.type || "promo",
-                    Active: row.Active === true || row.Active === "TRUE" || row.Active === true
+                    Active: row.Active === true || row.Active === "TRUE" || row.Active === "true"
                 }));
+                console.log(`🔥 Loaded ${dailyPromos.length} daily promos`);
+            } else {
+                console.warn("⚠️ No daily promos found");
+                dailyPromos = [];
             }
 
-            // Silver shouts (from SPONSORS with tier "silver")
-            if (data.sponsors) {
+            // Parse SPONSORS (for silver shouts)
+            if (data.sponsors && data.sponsors.length > 0) {
                 silverShouts = data.sponsors
                     .filter(s => s.Tier && s.Tier.toLowerCase() === "silver")
                     .map(s => ({ 
                         name: s.SponsorName || s.name, 
                         message: s.ChallengeTeaser || s.message || "Supporting Curaçao!" 
                     }));
+                console.log(`💬 Loaded ${silverShouts.length} silver shouts`);
+            } else {
+                silverShouts = [];
             }
 
             return true;
         } catch (error) {
-            console.error("Fetch error:", error);
+            console.error("❌ Error fetching data:", error);
             return false;
+        } finally {
+            isLoading = false;
         }
     }
 
     // ========== RENDER FUNCTIONS ==========
 
-    // Results (all finished)
     function renderResults() {
         const container = document.getElementById("resultsContent");
         if (!container) return;
+        if (!sheetMatches.length) {
+            container.innerHTML = "<div class='loading'>No matches found. Check your sheet and API URL.</div>";
+            return;
+        }
         const finished = sheetMatches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score1 !== ""));
-        if (!finished.length) { container.innerHTML = "<div class='loading'>No finished matches</div>"; return; }
+        if (!finished.length) {
+            container.innerHTML = "<div class='loading'>No finished matches yet</div>";
+            return;
+        }
         container.innerHTML = finished.map(m => `
             <div class="match-item">
                 <div class="match-date">📅 ${m.date}</div>
@@ -487,13 +501,19 @@
         `).join('');
     }
 
-    // Today's matches
     function renderToday() {
         const container = document.getElementById("todayContent");
         if (!container) return;
+        if (!sheetMatches.length) {
+            container.innerHTML = "<div class='loading'>No matches found</div>";
+            return;
+        }
         const today = new Date().toISOString().split('T')[0];
         const todayMatches = sheetMatches.filter(m => m.date === today);
-        if (!todayMatches.length) { container.innerHTML = "<div class='loading'>No matches today</div>"; return; }
+        if (!todayMatches.length) {
+            container.innerHTML = "<div class='loading'>No matches today</div>";
+            return;
+        }
         container.innerHTML = todayMatches.map(m => `
             <div class="match-item">
                 <div class="match-date">📅 ${m.date}</div>
@@ -507,13 +527,19 @@
         `).join('');
     }
 
-    // Group E Standings
     function renderStandings() {
         const container = document.getElementById("standingsContent");
         if (!container) return;
+        if (!sheetStandings.length) {
+            container.innerHTML = "<div class='loading'>No standings data found. Check COUNTRIES tab.</div>";
+            return;
+        }
         const groupE = sheetStandings.filter(t => t.group === "E" || t.group === "E");
-        if (!groupE.length) { container.innerHTML = "<div class='loading'>No Group E data</div>"; return; }
-        groupE.sort((a,b) => (a.pos||99) - (b.pos||99));
+        if (!groupE.length) {
+            container.innerHTML = "<div class='loading'>No Group E data found</div>";
+            return;
+        }
+        groupE.sort((a,b) => (parseInt(a.pos)||99) - (parseInt(b.pos)||99));
         let html = `<div class="group-header">Group E</div><table class="standings-table"><tr><th>Pos</th><th>Team</th><th>Pts</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Wave%</th></tr>`;
         groupE.forEach(t => {
             html += `<tr><td>${t.pos}</td><td style="text-align:left;font-weight:600;">${t.country}</td><td>${t.pts}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td><td>${t.gf}</td><td>${t.ga}</td><td>${t.wave||0}%</td></tr>`;
@@ -522,16 +548,22 @@
         container.innerHTML = html;
     }
 
-    // Upcoming matches (ALL)
     function renderUpcoming() {
         const container = document.getElementById("upcomingContent");
         if (!container) return;
+        if (!sheetMatches.length) {
+            container.innerHTML = "<div class='loading'>No matches found</div>";
+            return;
+        }
         const today = new Date().toISOString().split('T')[0];
         const upcoming = sheetMatches.filter(m => 
             (m.status === "Upcoming" || m.status === "Scheduled" || m.date > today) &&
             (m.score1 === null || m.score1 === "")
         );
-        if (!upcoming.length) { container.innerHTML = "<div class='loading'>No upcoming matches</div>"; return; }
+        if (!upcoming.length) {
+            container.innerHTML = "<div class='loading'>No upcoming matches</div>";
+            return;
+        }
         container.innerHTML = upcoming.map(m => `
             <div class="match-item">
                 <div class="match-date">📅 ${m.date}</div>
@@ -545,7 +577,6 @@
         `).join('');
     }
 
-    // Facts
     function renderFacts() {
         const container = document.getElementById("factsContent");
         container.innerHTML = `
@@ -559,7 +590,7 @@
         `;
     }
 
-    // ========== CALENDAR (with matches & promos) ==========
+    // ========== CALENDAR ==========
     let selectedDate = new Date().toISOString().split('T')[0];
 
     function renderCalendar() {
@@ -621,7 +652,6 @@
         `).join('');
     }
 
-    // ========== SHOUTOUTS ==========
     function renderShoutouts() {
         const container = document.getElementById("shoutoutList");
         if (!container) return;
@@ -639,7 +669,6 @@
         `).join('');
     }
 
-    // ========== SILVER SHOUTOUTS (footer) ==========
     function renderSilver() {
         const container = document.getElementById("silverScroller");
         if (!container) return;
@@ -710,55 +739,43 @@ ${type === 'shoutout' ? `\n📝 Shoutout Rules:\n- Min 50 characters\n- First 3 
         window.open(`https://wa.me/59995120536?text=${encodeURIComponent(msg)}`, '_blank');
     });
 
+    // ========== REFRESH ALL CONTENT ==========
+    async function refreshAllContent() {
+        // Show loading states
+        document.querySelectorAll('.section .loading').forEach(el => {
+            el.textContent = 'Loading from sheet...';
+        });
+        
+        // Fetch fresh data
+        await fetchAllData();
+        
+        // Render everything
+        renderResults();
+        renderToday();
+        renderStandings();
+        renderUpcoming();
+        renderFacts();
+        renderCalendar();
+        renderPromoList();
+        renderShoutouts();
+        renderSilver();
+        
+        console.log("✅ All content refreshed");
+    }
+
     // ========== NAVIGATION ==========
-    function showSection(sectionId) {
+    async function showSection(sectionId) {
+        // Hide all sections
         document.querySelectorAll('.section').forEach(el => el.classList.remove('active-section'));
-        document.getElementById(`section-${sectionId}`).classList.add('active-section');
+        
+        // Show selected section
+        const targetSection = document.getElementById(`section-${sectionId}`);
+        if (targetSection) targetSection.classList.add('active-section');
+        
+        // Update nav buttons
         document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelector(`.nav-btn[data-section="${sectionId}"]`).classList.add('active');
+        const activeBtn = document.querySelector(`.nav-btn[data-section="${sectionId}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
 
-        switch(sectionId) {
-            case 'results': renderResults(); break;
-            case 'today': renderToday(); break;
-            case 'standings': renderStandings(); break;
-            case 'upcoming': renderUpcoming(); break;
-            case 'facts': renderFacts(); break;
-            case 'promos': showSubTab('promos'); break;
-        }
-    }
-
-    // ========== ENTER APP ==========
-    function enterApp() {
-        document.getElementById('landingPage').style.display = 'none';
-        document.getElementById('appWrapper').style.display = 'block';
-        fetchAllData().then(() => {
-            renderSilver();
-            showSection('results');
-        });
-    }
-
-    // ========== EVENT LISTENERS ==========
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('enterAppBtn').addEventListener('click', enterApp);
-
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                showSection(this.dataset.section);
-            });
-        });
-
-        fetchAllData().then(() => {
-            renderSilver();
-            renderResults();
-            renderToday();
-            renderStandings();
-            renderUpcoming();
-            renderFacts();
-            renderCalendar();
-            renderPromoList();
-            renderShoutouts();
-        });
-    });
-</script>
-</body>
-</html>
+        // ⚡ KEY FIX: Refresh data every time a button is clicked
+        await fetchAllData();
