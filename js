@@ -245,18 +245,36 @@ function initLandingPageSponsors() {
 /* ============================================
    ENTER APP (HIDE LANDING, SHOW UI)
 ============================================ */
+// ========== ENTER APP ==========
 function enterApp() {
-  console.log("enterApp() called - entering app");
-  
-  const landing = document.getElementById("landingPage");
-  const app = document.getElementById("appWrapper");
-  
-  if (landing) {
-    landing.style.display = "none";
-    console.log("Landing page hidden");
-  } else {
-    console.error("Element 'landingPage' not found!");
-  }
+    console.log("🚀 Enter App clicked!");
+    
+    // Hide landing page
+    const landing = document.getElementById('landingPage');
+    const app = document.getElementById('appWrapper');
+    
+    if (landing) landing.style.display = 'none';
+    if (app) app.style.display = 'block';
+    
+    // Load data and show results
+    fetchAllData().then(() => {
+        renderSilver();
+        renderResults();
+        renderToday();
+        renderStandings();
+        renderUpcoming();
+        renderFacts();
+        renderCalendar();
+        renderPromoList();
+        renderShoutouts();
+        showSection('results');
+        console.log("✅ App ready!");
+    }).catch(err => {
+        console.error("❌ Error loading data:", err);
+        // Still show the app even if data fails
+        showSection('results');
+    });
+}
   
   if (app) {
     app.style.display = "block";
