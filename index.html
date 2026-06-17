@@ -11,8 +11,6 @@
             background: #eef3fc;
             min-height: 100vh;
         }
-
-        /* LANDING PAGE */
         #landingPage {
             display: block;
             width: 100%;
@@ -49,8 +47,6 @@
             cursor: pointer;
         }
         .enter-btn:hover { background: #ffdd77; transform: scale(0.98); }
-
-        /* APP WRAPPER */
         #appWrapper {
             display: none;
             max-width: 500px;
@@ -59,7 +55,6 @@
             min-height: 100vh;
             padding-bottom: 80px;
         }
-
         .app-header {
             background: #002b54;
             padding: 16px;
@@ -71,8 +66,6 @@
         }
         .app-header h2 { font-size: 1.5rem; letter-spacing: 1px; }
         .app-header p { font-size: 0.75rem; opacity: 0.85; }
-
-        /* MAIN NAV GRID */
         .nav-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -96,18 +89,12 @@
             transition: 0.2s;
             text-align: center;
         }
-        .nav-btn.active {
-            background: #002b54;
-            color: white;
-        }
-
-        /* SECTIONS */
+        .nav-btn.active { background: #002b54; color: white; }
         .section {
             display: none;
             padding: 16px;
         }
         .section.active-section { display: block; }
-
         .card {
             background: white;
             border-radius: 24px;
@@ -122,8 +109,6 @@
             padding-left: 12px;
             margin-bottom: 16px;
         }
-
-        /* MATCH ITEMS */
         .match-item {
             background: #f8fafc;
             border-radius: 16px;
@@ -140,15 +125,10 @@
             flex-wrap: wrap;
         }
         .match-score { background: #e9f0f9; padding: 4px 12px; border-radius: 40px; }
-
-        /* STANDINGS TABLE */
         .standings-table { width: 100%; border-collapse: collapse; font-size: 12px; }
         .standings-table th { background: #002b54; color: white; padding: 8px 4px; text-align: center; }
         .standings-table td { padding: 8px 4px; text-align: center; border-bottom: 1px solid #e2e8f0; }
-        .standings-table tr:hover { background: #f1f5f9; }
         .group-header { background: #ffcd3c; color: #002b54; font-weight: 800; padding: 8px 12px; border-radius: 12px; margin-bottom: 8px; }
-
-        /* CALENDAR */
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
@@ -167,8 +147,6 @@
         .calendar-day.selected { background: #ffcd3c; font-weight: 800; }
         .calendar-day.has-promo { border: 2px solid #25d366; }
         .calendar-day.has-match { border: 2px solid #0057b8; }
-
-        /* PROMO CARDS */
         .promo-card {
             background: white;
             border-radius: 16px;
@@ -191,8 +169,6 @@
         }
         .promo-card .promo-name { font-weight: 700; color: #002b54; }
         .promo-card .promo-link { color: #2c6e9e; font-size: 12px; cursor: pointer; }
-
-        /* SHOUTOUT CARD */
         .shoutout-item {
             background: #f8fafc;
             border-radius: 16px;
@@ -202,8 +178,6 @@
         }
         .shoutout-name { font-weight: 700; color: #002b54; }
         .shoutout-msg { color: #555; font-size: 14px; }
-
-        /* FORM */
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 13px; }
         .form-group input, .form-group textarea, .form-group select {
@@ -232,10 +206,7 @@
             cursor: pointer;
         }
         .sub-tab.active { background: #002b54; color: white; }
-
         .loading { text-align: center; padding: 28px; color: #888; }
-
-        /* SILVER SCROLLING FOOTER */
         .silver-frame {
             background: #002b54;
             padding: 12px;
@@ -274,7 +245,6 @@
         <h2>🌊 BLUE WAVE 2026</h2>
         <p>Curaçao World Cup Tracker</p>
     </div>
-
     <div class="nav-grid">
         <button class="nav-btn active" data-section="results">📋 Results</button>
         <button class="nav-btn" data-section="today">📅 Today</button>
@@ -284,7 +254,6 @@
         <button class="nav-btn" data-section="promos">🔥 Promos</button>
     </div>
 
-    <!-- SECTIONS -->
     <div id="section-results" class="section active-section">
         <div class="card"><div class="card-title">📋 All Results</div><div id="resultsContent" class="loading">Loading from sheet...</div></div>
     </div>
@@ -316,7 +285,7 @@
                         <label>Type</label>
                         <select id="addType">
                             <option value="promo">📢 Promo (XCG 50/day)</option>
-                            <option value="shoutout">📝 Shoutout (Free 3 days, then XCG 3.33/day)</option>
+                            <option value="shoutout">📝 Shoutout (Free 3 days, XCG 3.33/day)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -352,7 +321,6 @@
         </div>
     </div>
 
-    <!-- Silver Shoutouts (fixed footer) -->
     <div class="silver-frame">
         <div id="silverScroller" class="silver-scroll"></div>
     </div>
@@ -367,12 +335,9 @@
     let sheetStandings = [];
     let dailyPromos = [];
     let silverShouts = [];
-    let isLoading = false;
 
     // ========== FETCH ALL DATA ==========
     async function fetchAllData() {
-        if (isLoading) return;
-        isLoading = true;
         try {
             console.log("📡 Fetching from sheet...");
             const response = await fetch(`${API_URL}?action=all&t=${Date.now()}`);
@@ -433,8 +398,6 @@
         } catch (error) {
             console.error("❌ Fetch error:", error);
             return false;
-        } finally {
-            isLoading = false;
         }
     }
 
@@ -443,7 +406,7 @@
         const container = document.getElementById("resultsContent");
         if (!container) return;
         if (!sheetMatches.length) {
-            container.innerHTML = "<div class='loading'>No matches found. Check your sheet.</div>";
+            container.innerHTML = "<div class='loading'>No matches found</div>";
             return;
         }
         const finished = sheetMatches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score1 !== ""));
@@ -551,7 +514,6 @@
         `;
     }
 
-    // ========== CALENDAR ==========
     let selectedDate = new Date().toISOString().split('T')[0];
 
     function renderCalendar() {
@@ -696,7 +658,6 @@ ${type === 'shoutout' ? `\n📝 Rules:\n- Min 50 chars\n- First 3 days FREE\n- E
         document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelector(`.nav-btn[data-section="${sectionId}"]`).classList.add('active');
 
-        // Refresh data on every click
         await fetchAllData();
 
         switch(sectionId) {
@@ -710,18 +671,16 @@ ${type === 'shoutout' ? `\n📝 Rules:\n- Min 50 chars\n- First 3 days FREE\n- E
         renderSilver();
     }
 
-    // ========== ENTER APP (YOUR FUNCTION - KEPT AS IS) ==========
+    // ========== ENTER APP ==========
     function enterApp() {
         console.log("🚀 Enter App clicked!");
         
-        // Hide landing page
         const landing = document.getElementById('landingPage');
         const app = document.getElementById('appWrapper');
         
         if (landing) landing.style.display = 'none';
         if (app) app.style.display = 'block';
         
-        // Load data and show results
         fetchAllData().then(() => {
             renderSilver();
             renderResults();
@@ -744,7 +703,6 @@ ${type === 'shoutout' ? `\n📝 Rules:\n- Min 50 chars\n- First 3 days FREE\n- E
     document.addEventListener('DOMContentLoaded', function() {
         console.log("🚀 DOM loaded");
 
-        // ✅ FIX: Attach enter button listener
         const enterBtn = document.getElementById('enterAppBtn');
         if (enterBtn) {
             enterBtn.addEventListener('click', enterApp);
@@ -753,7 +711,6 @@ ${type === 'shoutout' ? `\n📝 Rules:\n- Min 50 chars\n- First 3 days FREE\n- E
             console.error("❌ Enter button not found!");
         }
 
-        // Navigation buttons
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const section = this.dataset.section;
@@ -761,7 +718,6 @@ ${type === 'shoutout' ? `\n📝 Rules:\n- Min 50 chars\n- First 3 days FREE\n- E
             });
         });
 
-        // Sub-tabs
         document.querySelectorAll('.sub-tab').forEach(tab => {
             tab.addEventListener('click', function() {
                 const sub = this.dataset.sub;
@@ -769,7 +725,7 @@ ${type === 'shoutout' ? `\n📝 Rules:\n- Min 50 chars\n- First 3 days FREE\n- E
             });
         });
 
-        // Pre-load data on page load
+        // Pre-load data on page load (so it's ready when user clicks)
         fetchAllData().then(() => {
             renderSilver();
             renderResults();
@@ -780,11 +736,11 @@ ${type === 'shoutout' ? `\n📝 Rules:\n- Min 50 chars\n- First 3 days FREE\n- E
             renderCalendar();
             renderPromoList();
             renderShoutouts();
-            console.log("✅ Pre-load complete");
+            console.log("✅ Pre-load complete. Click ENTER APP!");
         });
     });
 
-    console.log("✅ Script loaded. Waiting for user interaction...");
+    console.log("✅ Script loaded. Click 'SEE MATCH RESULTS' to enter.");
 </script>
 </body>
 </html>
