@@ -76,8 +76,8 @@
         .nav-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            padding: 16px;
+            gap: 10px;
+            padding: 14px;
             background: white;
             border-bottom: 2px solid #e2e8f0;
             position: sticky;
@@ -87,10 +87,10 @@
         .nav-btn {
             background: #f1f5f9;
             border: none;
-            padding: 12px 4px;
-            border-radius: 16px;
+            padding: 10px 4px;
+            border-radius: 14px;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 11px;
             color: #002b54;
             cursor: pointer;
             transition: 0.2s;
@@ -148,7 +148,41 @@
         .standings-table tr:hover { background: #f1f5f9; }
         .group-header { background: #ffcd3c; color: #002b54; font-weight: 800; padding: 8px 12px; border-radius: 12px; margin-bottom: 8px; }
 
-        /* DAILY PROMOS */
+        /* CALENDAR */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin: 12px 0;
+        }
+        .calendar-day {
+            background: #f1f5f9;
+            border-radius: 8px;
+            padding: 8px 0;
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+        .calendar-day.selected { background: #ffcd3c; font-weight: 800; }
+        .calendar-day.has-promo { border: 2px solid #25d366; }
+        .calendar-day.has-match { border: 2px solid #0057b8; }
+        .calendar-day .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            font-size: 8px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* PROMO CARDS */
         .promo-card {
             background: white;
             border-radius: 16px;
@@ -172,28 +206,21 @@
         .promo-card .promo-name { font-weight: 700; color: #002b54; }
         .promo-card .promo-link { color: #2c6e9e; font-size: 12px; cursor: pointer; }
 
-        /* CALENDAR */
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-            margin: 12px 0;
+        /* SHOUTOUT CARD */
+        .shoutout-item {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-left: 4px solid #ffcd3c;
         }
-        .calendar-day {
-            background: #f1f5f9;
-            border-radius: 8px;
-            padding: 8px 0;
-            text-align: center;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .calendar-day.selected { background: #ffcd3c; font-weight: 800; }
-        .calendar-day.has-promo { border: 2px solid #25d366; }
+        .shoutout-name { font-weight: 700; color: #002b54; }
+        .shoutout-msg { color: #555; font-size: 14px; }
 
-        /* ADD PROMO FORM */
+        /* FORM */
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 4px; font-size: 13px; }
-        .form-group input, .form-group textarea {
+        .form-group input, .form-group textarea, .form-group select {
             width: 100%; padding: 10px; border-radius: 12px; border: 1px solid #ddd;
             font-family: inherit; font-size: 14px;
         }
@@ -203,6 +230,24 @@
             background: #ffcd3c; color: #002b54; border: none; padding: 14px;
             border-radius: 40px; font-weight: 700; width: 100%; cursor: pointer;
         }
+        .sub-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .sub-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: #f1f5f9;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .sub-tab.active { background: #002b54; color: white; }
+
+        .loading { text-align: center; padding: 28px; color: #888; }
 
         /* SILVER SCROLLING FOOTER */
         .silver-frame {
@@ -225,13 +270,11 @@
         }
         .silver-item { color: #ffdd99; font-size: 13px; }
         @keyframes scrollMarquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
-
-        .loading { text-align: center; padding: 28px; color: #888; }
     </style>
 </head>
 <body>
 
-<!-- LANDING PAGE (only banner) -->
+<!-- LANDING PAGE -->
 <div id="landingPage">
     <div class="banner-container">
         <img src="https://i.ibb.co/KxtD3C2w/banner-world-cup-app.png" alt="Blue Wave 2026">
@@ -251,9 +294,9 @@
         <button class="nav-btn" data-section="results">📋 Results</button>
         <button class="nav-btn" data-section="today">📅 Today</button>
         <button class="nav-btn" data-section="standings">🏆 Group E</button>
-        <button class="nav-btn" data-section="nextround">⚡ Next Round</button>
+        <button class="nav-btn" data-section="upcoming">⏭️ Upcoming</button>
         <button class="nav-btn" data-section="facts">📖 Facts</button>
-        <button class="nav-btn" data-section="promos">🔥 Daily Promos</button>
+        <button class="nav-btn" data-section="promos">🔥 Promos</button>
     </div>
 
     <!-- SECTIONS -->
@@ -266,46 +309,74 @@
     <div id="section-standings" class="section">
         <div class="card"><div class="card-title">🏆 Group E Standings</div><div id="standingsContent" class="loading">Loading...</div></div>
     </div>
-    <div id="section-nextround" class="section">
-        <div class="card"><div class="card-title">⚡ Next Round</div><div id="nextroundContent" class="loading">Loading...</div></div>
+    <div id="section-upcoming" class="section">
+        <div class="card"><div class="card-title">⏭️ All Upcoming Matches</div><div id="upcomingContent" class="loading">Loading...</div></div>
     </div>
     <div id="section-facts" class="section">
         <div class="card"><div class="card-title">📖 Facts</div><div id="factsContent" class="loading">Loading...</div></div>
     </div>
     <div id="section-promos" class="section">
         <div class="card">
-            <div class="card-title">🔥 Daily Promos</div>
-            <!-- Calendar -->
-            <div id="calendarContainer"></div>
-            <!-- Promos for selected date -->
-            <div id="promoList" class="loading">Select a date</div>
-            <!-- Add Promo Button -->
-            <button id="showAddPromoBtn" style="margin-top:12px; background:#002b54; color:white; border:none; padding:12px; border-radius:40px; width:100%; font-weight:700; cursor:pointer;">➕ Add Promo</button>
-            <!-- Add Promo Form (hidden initially) -->
-            <div id="addPromoForm" style="display:none; margin-top:16px; background:#f1f5f9; padding:16px; border-radius:16px;">
-                <div class="form-group">
-                    <label>Date (YYYY-MM-DD)</label>
-                    <input type="date" id="promoDate" value="2026-06-17">
+            <div class="card-title">🔥 Promos & Shoutouts</div>
+            
+            <!-- Sub-tabs -->
+            <div class="sub-tabs">
+                <button class="sub-tab active" data-sub="promos">📢 Promos</button>
+                <button class="sub-tab" data-sub="shoutouts">📝 Shoutouts</button>
+                <button class="sub-tab" data-sub="add">➕ Add</button>
+            </div>
+
+            <!-- Promos Sub-section -->
+            <div id="sub-promos">
+                <div id="calendarContainer"></div>
+                <div id="promoList" class="loading">Select a date</div>
+            </div>
+
+            <!-- Shoutouts Sub-section -->
+            <div id="sub-shoutouts" style="display:none;">
+                <div id="shoutoutList" class="loading">Loading shoutouts...</div>
+            </div>
+
+            <!-- Add Form Sub-section -->
+            <div id="sub-add" style="display:none;">
+                <div style="background:#f1f5f9; padding:16px; border-radius:16px;">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="addType">
+                            <option value="promo">📢 Promo (XCG 50/day)</option>
+                            <option value="shoutout">📝 Shoutout (Free 3 days, then XCG 3.33/day)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" id="addDate" value="2026-06-17">
+                    </div>
+                    <div class="form-group">
+                        <label>Name / Company</label>
+                        <input type="text" id="addName" placeholder="John's Pizza">
+                    </div>
+                    <div class="form-group" id="imageField">
+                        <label>Image URL (for Promo)</label>
+                        <input type="url" id="addImage" placeholder="https://i.ibb.co/...">
+                    </div>
+                    <div class="form-group">
+                        <label>Link (WhatsApp or website)</label>
+                        <input type="url" id="addLink" placeholder="https://wa.me/...">
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="addMessage" placeholder="Your message here..."></textarea>
+                        <div class="char-count"><span id="charCount">0</span> characters</div>
+                    </div>
+                    <div id="shoutoutRules" style="background:#fff8e7; padding:12px; border-radius:12px; margin-bottom:12px; font-size:13px;">
+                        📝 <strong>Shoutout Rules:</strong><br>
+                        • Minimum 50 characters (excluding name)<br>
+                        • First 3 days: FREE<br>
+                        • Additional days: XCG 3.33/day (min 3 days)<br>
+                        • Duration: first 3 days + extra days
+                    </div>
+                    <button class="submit-btn" id="submitAddBtn">📤 Send Request via WhatsApp</button>
                 </div>
-                <div class="form-group">
-                    <label>Sponsor Name</label>
-                    <input type="text" id="promoName" placeholder="John's Pizza">
-                </div>
-                <div class="form-group">
-                    <label>Image URL</label>
-                    <input type="url" id="promoImage" placeholder="https://i.ibb.co/...">
-                </div>
-                <div class="form-group">
-                    <label>Link (WhatsApp or website)</label>
-                    <input type="url" id="promoLink" placeholder="https://wa.me/...">
-                </div>
-                <div class="form-group">
-                    <label>Message (100 char limit, XCG 75 for unlimited)</label>
-                    <textarea id="promoMessage" maxlength="100" placeholder="Special offer!"></textarea>
-                    <div class="char-count"><span id="charCount">0</span>/100</div>
-                </div>
-                <button class="submit-btn" id="submitPromoBtn">📤 Send Request via WhatsApp</button>
-                <button style="margin-top:8px; background:transparent; border:none; color:#888; cursor:pointer; width:100%;" id="cancelPromoBtn">Cancel</button>
             </div>
         </div>
     </div>
@@ -361,8 +432,7 @@
                     ga: row.GA || row.ga || 0,
                     wave: row.Wave || row["WAVE%"] || row.wave || 0,
                     analysis: row.Analysis || "",
-                    lastMatch: row.LastMatch || "",
-                    nextMatch: row.NextMatch || ""
+                    nextMatch: row.NextMatch || row.nextMatch || ""
                 }));
             }
 
@@ -374,6 +444,7 @@
                     ImageURL: row.ImageURL || row.imageURL || "",
                     Link: row.Link || row.link || "",
                     Message: row.Message || row.message || "",
+                    Type: row.Type || row.type || "promo",
                     Active: row.Active === true || row.Active === "TRUE" || row.Active === true
                 }));
             }
@@ -382,7 +453,10 @@
             if (data.sponsors) {
                 silverShouts = data.sponsors
                     .filter(s => s.Tier && s.Tier.toLowerCase() === "silver")
-                    .map(s => ({ name: s.SponsorName || s.name, message: s.ChallengeTeaser || s.message || "Supporting Curaçao!" }));
+                    .map(s => ({ 
+                        name: s.SponsorName || s.name, 
+                        message: s.ChallengeTeaser || s.message || "Supporting Curaçao!" 
+                    }));
             }
 
             return true;
@@ -398,7 +472,7 @@
     function renderResults() {
         const container = document.getElementById("resultsContent");
         if (!container) return;
-        const finished = sheetMatches.filter(m => m.status === "Finished" || (m.score1 !== null));
+        const finished = sheetMatches.filter(m => m.status === "Finished" || (m.score1 !== null && m.score1 !== ""));
         if (!finished.length) { container.innerHTML = "<div class='loading'>No finished matches</div>"; return; }
         container.innerHTML = finished.map(m => `
             <div class="match-item">
@@ -425,7 +499,7 @@
                 <div class="match-date">📅 ${m.date}</div>
                 <div class="match-teams">
                     <span>${m.team1}</span>
-                    ${m.score1 !== null ? `<span class="match-score">${m.score1} - ${m.score2}</span>` : '<span>🆚</span>'}
+                    ${m.score1 !== null && m.score1 !== "" ? `<span class="match-score">${m.score1} - ${m.score2}</span>` : '<span>🆚</span>'}
                     <span>${m.team2}</span>
                 </div>
                 <div>📍 ${m.location}</div>
@@ -448,10 +522,27 @@
         container.innerHTML = html;
     }
 
-    // Next Round (Placeholder – you can define logic later)
-    function renderNextRound() {
-        const container = document.getElementById("nextroundContent");
-        container.innerHTML = `<div class="loading">Next round info coming soon...</div>`;
+    // Upcoming matches (ALL)
+    function renderUpcoming() {
+        const container = document.getElementById("upcomingContent");
+        if (!container) return;
+        const today = new Date().toISOString().split('T')[0];
+        const upcoming = sheetMatches.filter(m => 
+            (m.status === "Upcoming" || m.status === "Scheduled" || m.date > today) &&
+            (m.score1 === null || m.score1 === "")
+        );
+        if (!upcoming.length) { container.innerHTML = "<div class='loading'>No upcoming matches</div>"; return; }
+        container.innerHTML = upcoming.map(m => `
+            <div class="match-item">
+                <div class="match-date">📅 ${m.date}</div>
+                <div class="match-teams">
+                    <span>${m.team1}</span>
+                    <span>🆚</span>
+                    <span>${m.team2}</span>
+                </div>
+                <div>📍 ${m.location}</div>
+            </div>
+        `).join('');
     }
 
     // Facts
@@ -463,11 +554,12 @@
                 <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">⚽ Germany 7-1 Curaçao (opener)</li>
                 <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">🌊 Blue Wave Stadium seats 45,000</li>
                 <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">🇨🇼 Curaçao scored in 19'28" vs Germany</li>
+                <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">📅 64 matches, 32 teams, 1 winner</li>
             </ul>
         `;
     }
 
-    // ========== DAILY PROMOS ==========
+    // ========== CALENDAR (with matches & promos) ==========
     let selectedDate = new Date().toISOString().split('T')[0];
 
     function renderCalendar() {
@@ -479,20 +571,27 @@
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month+1, 0).getDate();
 
-        let html = `<div style="font-weight:700; margin-bottom:8px;">${today.toLocaleString('default', { month: 'long', year: 'numeric' })}</div><div class="calendar-grid">`;
-        // Day names
-        ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => html += `<div style="font-size:10px; text-align:center;">${d}</div>`);
+        let html = `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span style="font-weight:700;">${today.toLocaleString('default', { month: 'long', year: 'numeric' })}</span>
+            <span style="font-size:11px; color:#888;">🟢 Promo · 🔵 Match</span>
+        </div><div class="calendar-grid">`;
+        
+        ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => html += `<div style="font-size:10px; text-align:center; font-weight:600;">${d}</div>`);
         for (let i=0; i<firstDay; i++) html += `<div></div>`;
         for (let d=1; d<=daysInMonth; d++) {
             const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
             const hasPromo = dailyPromos.some(p => p.Date === dateStr && p.Active);
+            const hasMatch = sheetMatches.some(m => m.date === dateStr);
             const isSelected = dateStr === selectedDate;
-            html += `<div class="calendar-day ${isSelected?'selected':''} ${hasPromo?'has-promo':''}" data-date="${dateStr}">${d}</div>`;
+            let cls = 'calendar-day';
+            if (isSelected) cls += ' selected';
+            if (hasPromo) cls += ' has-promo';
+            if (hasMatch) cls += ' has-match';
+            html += `<div class="${cls}" data-date="${dateStr}">${d}</div>`;
         }
         html += `</div>`;
         container.innerHTML = html;
 
-        // Add click events
         container.querySelectorAll('.calendar-day').forEach(el => {
             el.addEventListener('click', function() {
                 selectedDate = this.dataset.date;
@@ -512,7 +611,7 @@
         }
         container.innerHTML = promos.map(p => `
             <div class="promo-card" onclick="window.open('${p.Link || '#'}', '_blank')">
-                <img src="${p.ImageURL || 'https://placehold.co/800x200/ffcd3c/002b54?text=Promo'}" alt="${p.SponsorName}">
+                ${p.ImageURL ? `<img src="${p.ImageURL}" alt="${p.SponsorName}">` : `<div style="height:60px; background:#ffcd3c; display:flex; align-items:center; justify-content:center; font-weight:700; color:#002b54;">${p.SponsorName}</div>`}
                 <div class="promo-info">
                     <span class="promo-name">${p.SponsorName}</span>
                     <span class="promo-link">🔗 Tap</span>
@@ -522,36 +621,25 @@
         `).join('');
     }
 
-    // ========== ADD PROMO FORM ==========
-    function toggleAddPromoForm(show) {
-        document.getElementById('addPromoForm').style.display = show ? 'block' : 'none';
+    // ========== SHOUTOUTS ==========
+    function renderShoutouts() {
+        const container = document.getElementById("shoutoutList");
+        if (!container) return;
+        const shouts = dailyPromos.filter(p => p.Type === "shoutout" && p.Active);
+        if (!shouts.length) {
+            container.innerHTML = `<div class="loading">No shoutouts yet. Be the first!</div>`;
+            return;
+        }
+        container.innerHTML = shouts.map(s => `
+            <div class="shoutout-item">
+                <div class="shoutout-name">📝 ${s.SponsorName}</div>
+                <div class="shoutout-msg">${s.Message || "Supporting Curaçao!"}</div>
+                <div style="font-size:11px; color:#888; margin-top:4px;">${s.Date}</div>
+            </div>
+        `).join('');
     }
 
-    document.getElementById('showAddPromoBtn').addEventListener('click', () => {
-        toggleAddPromoForm(true);
-    });
-    document.getElementById('cancelPromoBtn').addEventListener('click', () => {
-        toggleAddPromoForm(false);
-    });
-
-    // Character counter
-    document.getElementById('promoMessage').addEventListener('input', function() {
-        document.getElementById('charCount').textContent = this.value.length;
-    });
-
-    // Submit promo via WhatsApp
-    document.getElementById('submitPromoBtn').addEventListener('click', function() {
-        const date = document.getElementById('promoDate').value;
-        const name = document.getElementById('promoName').value.trim();
-        const image = document.getElementById('promoImage').value.trim();
-        const link = document.getElementById('promoLink').value.trim();
-        const message = document.getElementById('promoMessage').value.trim();
-        if (!name) { alert('Please enter Sponsor Name'); return; }
-        const msg = `📢 New Promo Request:\nDate: ${date}\nName: ${name}\nImage: ${image}\nLink: ${link}\nMessage: ${message}\n${message.length > 100 ? ' (Unlimited - XCG 75)' : ' (100 char limit)'}`;
-        window.open(`https://wa.me/59995120536?text=${encodeURIComponent(msg)}`, '_blank');
-    });
-
-    // ========== SILVER SHOUTOUTS ==========
+    // ========== SILVER SHOUTOUTS (footer) ==========
     function renderSilver() {
         const container = document.getElementById("silverScroller");
         if (!container) return;
@@ -562,6 +650,66 @@
         container.innerHTML = doubled.map(msg => `<div class="silver-item">⚽ ${msg}</div>`).join('');
     }
 
+    // ========== SUB-TABS ==========
+    function showSubTab(tab) {
+        document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+        document.querySelector(`.sub-tab[data-sub="${tab}"]`).classList.add('active');
+        
+        document.getElementById('sub-promos').style.display = tab === 'promos' ? 'block' : 'none';
+        document.getElementById('sub-shoutouts').style.display = tab === 'shoutouts' ? 'block' : 'none';
+        document.getElementById('sub-add').style.display = tab === 'add' ? 'block' : 'none';
+        
+        if (tab === 'promos') { renderCalendar(); renderPromoList(); }
+        if (tab === 'shoutouts') { renderShoutouts(); }
+    }
+
+    document.querySelectorAll('.sub-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            showSubTab(this.dataset.sub);
+        });
+    });
+
+    // ========== ADD FORM ==========
+    document.getElementById('addMessage').addEventListener('input', function() {
+        document.getElementById('charCount').textContent = this.value.length;
+    });
+
+    document.getElementById('addType').addEventListener('change', function() {
+        const imageField = document.getElementById('imageField');
+        if (this.value === 'promo') {
+            imageField.style.display = 'block';
+        } else {
+            imageField.style.display = 'none';
+        }
+    });
+
+    document.getElementById('submitAddBtn').addEventListener('click', function() {
+        const type = document.getElementById('addType').value;
+        const date = document.getElementById('addDate').value;
+        const name = document.getElementById('addName').value.trim();
+        const image = document.getElementById('addImage').value.trim();
+        const link = document.getElementById('addLink').value.trim();
+        const message = document.getElementById('addMessage').value.trim();
+
+        if (!name) { alert('Please enter Name'); return; }
+        if (type === 'promo' && !image) { alert('Please enter Image URL for promo'); return; }
+        if (message.length < 50 && type === 'shoutout') { 
+            alert('Shoutout message must be at least 50 characters (excluding name)'); 
+            return; 
+        }
+
+        const msg = `📢 New ${type === 'promo' ? 'PROMO' : 'SHOUTOUT'} Request:
+Type: ${type === 'promo' ? '📢 Promo (XCG 50/day)' : '📝 Shoutout (Free 3 days, XCG 3.33/day)'}
+Date: ${date}
+Name: ${name}
+${type === 'promo' ? `Image: ${image}` : ''}
+Link: ${link}
+Message: ${message}
+${type === 'shoutout' ? `\n📝 Shoutout Rules:\n- Min 50 characters\n- First 3 days FREE\n- Extra days: XCG 3.33/day` : ''}`;
+        
+        window.open(`https://wa.me/59995120536?text=${encodeURIComponent(msg)}`, '_blank');
+    });
+
     // ========== NAVIGATION ==========
     function showSection(sectionId) {
         document.querySelectorAll('.section').forEach(el => el.classList.remove('active-section'));
@@ -569,14 +717,13 @@
         document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
         document.querySelector(`.nav-btn[data-section="${sectionId}"]`).classList.add('active');
 
-        // Render content when switching
         switch(sectionId) {
             case 'results': renderResults(); break;
             case 'today': renderToday(); break;
             case 'standings': renderStandings(); break;
-            case 'nextround': renderNextRound(); break;
+            case 'upcoming': renderUpcoming(); break;
             case 'facts': renderFacts(); break;
-            case 'promos': renderCalendar(); renderPromoList(); break;
+            case 'promos': showSubTab('promos'); break;
         }
     }
 
@@ -584,7 +731,6 @@
     function enterApp() {
         document.getElementById('landingPage').style.display = 'none';
         document.getElementById('appWrapper').style.display = 'block';
-        // Load all data and render default
         fetchAllData().then(() => {
             renderSilver();
             showSection('results');
@@ -601,17 +747,16 @@
             });
         });
 
-        // Preload data for instant show after enter
         fetchAllData().then(() => {
             renderSilver();
-            // Pre-render initial sections
             renderResults();
             renderToday();
             renderStandings();
-            renderNextRound();
+            renderUpcoming();
             renderFacts();
             renderCalendar();
             renderPromoList();
+            renderShoutouts();
         });
     });
 </script>
