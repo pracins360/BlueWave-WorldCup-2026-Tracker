@@ -1,452 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Blue Wave · World Cup Tracker</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: system-ui, -apple-system, 'Segoe UI', 'Inter', sans-serif;
-            background: #eef3fc;
-            min-height: 100vh;
-        }
-
-        /* LANDING PAGE */
-        #landingPage {
-            display: block;
-            width: 100%;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #001e3c, #002b54);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .banner-container {
-            max-width: 500px;
-            width: 100%;
-            border-radius: 32px;
-            overflow: hidden;
-        }
-        .banner-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        .enter-btn {
-            background: #ffcd3c;
-            border: none;
-            width: 100%;
-            max-width: 320px;
-            margin: 30px auto 0;
-            padding: 16px;
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #00264d;
-            border-radius: 60px;
-            cursor: pointer;
-        }
-        .enter-btn:hover { background: #ffdd77; transform: scale(0.98); }
-
-        /* APP WRAPPER */
-        #appWrapper {
-            display: none;
-            max-width: 500px;
-            margin: 0 auto;
-            background: #f8fafd;
-            min-height: 100vh;
-            padding-bottom: 80px;
-        }
-        .app-header {
-            background: #002b54;
-            padding: 16px;
-            text-align: center;
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .app-header h2 { font-size: 1.5rem; letter-spacing: 1px; }
-        .app-header p { font-size: 0.75rem; opacity: 0.85; }
-
-        /* NAVIGATION - 6 buttons */
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            padding: 14px;
-            background: white;
-            border-bottom: 2px solid #e2e8f0;
-            position: sticky;
-            top: 70px;
-            z-index: 9;
-        }
-        .nav-btn {
-            background: #f1f5f9;
-            border: none;
-            padding: 10px 4px;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 11px;
-            color: #002b54;
-            cursor: pointer;
-            transition: 0.2s;
-            text-align: center;
-        }
-        .nav-btn.active { background: #002b54; color: white; }
-
-        .section {
-            display: none;
-            padding: 16px;
-        }
-        .section.active-section { display: block; }
-
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #002b54;
-            border-left: 5px solid #ffcd3c;
-            padding-left: 12px;
-            margin-bottom: 16px;
-        }
-
-        /* MATCH ITEMS */
-        .match-item {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 12px;
-            margin-bottom: 12px;
-        }
-        .match-date { font-size: 11px; color: #2c6e9e; font-weight: 600; }
-        .match-teams {
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 8px 0;
-            flex-wrap: wrap;
-        }
-        .match-score { background: #e9f0f9; padding: 4px 12px; border-radius: 40px; }
-
-        /* STANDINGS TABLE */
-        .standings-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .standings-table th { background: #002b54; color: white; padding: 8px 4px; text-align: center; }
-        .standings-table td { padding: 8px 4px; text-align: center; border-bottom: 1px solid #e2e8f0; }
-        .group-header { background: #ffcd3c; color: #002b54; font-weight: 800; padding: 8px 12px; border-radius: 12px; margin-bottom: 8px; }
-
-        /* LOADING */
-        .loading { text-align: center; padding: 28px; color: #888; }
-
-        /* SILVER FOOTER */
-        .silver-frame {
-            background: #002b54;
-            padding: 12px;
-            overflow: hidden;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 500px;
-            margin: 0 auto;
-            z-index: 20;
-        }
-        .silver-scroll {
-            display: flex;
-            gap: 36px;
-            white-space: nowrap;
-            animation: scrollMarquee 22s linear infinite;
-        }
-        .silver-item { color: #ffdd99; font-size: 13px; }
-        @keyframes scrollMarquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blue Wave 2026</title>
+<style>
+:root{
+  --blue:#0057b8;
+  --deep:#003a7a;
+  --sky:#00a7e1;
+  --gold:#ffd23f;
+  --white:#ffffff;
+  --soft:#eef8ff;
+  --dark:#08233f;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:linear-gradient(180deg,#dff5ff,#ffffff);
+  color:var(--dark);
+}
+.page{
+  max-width:540px;
+  min-height:100vh;
+  margin:auto;
+  background:#fff;
+  box-shadow:0 0 30px rgba(0,57,120,.18);
+}
+.hero{
+  position:relative;
+  background:var(--deep);
+}
+.hero img{
+  width:100%;
+  display:block;
+}
+.lang{
+  position:absolute;
+  top:10px;
+  right:10px;
+  display:flex;
+  gap:6px;
+}
+.lang button{
+  border:0;
+  border-radius:999px;
+  padding:8px 10px;
+  background:rgba(255,255,255,.95);
+  color:var(--deep);
+  font-weight:bold;
+  cursor:pointer;
+}
+.content{
+  padding:18px;
+}
+h1{
+  margin:8px 0 4px;
+  font-size:30px;
+  color:var(--deep);
+}
+.subtitle{
+  margin:0 0 14px;
+  color:#516b82;
+  line-height:1.45;
+}
+.card{
+  background:var(--soft);
+  border:1px solid #d9efff;
+  border-radius:22px;
+  padding:16px;
+  margin:14px 0;
+}
+.bigBtn{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  border:0;
+  border-radius:20px;
+  padding:17px 16px;
+  margin:12px 0;
+  background:linear-gradient(135deg,var(--blue),var(--sky));
+  color:white;
+  font-size:18px;
+  font-weight:bold;
+  text-align:left;
+  text-decoration:none;
+  box-shadow:0 8px 18px rgba(0,87,184,.28);
+  cursor:pointer;
+}
+.bigBtn.gold{
+  background:linear-gradient(135deg,#9b6b00,var(--gold));
+  color:#09233e;
+}
+.bigBtn.dark{
+  background:linear-gradient(135deg,var(--deep),#0b5db8);
+}
+.icon{
+  font-size:30px;
+  min-width:36px;
+  text-align:center;
+}
+.smallText{
+  display:block;
+  font-size:12px;
+  font-weight:normal;
+  opacity:.92;
+  margin-top:4px;
+}
+.notice{
+  font-size:13px;
+  color:#516b82;
+  text-align:center;
+  margin:15px 0 0;
+}
+.footer{
+  text-align:center;
+  padding:16px 18px 24px;
+  color:#5c7184;
+  font-size:13px;
+}
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:20px;
+  transform:translateX(-50%);
+  background:#08233f;
+  color:white;
+  padding:12px 16px;
+  border-radius:999px;
+  display:none;
+  font-size:14px;
+}
+</style>
 </head>
 <body>
-
-<!-- LANDING PAGE -->
-<div id="landingPage">
-    <div class="banner-container">
-        <img src="https://i.ibb.co/KxtD3C2w/banner-world-cup-app.png" alt="Blue Wave 2026">
+<div class="page">
+  <section class="hero">
+    <img src="https://i.ibb.co/sdtNGnb1/world-cup-for-the-app.png" alt="Blue Wave 2026 World Cup Tracker" />
+    <div class="lang">
+      <button onclick="setLang('en')">EN</button>
+      <button onclick="setLang('es')">ES</button>
     </div>
-    <button class="enter-btn" id="enterAppBtn">⚽ SEE MATCH RESULTS ⚽</button>
+  </section>
+
+  <main class="content">
+    <h1 data-i="title">Blue Wave 2026</h1>
+    <p class="subtitle" data-i="subtitle">
+      Follow Curaçao and the World Cup with simple local apps made for fans.
+    </p>
+
+    <section class="card">
+      <a class="bigBtn" id="footballLink" href="#">
+        <span class="icon">⚽</span>
+        <span>
+          <span data-i="football">Match Results</span>
+          <span class="smallText" data-i="footballSub">Countries, results, calendar, bracket and facts</span>
+        </span>
+      </a>
+
+      <a class="bigBtn gold" id="sponsorLink" href="#">
+        <span class="icon">💛</span>
+        <span>
+          <span data-i="sponsors">Sponsors / Support</span>
+          <span class="smallText" data-i="sponsorsSub">Premium, Gold and Silver sponsor spots</span>
+        </span>
+      </a>
+
+      <a class="bigBtn dark" id="promoLink" href="#">
+        <span class="icon">🎁</span>
+        <span>
+          <span data-i="promos">Daily Promos</span>
+          <span class="smallText" data-i="promosSub">Food offers, shoutouts and Blue Wave deals</span>
+        </span>
+      </a>
+
+      <button class="bigBtn" onclick="shareApp()">
+        <span class="icon">📤</span>
+        <span>
+          <span data-i="share">Share Blue Wave</span>
+          <span class="smallText" data-i="shareSub">Send this app to friends worldwide</span>
+        </span>
+      </button>
+    </section>
+
+    <p class="notice" data-i="notice">
+      The football, sponsor and promo sections can be updated separately without breaking this main link.
+    </p>
+  </main>
+
+  <footer class="footer">
+    🌊 Blue Wave 2026 · Made locally in Curaçao
+  </footer>
 </div>
-
-<!-- MAIN APP -->
-<div id="appWrapper">
-    <div class="app-header">
-        <h2>🌊 BLUE WAVE 2026</h2>
-        <p>Curaçao World Cup Tracker</p>
-    </div>
-
-    <div class="nav-grid">
-        <button class="nav-btn active" data-section="results">📋 Results</button>
-        <button class="nav-btn" data-section="today">📅 Today</button>
-        <button class="nav-btn" data-section="standings">🏆 Group E</button>
-        <button class="nav-btn" data-section="upcoming">⏭️ Upcoming</button>
-        <button class="nav-btn" data-section="facts">📖 Facts</button>
-        <button class="nav-btn" data-section="promos">🔥 Promos</button>
-    </div>
-
-    <div id="section-results" class="section active-section">
-        <div class="card"><div class="card-title">📋 All Results</div><div id="resultsContent" class="loading">Loading...</div></div>
-    </div>
-    <div id="section-today" class="section">
-        <div class="card"><div class="card-title">📅 Today's Matches</div><div id="todayContent" class="loading">Loading...</div></div>
-    </div>
-    <div id="section-standings" class="section">
-        <div class="card"><div class="card-title">🏆 Group E Standings</div><div id="standingsContent" class="loading">Loading...</div></div>
-    </div>
-    <div id="section-upcoming" class="section">
-        <div class="card"><div class="card-title">⏭️ Upcoming Matches</div><div id="upcomingContent" class="loading">Loading...</div></div>
-    </div>
-    <div id="section-facts" class="section">
-        <div class="card"><div class="card-title">📖 Facts</div><div id="factsContent" class="loading">Loading...</div></div>
-    </div>
-    <div id="section-promos" class="section">
-        <div class="card"><div class="card-title">🔥 Promos</div><div id="promosContent" class="loading">Loading...</div></div>
-    </div>
-
-    <div class="silver-frame">
-        <div id="silverScroller" class="silver-scroll"></div>
-    </div>
-</div>
+<div id="toast" class="toast">Link copied</div>
 
 <script>
-    // ========== CONFIG ==========
-    const API_URL = "https://script.google.com/macros/s/AKfycbyWVP3ZJZ_Hxhx5U2dWrzfvWRlcfemc7oOj6-mCniVkW5Sci2cusBJFy6ydnkNO4-pg/exec";
+// STEP 1: Keep your original GitHub link for this landing page.
+// STEP 2: Later replace these placeholder links with the new separate app links.
+const LINKS = {
+  football: "#",   // example later: https://pracins.github.io/bluewave-football/
+  sponsors: "#",  // example later: https://pracins.github.io/bluewave-sponsors/
+  promos: "#"     // example later: https://pracins.github.io/bluewave-promos/
+};
 
-    // ========== GLOBAL DATA ==========
-    let sheetData = { matches: [], standings: [], sponsors: [], dailyPromo: [] };
-    let dataLoaded = false;
+const T = {
+  en: {
+    title: "Blue Wave 2026",
+    subtitle: "Follow Curaçao and the World Cup with simple local apps made for fans.",
+    football: "Match Results",
+    footballSub: "Countries, results, calendar, bracket and facts",
+    sponsors: "Sponsors / Support",
+    sponsorsSub: "Premium, Gold and Silver sponsor spots",
+    promos: "Daily Promos",
+    promosSub: "Food offers, shoutouts and Blue Wave deals",
+    share: "Share Blue Wave",
+    shareSub: "Send this app to friends worldwide",
+    notice: "The football, sponsor and promo sections can be updated separately without breaking this main link."
+  },
+  es: {
+    title: "Ola Azul 2026",
+    subtitle: "Sigue a Curazao y al Mundial con apps locales simples para los fanáticos.",
+    football: "Resultados",
+    footballSub: "Países, resultados, calendario, cuadro y datos",
+    sponsors: "Patrocinadores / Apoyo",
+    sponsorsSub: "Espacios Premium, Gold y Silver",
+    promos: "Promos Diarias",
+    promosSub: "Ofertas, saludos y promociones Blue Wave",
+    share: "Compartir Blue Wave",
+    shareSub: "Envía esta app a amigos en todo el mundo",
+    notice: "Las secciones de fútbol, patrocinadores y promos se pueden actualizar separadamente sin romper este enlace principal."
+  }
+};
 
-    // ========== FETCH DATA ==========
-    async function fetchData() {
-        try {
-            console.log("📡 Fetching data...");
-            const response = await fetch(`${API_URL}?action=all&t=${Date.now()}`);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const data = await response.json();
-            console.log("✅ Data loaded:", data);
-            
-            sheetData = {
-                matches: data.matches || [],
-                standings: data.standings || [],
-                sponsors: data.sponsors || [],
-                dailyPromo: data.dailyPromo || []
-            };
-            dataLoaded = true;
-            return true;
-        } catch (error) {
-            console.error("❌ Error:", error);
-            dataLoaded = false;
-            return false;
-        }
+function setLang(lang){
+  document.querySelectorAll('[data-i]').forEach(el => {
+    const key = el.getAttribute('data-i');
+    if(T[lang] && T[lang][key]) el.textContent = T[lang][key];
+  });
+  localStorage.setItem('bwLang', lang);
+}
+
+function setupLinks(){
+  document.getElementById('footballLink').href = LINKS.football;
+  document.getElementById('sponsorLink').href = LINKS.sponsors;
+  document.getElementById('promoLink').href = LINKS.promos;
+}
+
+async function shareApp(){
+  const data = {
+    title: 'Blue Wave 2026',
+    text: 'Follow the Blue Wave 2026 World Cup app!',
+    url: window.location.href
+  };
+  if(navigator.share){
+    try { await navigator.share(data); } catch(e) {}
+  } else {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      showToast('Link copied');
+    } catch(e) {
+      showToast(window.location.href);
     }
+  }
+}
 
-    // ========== RENDER FUNCTIONS ==========
-    function renderResults() {
-        const container = document.getElementById("resultsContent");
-        if (!container) return;
-        const matches = sheetData.matches || [];
-        const finished = matches.filter(m => m.status === "Finished" || m["Score 1"]);
-        if (!finished.length) {
-            container.innerHTML = "<div class='loading'>No finished matches</div>";
-            return;
-        }
-        container.innerHTML = finished.map(m => `
-            <div class="match-item">
-                <div class="match-date">📅 ${m.date || m.Date || "TBD"}</div>
-                <div class="match-teams">
-                    <span>${m.team1 || m["Team 1"] || "?"}</span>
-                    <span class="match-score">${m.score1 ?? m["Score 1"] ?? '?'} - ${m.score2 ?? m["Score 2"] ?? '?'}</span>
-                    <span>${m.team2 || m["Team 2"] || "?"}</span>
-                </div>
-                <div>📍 ${m.location || m.Location || "Stadium"}</div>
-            </div>
-        `).join('');
-    }
+function showToast(text){
+  const t = document.getElementById('toast');
+  t.textContent = text;
+  t.style.display = 'block';
+  setTimeout(()=> t.style.display='none', 2200);
+}
 
-    function renderToday() {
-        const container = document.getElementById("todayContent");
-        if (!container) return;
-        const today = new Date().toISOString().split('T')[0];
-        const matches = sheetData.matches || [];
-        const todayMatches = matches.filter(m => (m.date || m.Date) === today);
-        if (!todayMatches.length) {
-            container.innerHTML = "<div class='loading'>No matches today</div>";
-            return;
-        }
-        container.innerHTML = todayMatches.map(m => `
-            <div class="match-item">
-                <div class="match-date">📅 ${m.date || m.Date}</div>
-                <div class="match-teams">
-                    <span>${m.team1 || m["Team 1"]}</span>
-                    ${(m.score1 !== null && m.score1 !== "") ? `<span class="match-score">${m.score1} - ${m.score2}</span>` : '<span>🆚</span>'}
-                    <span>${m.team2 || m["Team 2"]}</span>
-                </div>
-                <div>📍 ${m.location || m.Location || "TBD"}</div>
-            </div>
-        `).join('');
-    }
-
-    function renderStandings() {
-        const container = document.getElementById("standingsContent");
-        if (!container) return;
-        const standings = sheetData.standings || [];
-        const groupE = standings.filter(t => (t.Group || t.group || "").toUpperCase() === "E");
-        if (!groupE.length) {
-            container.innerHTML = "<div class='loading'>No Group E data</div>";
-            return;
-        }
-        groupE.sort((a,b) => (parseInt(a.Pos || a.pos || 99)) - (parseInt(b.Pos || b.pos || 99)));
-        let html = `<div class="group-header">Group E</div><table class="standings-table"><tr><th>Pos</th><th>Team</th><th>Pts</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>Wave%</th></tr>`;
-        groupE.forEach(t => {
-            const pos = t.Pos || t.pos || "-";
-            const country = t.Country || t.country || "?";
-            const pts = t.Pts || t.pts || 0;
-            const w = t.W || t.w || 0;
-            const d = t.D || t.d || 0;
-            const l = t.L || t.l || 0;
-            const gf = t.GF || t.gf || 0;
-            const ga = t.GA || t.ga || 0;
-            const wave = t.Wave || t["WAVE%"] || t.wave || 0;
-            html += `<tr><td>${pos}</td><td style="text-align:left;font-weight:600;">${country}</td><td>${pts}</td><td>${w}</td><td>${d}</td><td>${l}</td><td>${gf}</td><td>${ga}</td><td>${wave}%</td></tr>`;
-        });
-        html += `</table>`;
-        container.innerHTML = html;
-    }
-
-    function renderUpcoming() {
-        const container = document.getElementById("upcomingContent");
-        if (!container) return;
-        const matches = sheetData.matches || [];
-        const upcoming = matches.filter(m => 
-            (m.status === "Upcoming" || m.status === "Scheduled") &&
-            (m.score1 === null || m.score1 === "")
-        );
-        if (!upcoming.length) {
-            container.innerHTML = "<div class='loading'>No upcoming matches</div>";
-            return;
-        }
-        container.innerHTML = upcoming.map(m => `
-            <div class="match-item">
-                <div class="match-date">📅 ${m.date || m.Date}</div>
-                <div class="match-teams">
-                    <span>${m.team1 || m["Team 1"]}</span>
-                    <span>🆚</span>
-                    <span>${m.team2 || m["Team 2"]}</span>
-                </div>
-                <div>📍 ${m.location || m.Location || "TBD"}</div>
-            </div>
-        `).join('');
-    }
-
-    function renderFacts() {
-        document.getElementById("factsContent").innerHTML = `
-            <ul style="list-style:none; padding:0;">
-                <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">🏆 Curaçao's first World Cup!</li>
-                <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">⚽ Germany 7-1 Curaçao (opener)</li>
-                <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">🌊 Blue Wave Stadium seats 45,000</li>
-                <li style="padding:12px; background:#f1f5f9; border-radius:12px; margin-bottom:8px;">🇨🇼 Curaçao scored in 19'28" vs Germany</li>
-            </ul>
-        `;
-    }
-
-    function renderPromos() {
-        const container = document.getElementById("promosContent");
-        if (!container) return;
-        const promos = sheetData.dailyPromo || [];
-        if (!promos.length) {
-            container.innerHTML = "<div class='loading'>No promos available</div>";
-            return;
-        }
-        container.innerHTML = promos.filter(p => p.Active).map(p => `
-            <div style="background:white; border-radius:16px; padding:12px; margin-bottom:12px; border-left:4px solid #ffcd3c;">
-                <div style="font-weight:700;">${p.SponsorName || p.sponsorName || "Promo"}</div>
-                <div style="font-size:13px; color:#555;">${p.Message || p.message || ""}</div>
-                <div style="font-size:11px; color:#888; margin-top:4px;">📅 ${p.Date || p.date}</div>
-                ${p.Link || p.link ? `<div style="margin-top:8px;"><a href="${p.Link || p.link}" target="_blank" style="color:#002b54; font-weight:600;">🔗 View Offer</a></div>` : ''}
-            </div>
-        `).join('');
-    }
-
-    function renderSilver() {
-        const container = document.getElementById("silverScroller");
-        if (!container) return;
-        const base = ["💙 One love, Curaçao! 🇨🇼", "⚽ First World Cup in Curaçao!", "🌊 Blue Wave forever!", "🇨🇼 Proud to be Curaçaoan!"];
-        let messages = [...base];
-        if (sheetData.sponsors) {
-            const silver = sheetData.sponsors.filter(s => (s.Tier || s.tier || "").toLowerCase() === "silver");
-            silver.forEach(s => {
-                const name = s.SponsorName || s.name || "Supporter";
-                const msg = s.ChallengeTeaser || s.message || "Supporting Curaçao!";
-                messages.push(`${name}: ${msg}`);
-            });
-        }
-        const doubled = [...messages, ...messages];
-        container.innerHTML = doubled.map(msg => `<div class="silver-item">⚽ ${msg}</div>`).join('');
-    }
-
-    // ========== NAVIGATION ==========
-    function showSection(sectionId) {
-        document.querySelectorAll('.section').forEach(el => el.classList.remove('active-section'));
-        document.getElementById(`section-${sectionId}`).classList.add('active-section');
-        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelector(`.nav-btn[data-section="${sectionId}"]`).classList.add('active');
-        
-        switch(sectionId) {
-            case 'results': renderResults(); break;
-            case 'today': renderToday(); break;
-            case 'standings': renderStandings(); break;
-            case 'upcoming': renderUpcoming(); break;
-            case 'facts': renderFacts(); break;
-            case 'promos': renderPromos(); break;
-        }
-    }
-
-    // ========== ENTER APP ==========
-    function enterApp() {
-        console.log("🚀 Enter App clicked!");
-        document.getElementById('landingPage').style.display = 'none';
-        document.getElementById('appWrapper').style.display = 'block';
-        
-        fetchData().then(() => {
-            renderSilver();
-            renderResults();
-            renderToday();
-            renderStandings();
-            renderUpcoming();
-            renderFacts();
-            renderPromos();
-            showSection('results');
-            console.log("✅ App ready!");
-        });
-    }
-
-    // ========== EVENT LISTENERS ==========
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log("🚀 DOM loaded");
-        document.getElementById('enterAppBtn').addEventListener('click', enterApp);
-        
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                showSection(this.dataset.section);
-            });
-        });
-        
-        // Pre-load data
-        fetchData().then(() => {
-            renderSilver();
-            console.log("✅ Pre-load complete");
-        });
-    });
+setupLinks();
+setLang(localStorage.getItem('bwLang') || 'en');
 </script>
 </body>
 </html>
