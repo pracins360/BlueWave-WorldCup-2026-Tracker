@@ -245,7 +245,12 @@ function setLang(lang){
 function setupLinks(){
   document.getElementById('footballLink').href = LINKS.football;
   document.getElementById('sponsorLink').href = LINKS.sponsors;
-  document.getElementById('promoLink').href = LINKS.promos;
+  const promo = document.getElementById('promoLink');
+promo.href = "#";
+promo.onclick = function(e){
+  e.preventDefault();
+  showToast("Daily Promos coming soon");
+};
 }
 
 async function shareApp(){
