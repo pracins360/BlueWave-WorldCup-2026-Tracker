@@ -245,7 +245,8 @@ function setLang(lang){
 function setupLinks(){
   document.getElementById('footballLink').href = LINKS.football;
   document.getElementById('sponsorLink').href = LINKS.sponsors;
-  const promo = document.getElementById('promoLink').href = LINKS.promos;
+  document.getElementById('promoLink').href = LINKS.promos;
+}
 
 async function shareApp(){
   const data = {
